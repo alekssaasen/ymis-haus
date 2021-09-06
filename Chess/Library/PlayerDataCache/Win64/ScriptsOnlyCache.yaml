@@ -2,7 +2,7 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - GameManager
-    - NetworkTest
+    - NetworkedPlayer
     - Selector
     Mirror.dll:
     - Mirror.NetworkIdentity
@@ -111,123 +111,123 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1584}
+      Script: {instanceID: 1610}
     - Class: 114
-      Script: {instanceID: 1586}
+      Script: {instanceID: 1612}
     - Class: 114
-      Script: {instanceID: 1588}
+      Script: {instanceID: 1614}
     - Class: 114
-      Script: {instanceID: 1590}
+      Script: {instanceID: 1616}
     - Class: 114
-      Script: {instanceID: 1596}
+      Script: {instanceID: 1622}
     - Class: 114
-      Script: {instanceID: 1738}
+      Script: {instanceID: 1764}
     - Class: 114
-      Script: {instanceID: 2120}
+      Script: {instanceID: 2146}
     - Class: 114
-      Script: {instanceID: 2274}
+      Script: {instanceID: 2300}
     - Class: 114
-      Script: {instanceID: 2368}
+      Script: {instanceID: 2394}
     - Class: 114
-      Script: {instanceID: 2566}
+      Script: {instanceID: 2592}
     - Class: 114
-      Script: {instanceID: 3032}
+      Script: {instanceID: 3058}
     - Class: 114
-      Script: {instanceID: 3100}
+      Script: {instanceID: 3126}
     - Class: 114
-      Script: {instanceID: 3106}
+      Script: {instanceID: 3132}
     - Class: 114
-      Script: {instanceID: 3168}
+      Script: {instanceID: 3194}
     - Class: 114
-      Script: {instanceID: 3188}
+      Script: {instanceID: 3214}
     - Class: 114
-      Script: {instanceID: 3242}
+      Script: {instanceID: 3268}
     - Class: 114
-      Script: {instanceID: 3366}
-    - Class: 114
-      Script: {instanceID: 3440}
+      Script: {instanceID: 3392}
     - Class: 114
       Script: {instanceID: 3466}
     - Class: 114
-      Script: {instanceID: 3760}
+      Script: {instanceID: 3492}
     - Class: 114
-      Script: {instanceID: 3864}
+      Script: {instanceID: 3786}
     - Class: 114
-      Script: {instanceID: 3948}
+      Script: {instanceID: 3890}
     - Class: 114
-      Script: {instanceID: 3978}
+      Script: {instanceID: 3974}
     - Class: 114
-      Script: {instanceID: 4006}
+      Script: {instanceID: 4004}
     - Class: 114
-      Script: {instanceID: 4144}
+      Script: {instanceID: 4032}
     - Class: 114
-      Script: {instanceID: 4208}
+      Script: {instanceID: 4170}
     - Class: 114
-      Script: {instanceID: 4226}
+      Script: {instanceID: 4234}
     - Class: 114
-      Script: {instanceID: 4310}
+      Script: {instanceID: 4252}
     - Class: 114
-      Script: {instanceID: 4372}
+      Script: {instanceID: 4266}
     - Class: 114
-      Script: {instanceID: 4682}
+      Script: {instanceID: 4338}
     - Class: 114
-      Script: {instanceID: 4714}
+      Script: {instanceID: 4400}
     - Class: 114
-      Script: {instanceID: 4888}
+      Script: {instanceID: 4710}
     - Class: 114
-      Script: {instanceID: 4904}
+      Script: {instanceID: 4742}
     - Class: 114
-      Script: {instanceID: 4966}
+      Script: {instanceID: 4916}
     - Class: 114
-      Script: {instanceID: 4974}
+      Script: {instanceID: 4932}
     - Class: 114
-      Script: {instanceID: 5162}
+      Script: {instanceID: 4994}
     - Class: 114
-      Script: {instanceID: 5164}
+      Script: {instanceID: 5002}
     - Class: 114
-      Script: {instanceID: 5182}
+      Script: {instanceID: 5190}
     - Class: 114
-      Script: {instanceID: 5428}
+      Script: {instanceID: 5192}
     - Class: 114
-      Script: {instanceID: 5536}
+      Script: {instanceID: 5210}
     - Class: 114
-      Script: {instanceID: 5652}
+      Script: {instanceID: 5456}
     - Class: 114
-      Script: {instanceID: 5658}
+      Script: {instanceID: 5564}
     - Class: 114
-      Script: {instanceID: 5724}
+      Script: {instanceID: 5680}
     - Class: 114
-      Script: {instanceID: 5732}
+      Script: {instanceID: 5686}
     - Class: 114
-      Script: {instanceID: 5824}
+      Script: {instanceID: 5752}
     - Class: 114
-      Script: {instanceID: 5860}
+      Script: {instanceID: 5760}
     - Class: 114
-      Script: {instanceID: 5906}
+      Script: {instanceID: 5852}
     - Class: 114
-      Script: {instanceID: 5972}
+      Script: {instanceID: 5888}
     - Class: 114
-      Script: {instanceID: 5980}
+      Script: {instanceID: 5934}
     - Class: 114
-      Script: {instanceID: 6080}
+      Script: {instanceID: 6000}
     - Class: 114
-      Script: {instanceID: 6212}
+      Script: {instanceID: 6008}
     - Class: 114
-      Script: {instanceID: 6312}
+      Script: {instanceID: 6108}
     - Class: 114
-      Script: {instanceID: 6356}
+      Script: {instanceID: 6240}
     - Class: 114
-      Script: {instanceID: 6910}
+      Script: {instanceID: 6340}
     - Class: 114
-      Script: {instanceID: 7218}
+      Script: {instanceID: 6384}
     - Class: 114
-      Script: {instanceID: 7252}
+      Script: {instanceID: 6940}
     - Class: 114
-      Script: {instanceID: 7362}
+      Script: {instanceID: 7248}
     - Class: 114
-      Script: {instanceID: 7450}
+      Script: {instanceID: 7282}
     - Class: 114
-      Script: {instanceID: 60760}
+      Script: {instanceID: 7392}
+    - Class: 114
+      Script: {instanceID: 7480}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -632,7 +632,7 @@ ScriptsOnlyBuild:
       Hash: 6fd2bb55b3ee5edb6040a1c5bccd0e07
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: NetworkTest
+    className: NetworkedPlayer
   - hash:
       serializedVersion: 2
       Hash: 265cf1537361bce87401ba1fba27baf3
@@ -819,6 +819,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 86db93cdd035798cc328a33dab4d0a1c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameManager
   - hash:
       serializedVersion: 2
       Hash: 1d12411bfa32d734c4dad798554fe0fa
@@ -1385,6 +1391,12 @@ ScriptsOnlyBuild:
     className: DistanceInterestManagement
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Button
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -1575,18 +1587,6 @@ ScriptsOnlyBuild:
     assemblyName: Mirror.Examples.dll
     namespaceName: Mirror.Examples.NetworkRoom
     className: NetworkRoomPlayerExt
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Button
-  - hash:
-      serializedVersion: 2
-      Hash: 65d71e6e5f2a79226df1d6785329db6c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: GameManager
   platform: 19
   scenePathNames:
   - Assets/_Project/MainGame.unity

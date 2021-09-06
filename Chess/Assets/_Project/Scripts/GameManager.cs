@@ -5,43 +5,24 @@ using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
-    public static GameManager Main;
-    [SyncVar] [SerializeField] public GameInfo gameInfo = null;
+    public static GameManager GameInfo;
+
+    [SyncVar] public bool matchCreated;
+    [SyncVar] public bool hostIsWhite;
+    [SyncVar] public bool whitesTurn;
+
+    [SyncVar] public int ID;
 
     private void Awake()
     {
-        if (Main == null)
+        if (GameInfo == null)
         {
-            Main = this;
+            GameInfo = this;
         }
         else
         {
             Destroy(this);
+            Debug.LogWarning("There can only be one GameManager!");
         }
-    }
-}
-
-[System.Serializable]
-public class GameInfo
-{
-    public bool matchCreated;
-    public bool hostIsWhite;
-    public bool whitesTurn;
-
-    public int ID;
-
-    public GameInfo()
-    {
-        matchCreated = false;
-        hostIsWhite = true;
-        whitesTurn = true;
-    }
-    public GameInfo(bool HostIsWhite, int NewID)
-    {
-        matchCreated = true;
-        hostIsWhite = HostIsWhite;
-        whitesTurn = true;
-
-        ID = NewID;
     }
 }

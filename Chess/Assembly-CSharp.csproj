@@ -53,10 +53,10 @@
     <UnityVersion>2020.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\_Project\Scripts\NetworkTest.cs" />
-    <Compile Include="Assets\_Project\Scripts\Selector.cs" />
-    <Compile Include="Assets\_Project\Scripts\Button.cs" />
+    <Compile Include="Assets\_Project\Scripts\NetworkedPlayer.cs" />
     <Compile Include="Assets\_Project\Scripts\GameManager.cs" />
+    <Compile Include="Assets\_Project\Scripts\Button.cs" />
+    <Compile Include="Assets\_Project\Scripts\Selector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
