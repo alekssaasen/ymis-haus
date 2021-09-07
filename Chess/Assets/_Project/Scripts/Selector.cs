@@ -6,30 +6,36 @@ public class Selector : MonoBehaviour
 {
     public static Vector2Int SelectedPosition;
     private Ray ray;
+    private RaycastHit hit;
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit);
+            Physics.Raycast(ray.origin, ray.direction, out hit);
 
-            Vector2Int pos = new Vector2Int((int)hit.point.x, (int)hit.point.z);
+            Vector3 hitpoint = hit.point + new Vector3(0.5f, 0, 0.5f);
+
+            Vector2Int pos = new Vector2Int((int)hitpoint.x, (int)hitpoint.z);
 
             if (pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8)
             {
-                SelectedPosition = pos;
+                GameManager.Main.PositionSelected(Vector2Int.RoundToInt(pos));
+                SelectedPosition = Vector2Int.RoundToInt(pos);
             }
             else
             {
-                SelectedPosition = Vector2Int.zero;
-                ray = new Ray();
+                GameManager.Main.PositionSelected(-Vector2Int.one);
+                SelectedPosition = -Vector2Int.one;
             }
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(new Vector3(SelectedPosition.x, 0.125f, SelectedPosition.y), new Vector3(1, 0.25f, 1));
+        Gizmos.DrawCube(new Vector3(SelectedPosition.x, 0, SelectedPosition.y), new Vector3(1, 0.07f, 1));
+        Gizmos.DrawLine(transform.position, transform.position + ray.direction * 25);
+        Gizmos.DrawSphere(hit.point, 0.1f);
     }
 }

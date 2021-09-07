@@ -1590,4 +1590,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/_Project/MainGame.unity
-  playerPath: C:/Users/doman/Documents/_Projects/Unity/Chess/Builds/Pre-Release/0.0.1/Chess.exe
+  playerPath: C:/Users/doman/Documents/GitHub/ymis-haus/Chess/Builds/Pre-Release/0.0.1/Chess.exe
