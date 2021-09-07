@@ -10,6 +10,7 @@ public class Selector : MonoBehaviour
 
     void Update()
     {
+        // ------------ Shit placeholder code --------------------------------------------------------------
         if (Input.GetMouseButtonDown(0))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);

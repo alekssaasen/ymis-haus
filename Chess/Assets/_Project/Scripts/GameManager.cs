@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        // Make GameManager a singleton
         if (Main == null)
         {
             Main = this;
@@ -25,38 +26,14 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("There can only be one GameManager!");
         }
 
+        // Setup the game
         Board = CreateBoard();
         UpdateFigures();
     }
 
-    public void PositionSelected(Vector2Int Position)
-    {
-        if (validPositions.Count == 0 && Board[Position.x, Position.y].figure != ChessFigure.Empty)
-        {
-            if (Board[Position.x, Position.y].isWhite && whitesTurn)
-            {
-                validPositions = GetValidPositions(true, Board[Position.x, Position.y].figure, Position);
-                selectedPosition = Position;
-            }
-            else if (!Board[Position.x, Position.y].isWhite && !whitesTurn)
-            {
-                validPositions = GetValidPositions(false, Board[Position.x, Position.y].figure, Position);
-                selectedPosition = Position;
-            }
-        }
-        else if (validPositions.Contains(Position))
-        {
-            MovePiece(selectedPosition, Position);
-        }
-        else
-        {
-            validPositions = new List<Vector2Int>();
-            selectedPosition = Position;
-        }
-    }
-
     public static TileInfo[,] CreateBoard()
     {
+        // This creates a default Chess board with Figures (does not instantiate so you need to call "UpdateFigures()" later)
         TileInfo[,] newboard = new TileInfo[8, 8];
 
         for (int i = 0; i < 8; i++)
@@ -92,16 +69,19 @@ public class GameManager : MonoBehaviour
 
     private void UpdateFigures()
     {
+        // For each tile on the board
         for (int x = 0; x < Board.GetLength(0); x++)
         {
             for (int y = 0; y < Board.GetLength(1); y++)
             {
+                // Check if Chess figure is created / referenced on the board and if not create it
                 if (Board[x, y].transform == null && Board[x, y].figure != ChessFigure.Empty)
                 {
                     GameObject obj = Instantiate(figurePrefabs[(int)Board[x, y].figure - 1 + ((Board[x, y].isWhite ? 0 : 1) * 6)], new Vector3(x, 0, y), Quaternion.identity);
                     Board[x, y].transform = obj.transform;
                     obj.transform.parent = transform;
                 }
+                // If Chess figure is created update the position
                 else if (Board[x, y].figure != ChessFigure.Empty)
                 {
                     Board[x, y].transform.position = new Vector3(x, 0, y);
@@ -110,8 +90,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     // ----------------------------------------------- Needs reworking! ------------------------------------
+    public void PositionSelected(Vector2Int Position)
+    {
+        if (validPositions.Count == 0 && Board[Position.x, Position.y].figure != ChessFigure.Empty)
+        {
+            if (Board[Position.x, Position.y].isWhite && whitesTurn)
+            {
+                validPositions = GetValidPositions(true, Board[Position.x, Position.y].figure, Position);
+                selectedPosition = Position;
+            }
+            else if (!Board[Position.x, Position.y].isWhite && !whitesTurn)
+            {
+                validPositions = GetValidPositions(false, Board[Position.x, Position.y].figure, Position);
+                selectedPosition = Position;
+            }
+        }
+        else if (validPositions.Contains(Position))
+        {
+            MovePiece(selectedPosition, Position);
+        }
+        else
+        {
+            validPositions = new List<Vector2Int>();
+            selectedPosition = Position;
+        }
+    }
+
     private List<Vector2Int> GetValidPositions(bool IsWhite, ChessFigure Figure, Vector2Int Position)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
@@ -194,6 +199,7 @@ public class GameManager : MonoBehaviour
 
     public void OnDrawGizmos()
     {
+        // For showing valid positions in editor for debuging
         Gizmos.color = Color.green;
         for (int i = 0; i < validPositions.Count; i++)
         {
