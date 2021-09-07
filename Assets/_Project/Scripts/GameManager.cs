@@ -97,12 +97,12 @@ public class GameManager : MonoBehaviour
         {
             if (Board[Position.x, Position.y].isWhite && whitesTurn)
             {
-                validPositions = GetValidPositions(true, Board[Position.x, Position.y].figure, Position);
+                validPositions = GetValidPositions(true, Board[Position.x, Position.y].figure, Position, Board[Position.x, Position.y].hasMoved);
                 selectedPosition = Position;
             }
             else if (!Board[Position.x, Position.y].isWhite && !whitesTurn)
             {
-                validPositions = GetValidPositions(false, Board[Position.x, Position.y].figure, Position);
+                validPositions = GetValidPositions(false, Board[Position.x, Position.y].figure, Position, Board[Position.x, Position.y].hasMoved);
                 selectedPosition = Position;
             }
         }
@@ -117,9 +117,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GetValidPositions(bool IsWhite, ChessFigure Figure, Vector2Int Position)
+    private List<Vector2Int> GetValidPositions(bool IsWhite, ChessFigure Figure, Vector2Int Position, bool HasMoved)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
+        //Calculates distances from the map edge
+        int distancefromleft = Position.x;
+        int distancefromright = Board.GetLength(0) - Position.x -1;
+        int distancefrombottom = Position.y;
+        int distancefromtop = Board.GetLength(1) - Position.y -1;
+        Debug.Log("Distance from edge L,R,T,B:" + distancefromleft + distancefromright
+            + distancefromtop + distancefrombottom);
 
         switch (Figure)
         {
@@ -143,30 +150,49 @@ public class GameManager : MonoBehaviour
                 Debug.Log(Figure);
                 break;
 
+                //Pawn movement, works as expected.
             case ChessFigure.Pawn:
-                if (IsWhite && Board[Position.x, Position.y + 1].figure == ChessFigure.Empty)
+                if (distancefromtop >0 &&
+                    IsWhite && Board[Position.x, Position.y + 1].figure == ChessFigure.Empty)
                 {
                     validpositions.Add(Position + Vector2Int.up);
+
+                    if (distancefromtop > 0 &&
+                    IsWhite && Board[Position.x, Position.y + 2].figure == ChessFigure.Empty && !HasMoved)
+                    {
+                        validpositions.Add(Position + Vector2Int.up * 2);
+                    }
                 }
-                if (IsWhite && Board[Position.x + 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x + 1, Position.y + 1].isWhite)
+                if (distancefromtop > 0 && distancefromright >0 &&
+                    IsWhite && Board[Position.x + 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x + 1, Position.y + 1].isWhite)
                 {
                     validpositions.Add(Position + Vector2Int.up + Vector2Int.right);
                 }
-                if (IsWhite && Board[Position.x - 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x - 1, Position.y + 1].isWhite)
+                if (distancefromtop > 0 && distancefromleft >0 &&
+                    IsWhite && Board[Position.x - 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x - 1, Position.y + 1].isWhite)
                 {
                     validpositions.Add(Position + Vector2Int.up + Vector2Int.left);
                 }
 
 
-                if (!IsWhite && Board[Position.x, Position.y - 1].figure == ChessFigure.Empty)
+                if (distancefrombottom >0 &&
+                    !IsWhite && Board[Position.x, Position.y - 1].figure == ChessFigure.Empty)
                 {
                     validpositions.Add(Position + Vector2Int.down);
+
+                    if (distancefrombottom > 0 &&
+                        !IsWhite && Board[Position.x, Position.y - 2].figure == ChessFigure.Empty && !HasMoved)
+                    {
+                        validpositions.Add(Position + Vector2Int.down * 2);
+                    }
                 }
-                if (!IsWhite && Board[Position.x + 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x + 1, Position.y - 1].isWhite)
+                if (distancefrombottom > 0 && distancefromright >0 &&
+                    !IsWhite && Board[Position.x + 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x + 1, Position.y - 1].isWhite)
                 {
                     validpositions.Add(Position + Vector2Int.down + Vector2Int.right);
                 }
-                if (!IsWhite && Board[Position.x - 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x - 1, Position.y - 1].isWhite)
+                if (distancefrombottom > 0 && distancefromleft >0 &&
+                    !IsWhite && Board[Position.x - 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x - 1, Position.y - 1].isWhite)
                 {
                     validpositions.Add(Position + Vector2Int.down + Vector2Int.left);
                 }
@@ -187,7 +213,8 @@ public class GameManager : MonoBehaviour
             Destroy(Board[NewPosition.x, NewPosition.y].transform.gameObject);
         }
         Board[NewPosition.x, NewPosition.y] = Board[OldPosition.x, OldPosition.y];
-        Board[OldPosition.x, OldPosition.y] = new TileInfo(false, ChessFigure.Empty, null);
+        Board[NewPosition.x, NewPosition.y].hasMoved = true;
+        Board[OldPosition.x, OldPosition.y] = new TileInfo(false, ChessFigure.Empty, null,false);
 
         validPositions = new List<Vector2Int>();
         selectedPosition = Vector2Int.zero;
@@ -214,12 +241,21 @@ public struct TileInfo
     public bool isWhite;
     public ChessFigure figure;
     public Transform transform;
+    public bool hasMoved;
 
     public TileInfo(bool IsWhite, ChessFigure Figure, Transform Object)
     {
         isWhite = IsWhite;
         figure = Figure;
         transform = Object;
+        hasMoved = false;
+    }
+    public TileInfo(bool IsWhite, ChessFigure Figure, Transform Object,bool HasMoved)
+    {
+        isWhite = IsWhite;
+        figure = Figure;
+        transform = Object;
+        hasMoved = HasMoved;
     }
 }
 
