@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -129,17 +130,198 @@ public class GameManager : MonoBehaviour
         int distancefrombottomright = Mathf.Min(distancefrombottom, distancefromright);
         int distancefromtopleft = Mathf.Min(distancefromtop, distancefromleft);
         int distancefrombottomleft = Mathf.Min(distancefrombottom, distancefromleft);
+
         Debug.Log("Distance from edge L,R,T,B,TR,BR,TL,BL:" + distancefromleft + distancefromright
             + distancefromtop + distancefrombottom + distancefromtopright + distancefrombottomright + distancefromtopleft + distancefrombottomleft);
         
         switch (Figure)
         {
             case ChessFigure.King:
-                Debug.Log(Figure);
+                for (int i = 1; i <= 8; i++)
+                {
+                    //this bullshit basically just creates the cardinal directions
+                    int CorX = (int)Math.Round(Math.Sin(i * 0.78539816339f),0,MidpointRounding.AwayFromZero);
+                    int CorY = (int)Math.Round(Math.Cos(i * 0.78539816339f),0,MidpointRounding.AwayFromZero);
+                    Vector2Int Direction = new Vector2Int(CorX, CorY);
+                    Vector2Int Tile = Position + Direction;
+
+                    if (Tile.x < Board.GetLength(0) && Tile.x >= 0 &&
+                        Tile.y < Board.GetLength(1) && Tile.y >= 0)
+                    {
+                        if (Board[Tile.x, Tile.y].figure == ChessFigure.Empty)
+                        {
+                            validpositions.Add(Tile);
+                        }
+                        else if (Board[Tile.x, Tile.y].figure != ChessFigure.Empty && Board[Tile.x, Tile.y].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Tile);
+                        }
+                    }
+                }
+
                 break;
 
             case ChessFigure.Queen:
-                Debug.Log(Figure);
+                //Queen movement
+                //This is literally the code for rook and bishop combined and should be treated as such, works flawlessly
+                for (int i = 1; i <= distancefromtopright; i++)
+                {
+                    if (Board[Position.x + i, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(1, 1) * i);
+                    }
+                    else if (Board[Position.x + i, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + i, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(1, 1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop BOTTOMRIGHT
+                for (int i = 1; i <= distancefrombottomright; i++)
+                {
+                    if (Board[Position.x + i, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(1, -1) * i);
+                    }
+                    else if (Board[Position.x + i, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + i, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(1, -1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop BOTTOMLEFT
+                for (int i = 1; i <= distancefrombottomleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(-1, -1) * i);
+                    }
+                    else if (Board[Position.x - i, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(-1, -1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop UPLEFT
+                for (int i = 1; i <= distancefromtopleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(-1, 1) * i);
+                    }
+                    else if (Board[Position.x - i, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(-1, 1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                for (int i = 1; i <= distancefromtop; i++)
+                {
+                    if (Board[Position.x, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.up * i);
+                    }
+                    else if (Board[Position.x, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.up * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Right
+                for (int i = 1; i <= distancefromright; i++)
+                {
+                    if (Board[Position.x + i, Position.y].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.right * i);
+                    }
+                    else if (Board[Position.x + i, Position.y].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + i, Position.y].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.right * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Down
+                for (int i = 1; i <= distancefrombottom; i++)
+                {
+                    if (Board[Position.x, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.down * i);
+                    }
+                    else if (Board[Position.x, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.down * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Left
+                for (int i = 1; i <= distancefromleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.left * i);
+                    }
+                    else if (Board[Position.x - i, Position.y].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.left * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
 
             case ChessFigure.Bishop:
@@ -169,13 +351,13 @@ public class GameManager : MonoBehaviour
                 {
                     if (Board[Position.x + i, Position.y - i].figure == ChessFigure.Empty)
                     {
-                        validpositions.Add(Position + new Vector2Int(-1,1) * i);
+                        validpositions.Add(Position + new Vector2Int(1,-1) * i);
                     }
                     else if (Board[Position.x + i, Position.y - i].figure != ChessFigure.Empty)
                     {
                         if (Board[Position.x + i, Position.y - i].isWhite != IsWhite)
                         {
-                            validpositions.Add(Position + new Vector2Int(-1,1) * i);
+                            validpositions.Add(Position + new Vector2Int(1,-1) * i);
                             break;
                         }
                         else
@@ -255,13 +437,13 @@ public class GameManager : MonoBehaviour
                 //Rook Right
                 for (int i = 1; i <= distancefromright; i++)
                 {
-                    if (Board[Position.x + 1, Position.y].figure == ChessFigure.Empty)
+                    if (Board[Position.x + i, Position.y].figure == ChessFigure.Empty)
                     {
                         validpositions.Add(Position + Vector2Int.right * i);
                     }
-                    else if (Board[Position.x + 1, Position.y].figure != ChessFigure.Empty)
+                    else if (Board[Position.x + i, Position.y].figure != ChessFigure.Empty)
                     {
-                        if (Board[Position.x + 1, Position.y].isWhite != IsWhite)
+                        if (Board[Position.x + i, Position.y].isWhite != IsWhite)
                         {
                             validpositions.Add(Position + Vector2Int.right * i);
                             break;
