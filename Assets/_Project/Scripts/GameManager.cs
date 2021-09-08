@@ -147,7 +147,87 @@ public class GameManager : MonoBehaviour
                 break;
 
             case ChessFigure.Rook:
-                Debug.Log(Figure);
+                //Rook movement, works as expected
+                //Rook UP
+                for (int i = 1; i <= distancefromtop; i++)
+                {
+                    if (Board[Position.x, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.up * i);
+                    }
+                    else if (Board[Position.x, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if(Board[Position.x, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.up * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Right
+                for (int i = 1; i <= distancefromright; i++)
+                {
+                    if (Board[Position.x + 1, Position.y].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.right * i);
+                    }
+                    else if (Board[Position.x + 1, Position.y].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + 1, Position.y].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.right * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Down
+                for (int i = 1; i <= distancefrombottom; i++)
+                {
+                    if (Board[Position.x, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.down * i);
+                    }
+                    else if (Board[Position.x, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.down * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Rook Left
+                for (int i = 1; i <= distancefromleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + Vector2Int.left * i);
+                    }
+                    else if (Board[Position.x - i, Position.y].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + Vector2Int.left * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
                 break;
 
                 //Pawn movement, works as expected.
