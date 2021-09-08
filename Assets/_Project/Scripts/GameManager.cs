@@ -125,9 +125,13 @@ public class GameManager : MonoBehaviour
         int distancefromright = Board.GetLength(0) - Position.x -1;
         int distancefrombottom = Position.y;
         int distancefromtop = Board.GetLength(1) - Position.y -1;
-        Debug.Log("Distance from edge L,R,T,B:" + distancefromleft + distancefromright
-            + distancefromtop + distancefrombottom);
-
+        int distancefromtopright = Mathf.Min(distancefromtop, distancefromright);
+        int distancefrombottomright = Mathf.Min(distancefrombottom, distancefromright);
+        int distancefromtopleft = Mathf.Min(distancefromtop, distancefromleft);
+        int distancefrombottomleft = Mathf.Min(distancefrombottom, distancefromleft);
+        Debug.Log("Distance from edge L,R,T,B,TR,BR,TL,BL:" + distancefromleft + distancefromright
+            + distancefromtop + distancefrombottom + distancefromtopright + distancefrombottomright + distancefromtopleft + distancefrombottomleft);
+        
         switch (Figure)
         {
             case ChessFigure.King:
@@ -139,7 +143,87 @@ public class GameManager : MonoBehaviour
                 break;
 
             case ChessFigure.Bishop:
-                Debug.Log(Figure);
+                //Bishop movement
+                //Bishop UPRIGHT
+                for (int i = 1; i <= distancefromtopright; i++)
+                {
+                    if (Board[Position.x + i, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(1,1) * i);
+                    }
+                    else if (Board[Position.x + i, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + i, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(1,1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop BOTTOMRIGHT
+                for (int i = 1; i <= distancefrombottomright; i++)
+                {
+                    if (Board[Position.x + i, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(-1,1) * i);
+                    }
+                    else if (Board[Position.x + i, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x + i, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(-1,1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop BOTTOMLEFT
+                for (int i = 1; i <= distancefrombottomleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y - i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(-1, -1) * i);
+                    }
+                    else if (Board[Position.x - i, Position.y - i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y - i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(-1,-1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //Bishop UPLEFT
+                for (int i = 1; i <= distancefromtopleft; i++)
+                {
+                    if (Board[Position.x - i, Position.y + i].figure == ChessFigure.Empty)
+                    {
+                        validpositions.Add(Position + new Vector2Int(-1, 1) * i);
+                    }
+                    else if (Board[Position.x - i, Position.y + i].figure != ChessFigure.Empty)
+                    {
+                        if (Board[Position.x - i, Position.y + i].isWhite != IsWhite)
+                        {
+                            validpositions.Add(Position + new Vector2Int(-1,1) * i);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }   
+                }
                 break;
 
             case ChessFigure.Knight:
