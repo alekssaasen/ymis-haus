@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
         newboard[1, 0] = new TileInfo(true, ChessFigure.Knight, null);
         newboard[2, 0] = new TileInfo(true, ChessFigure.Bishop, null);
 
-        newboard[3, 0] = new TileInfo(true, ChessFigure.King, null);
-        newboard[4, 0] = new TileInfo(true, ChessFigure.Queen, null);
+        newboard[3, 0] = new TileInfo(true, ChessFigure.Queen, null);
+        newboard[4, 0] = new TileInfo(true, ChessFigure.King, null);
 
         newboard[5, 0] = new TileInfo(true, ChessFigure.Bishop, null);
         newboard[6, 0] = new TileInfo(true, ChessFigure.Knight, null);
@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
         newboard[1, 7] = new TileInfo(false, ChessFigure.Knight, null);
         newboard[2, 7] = new TileInfo(false, ChessFigure.Bishop, null);
 
-        newboard[3, 7] = new TileInfo(false, ChessFigure.King, null);
-        newboard[4, 7] = new TileInfo(false, ChessFigure.Queen, null);
+        newboard[3, 7] = new TileInfo(false, ChessFigure.Queen, null);
+        newboard[4, 7] = new TileInfo(false, ChessFigure.King, null);
 
         newboard[5, 7] = new TileInfo(false, ChessFigure.Bishop, null);
         newboard[6, 7] = new TileInfo(false, ChessFigure.Knight, null);
