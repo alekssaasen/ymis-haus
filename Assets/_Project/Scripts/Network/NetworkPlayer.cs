@@ -54,6 +54,12 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
     }
 
+    [PunRPC]
+    public void FinishGame(bool LocalPlayerWon, int OnlinePlayerElo)
+    {
+        SaveSystem.CalculateMyElo(LocalPlayerWon, OnlinePlayerElo);
+    }
+
     public void LeaveRoom()
     {
         if (PhotonNetwork.InRoom)
