@@ -1,39 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Main;
 
-    public bool whitesTurn = true;
+    public bool localPlayerIsWhite = true;
+    public bool localPlayersTurn = true;
     public TileInfo[,] Board;
 
-    public GameObject[] figurePrefabs;
-    public List<Vector2Int> validPositions;
-    public Vector2Int selectedPosition;
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tile[] tiles;
+    [SerializeField] private GameObject[] figurePrefabs;
+    private List<Vector2Int> validPositions = new List<Vector2Int>();
+    private Vector2Int selectedPosition;
 
-    public List<Vector2Int> directions = new List<Vector2Int>() {
-        new Vector2Int(0, 1),
-        new Vector2Int(1, 1),
-        new Vector2Int(1, 0),
-        new Vector2Int(1, -1),
-        new Vector2Int(0, -1),
-        new Vector2Int(-1, -1),
-        new Vector2Int(-1, 0),
-        new Vector2Int(-1, 1),};
-
-    public List<Vector2Int> cardinals = new List<Vector2Int>() {
-        new Vector2Int(0, 1),
-        new Vector2Int(1, 0),
-        new Vector2Int(0, -1),
-        new Vector2Int(-1, 0), };
-
-    public List<Vector2Int> intermediates = new List<Vector2Int>() {
-        new Vector2Int(1, 1),
-        new Vector2Int(1, -1),
-        new Vector2Int(-1, -1),
-        new Vector2Int(-1, 1),};
 
     private void Awake()
     {
@@ -47,7 +31,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
             Debug.LogWarning("There can only be one GameManager!");
         }
-
+        
         // Setup the game
         Board = CreateBoard();
         UpdateFigures();
@@ -117,241 +101,56 @@ public class GameManager : MonoBehaviour
     {
         if (validPositions.Count == 0 && Board[Position.x, Position.y].figure != ChessFigure.Empty)
         {
-            if (Board[Position.x, Position.y].isWhite && whitesTurn)
+            if (Board[Position.x, Position.y].isWhite == localPlayerIsWhite && localPlayersTurn)
             {
-                validPositions = GetValidPositions(true, Board[Position.x, Position.y].figure, Position, Board[Position.x, Position.y].hasMoved);
-                selectedPosition = Position;
-            }
-            else if (!Board[Position.x, Position.y].isWhite && !whitesTurn)
-            {
-                validPositions = GetValidPositions(false, Board[Position.x, Position.y].figure, Position, Board[Position.x, Position.y].hasMoved);
+                validPositions = FigureMovement.GetValidPositions(localPlayerIsWhite, Board[Position.x, Position.y], Position);
+
+                tilemap.ClearAllTiles();
+                tilemap.SetTile((Vector3Int)Position, tiles[0]);
+                for (int i = 0; i < validPositions.Count; i++)
+                {
+                    if (Board[validPositions[i].x, validPositions[i].y].figure != ChessFigure.Empty)
+                    {
+                        tilemap.SetTile((Vector3Int)validPositions[i], tiles[2]);
+                    }
+                    else
+                    {
+                        tilemap.SetTile((Vector3Int)validPositions[i], tiles[1]);
+                    }
+                }
+
                 selectedPosition = Position;
             }
         }
         else if (validPositions.Contains(Position))
         {
-            MovePiece(selectedPosition, Position);
+            PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false, (Vector2)selectedPosition, (Vector2)Position);
+            validPositions = new List<Vector2Int>();
+            tilemap.ClearAllTiles();
         }
         else
         {
-            validPositions = new List<Vector2Int>();
             selectedPosition = Position;
+            validPositions = new List<Vector2Int>();
+            tilemap.ClearAllTiles();
         }
     }
 
-    private List<Vector2Int> GetValidPositions(bool IsWhite, ChessFigure Figure, Vector2Int Position, bool HasMoved)
-    {
-        List<Vector2Int> validpositions = new List<Vector2Int>();
-        //Calculates distances from the map edge
-        int distancefromleft = Position.x;
-        int distancefromright = Board.GetLength(0) - Position.x -1;
-        int distancefrombottom = Position.y;
-        int distancefromtop = Board.GetLength(1) - Position.y -1;
-        int distancefromtopright = Mathf.Min(distancefromtop, distancefromright);
-        int distancefrombottomright = Mathf.Min(distancefrombottom, distancefromright);
-        int distancefromtopleft = Mathf.Min(distancefromtop, distancefromleft);
-        int distancefrombottomleft = Mathf.Min(distancefrombottom, distancefromleft);
-
-        Debug.Log("Distance from edge L,R,T,B,TR,BR,TL,BL:" + distancefromleft + distancefromright
-            + distancefromtop + distancefrombottom + distancefromtopright + distancefrombottomright + distancefromtopleft + distancefrombottomleft);
-        
-        switch (Figure)
-        {
-            case ChessFigure.King:
-                //King movement, good
-
-                for (int i = 0; i <= 7; i++)
-                {
-                    Vector2Int Tile = Position + directions[i];
-
-                    if (Tile.x < Board.GetLength(0) && Tile.x >= 0 &&
-                        Tile.y < Board.GetLength(1) && Tile.y >= 0)
-                    {
-                        if (Board[Tile.x, Tile.y].figure == ChessFigure.Empty)
-                        {
-                            validpositions.Add(Tile);
-                        }
-                        else if (Board[Tile.x, Tile.y].figure != ChessFigure.Empty && Board[Tile.x, Tile.y].isWhite != IsWhite)
-                        {
-                            validpositions.Add(Tile);
-                        }
-                    }
-                }
-
-                break;
-
-            case ChessFigure.Queen:
-                //Queen movement, good
-
-                for (int dir = 0; dir <= 7; dir++)
-                {
-                    for (int i = 1; i <= Mathf.Max(Board.GetLength(0), Board.GetLength(1)); i++)
-                    {
-                        Vector2Int Tile = Position + (directions[dir] * i);
-                        if (Tile.x < Board.GetLength(0) && Tile.x >= 0 &&
-                            Tile.y < Board.GetLength(1) && Tile.y >= 0)
-                        {
-                            if (Board[Tile.x, Tile.y].figure == ChessFigure.Empty)
-                            {
-                                validpositions.Add(Tile);
-                            }
-                            else if (Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
-                            {
-                                if (Board[Tile.x, Tile.y].isWhite != IsWhite)
-                                {
-                                    validpositions.Add(Tile);
-                                    break;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-
-            case ChessFigure.Bishop:
-                //Bishop movement, good
-
-                for (int dir = 0; dir <= 3; dir++)
-                {
-                    for (int i = 1; i <= Mathf.Max(Board.GetLength(0), Board.GetLength(1)); i++)
-                    {
-                        Vector2Int Tile = Position + (intermediates[dir] * i);
-                        if (Tile.x < Board.GetLength(0) && Tile.x >= 0 &&
-                            Tile.y < Board.GetLength(1) && Tile.y >= 0)
-                        {
-                            if (Board[Tile.x, Tile.y].figure == ChessFigure.Empty)
-                            {
-                                validpositions.Add(Tile);
-                            }
-                            else if (Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
-                            {
-                                if (Board[Tile.x, Tile.y].isWhite != IsWhite)
-                                {
-                                    validpositions.Add(Tile);
-                                    break;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-
-            case ChessFigure.Knight:
-                Debug.Log(Figure);
-                break;
-
-            case ChessFigure.Rook:
-                //Rook movement, good
-
-                for (int dir = 0; dir <= 3; dir++)
-                {
-                    for (int i = 1; i <= Mathf.Max(Board.GetLength(0), Board.GetLength(1)); i++)
-                    {
-                        Vector2Int Tile = Position + (cardinals[dir] * i);
-                        if (Tile.x < Board.GetLength(0) && Tile.x >= 0 &&
-                            Tile.y < Board.GetLength(1) && Tile.y >= 0)
-                        {
-                            if (Board[Tile.x, Tile.y].figure == ChessFigure.Empty)
-                            {
-                                validpositions.Add(Tile);
-                            }
-                            else if (Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
-                            {
-                                if (Board[Tile.x, Tile.y].isWhite != IsWhite)
-                                {
-                                    validpositions.Add(Tile);
-                                    break;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-
-                //Pawn movement, works as expected. however can be redone to use a new list of pawn directions like the rook/bishop/queen/king 
-                //but you will still have edge cases that require its own if statement that it is unlikely worth it
-            case ChessFigure.Pawn:
-                if (distancefromtop >0 &&
-                    IsWhite && Board[Position.x, Position.y + 1].figure == ChessFigure.Empty)
-                {
-                    validpositions.Add(Position + Vector2Int.up);
-
-                    if (distancefromtop > 0 &&
-                    IsWhite && Board[Position.x, Position.y + 2].figure == ChessFigure.Empty && !HasMoved)
-                    {
-                        validpositions.Add(Position + Vector2Int.up * 2);
-                    }
-                }
-                if (distancefromtop > 0 && distancefromright >0 &&
-                    IsWhite && Board[Position.x + 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x + 1, Position.y + 1].isWhite)
-                {
-                    validpositions.Add(Position + Vector2Int.up + Vector2Int.right);
-                }
-                if (distancefromtop > 0 && distancefromleft >0 &&
-                    IsWhite && Board[Position.x - 1, Position.y + 1].figure != ChessFigure.Empty && !Board[Position.x - 1, Position.y + 1].isWhite)
-                {
-                    validpositions.Add(Position + Vector2Int.up + Vector2Int.left);
-                }
-
-
-                if (distancefrombottom >0 &&
-                    !IsWhite && Board[Position.x, Position.y - 1].figure == ChessFigure.Empty)
-                {
-                    validpositions.Add(Position + Vector2Int.down);
-
-                    if (distancefrombottom > 0 &&
-                        !IsWhite && Board[Position.x, Position.y - 2].figure == ChessFigure.Empty && !HasMoved)
-                    {
-                        validpositions.Add(Position + Vector2Int.down * 2);
-                    }
-                }
-                if (distancefrombottom > 0 && distancefromright >0 &&
-                    !IsWhite && Board[Position.x + 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x + 1, Position.y - 1].isWhite)
-                {
-                    validpositions.Add(Position + Vector2Int.down + Vector2Int.right);
-                }
-                if (distancefrombottom > 0 && distancefromleft >0 &&
-                    !IsWhite && Board[Position.x - 1, Position.y - 1].figure != ChessFigure.Empty && Board[Position.x - 1, Position.y - 1].isWhite)
-                {
-                    validpositions.Add(Position + Vector2Int.down + Vector2Int.left);
-                }
-                break;
-
-            default:
-                Debug.LogError("Trying to move air!");
-                break;
-        }
-
-        return validpositions;
-    }
-
-    private void MovePiece(Vector2Int OldPosition, Vector2Int NewPosition)
+    public void MovePiece(Vector2Int OldPosition, Vector2Int NewPosition)
     {
         if (Board[NewPosition.x, NewPosition.y].transform != null)
         {
             Destroy(Board[NewPosition.x, NewPosition.y].transform.gameObject);
         }
+
         Board[NewPosition.x, NewPosition.y] = Board[OldPosition.x, OldPosition.y];
         Board[NewPosition.x, NewPosition.y].hasMoved = true;
-        Board[OldPosition.x, OldPosition.y] = new TileInfo(false, ChessFigure.Empty, null,false);
+        Board[OldPosition.x, OldPosition.y] = new TileInfo(false, ChessFigure.Empty, null, false);
 
         validPositions = new List<Vector2Int>();
         selectedPosition = Vector2Int.zero;
 
         UpdateFigures();
-        whitesTurn = !whitesTurn;
     }
     // -----------------------------------------------------------------------------------------------------
 

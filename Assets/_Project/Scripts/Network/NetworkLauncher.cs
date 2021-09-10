@@ -12,12 +12,14 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public static readonly RoomOptions PRIVATE_ROOM_OPTIONS = new RoomOptions() { MaxPlayers = 2, IsVisible = false };
 
     public GameObject buttons;
+    public GameObject loadingScreen;
     private string roomName;
 
     void Awake()
     {
         ConnectToServer();
         buttons.SetActive(false);
+        loadingScreen.SetActive(false);
     }
 
 
@@ -79,21 +81,25 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Server connected");
         buttons.SetActive(true);
+        loadingScreen.SetActive(false);
     }
     public override void OnJoinedRoom()
     {
         Debug.Log("Room connected");
         buttons.SetActive(false);
+        loadingScreen.SetActive(true);
     }
     public override void OnLeftRoom()
     {
         Debug.Log("Room disconnected");
         buttons.SetActive(true);
+        loadingScreen.SetActive(false);
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("Server disconnected");
         buttons.SetActive(false);
+        loadingScreen.SetActive(false);
     }
 
 

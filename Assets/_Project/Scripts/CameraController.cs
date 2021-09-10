@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         // ------------ Decent placeholder code ------------------------------------------------------------
-        if (GameManager.Main.whitesTurn)
+        if (GameManager.Main.localPlayerIsWhite)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
