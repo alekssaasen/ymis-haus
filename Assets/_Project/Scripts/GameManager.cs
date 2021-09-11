@@ -73,30 +73,8 @@ public class GameManager : MonoBehaviour
         return newboard;
     }
 
-    private void UpdateFigures()
-    {
-        // For each tile on the board
-        for (int x = 0; x < Board.GetLength(0); x++)
-        {
-            for (int y = 0; y < Board.GetLength(1); y++)
-            {
-                // Check if Chess figure is created / referenced on the board and if not create it
-                if (Board[x, y].transform == null && Board[x, y].figure != ChessFigure.Empty)
-                {
-                    GameObject obj = Instantiate(figurePrefabs[(int)Board[x, y].figure - 1 + ((Board[x, y].isWhite ? 0 : 1) * 6)], new Vector3(x, 0, y), Quaternion.identity);
-                    Board[x, y].transform = obj.transform;
-                    obj.transform.parent = transform;
-                }
-                // If Chess figure is created update the position
-                else if (Board[x, y].figure != ChessFigure.Empty)
-                {
-                    Board[x, y].transform.position = new Vector3(x, 0, y);
-                }
-            }
-        }
-    }
+    // -----------------------------------------------------------------------------------------------------
 
-    // ----------------------------------------------- Needs reworking! ------------------------------------
     public void PositionSelected(Vector2Int Position)
     {
         if (validPositions.Count == 0 && Board[Position.x, Position.y].figure != ChessFigure.Empty)
@@ -152,6 +130,30 @@ public class GameManager : MonoBehaviour
 
         UpdateFigures();
     }
+
+    private void UpdateFigures()
+    {
+        // For each tile on the board
+        for (int x = 0; x < Board.GetLength(0); x++)
+        {
+            for (int y = 0; y < Board.GetLength(1); y++)
+            {
+                // Check if Chess figure is created / referenced on the board and if not create it
+                if (Board[x, y].transform == null && Board[x, y].figure != ChessFigure.Empty)
+                {
+                    GameObject obj = Instantiate(figurePrefabs[(int)Board[x, y].figure - 1 + ((Board[x, y].isWhite ? 0 : 1) * 6)], new Vector3(x, 0, y), Quaternion.identity);
+                    Board[x, y].transform = obj.transform;
+                    obj.transform.parent = transform;
+                }
+                // If Chess figure is created update the position
+                else if (Board[x, y].figure != ChessFigure.Empty)
+                {
+                    Board[x, y].transform.position = new Vector3(x, 0, y);
+                }
+            }
+        }
+    }
+
     // -----------------------------------------------------------------------------------------------------
 
     public void OnDrawGizmos()
