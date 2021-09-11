@@ -521,7 +521,26 @@ public static class FigureMovement
                 }
             }
         }
+        if(GameManager.Main.Board[Position.x, Position.y].figure != ChessFigure.King)
+        {
+            if(checkType == CheckType.KnightCheck || checkType == CheckType.SingleCheck)
+            {
+                List<Vector2Int> newvalidpositions = new List<Vector2Int>();
 
+                foreach (Vector2Int item1 in validpositions)
+                {
+                    foreach (Vector2Int item2 in onlyPossibleTiles)
+                    {
+                        if (item2 == item1)
+                        {
+                            newvalidpositions.Add(item1);
+                        }
+                    }
+                }
+
+                validpositions = newvalidpositions;
+            }
+        }
 
         return validpositions;
     }
