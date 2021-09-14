@@ -41,7 +41,7 @@ public static class FigureMovement
         new Vector2Int(-1, 2),
     };
 
-    public static List<Vector2Int> GetValidPositions(bool IsWhite, TileInfo FigureTile, Vector2Int Position)
+    public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
 
@@ -68,7 +68,7 @@ public static class FigureMovement
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (GameManager.Main.Board[x,y].figure == ChessFigure.King && GameManager.Main.Board[x, y].isWhite == IsWhite)
+                if (GameManager.Main.Board[x,y].figure == ChessFigure.King && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     OurKing = new Vector2Int(x,y);
                 }
@@ -97,7 +97,7 @@ public static class FigureMovement
                 {
                     if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                     {
-                        if (GameManager.Main.Board[Tile.x, Tile.y].isWhite == IsWhite)
+                        if (GameManager.Main.Board[Tile.x, Tile.y].ownerID == ID)
                         {
                             if (possiblePin != new Vector2Int(-1, -1))
                             {
@@ -153,7 +153,7 @@ public static class FigureMovement
                 {
                     if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                     {
-                        if (GameManager.Main.Board[Tile.x, Tile.y].isWhite == IsWhite)
+                        if (GameManager.Main.Board[Tile.x, Tile.y].ownerID == ID)
                         {
                             if (possiblePin != new Vector2Int(-1, -1))
                             {
@@ -203,7 +203,7 @@ public static class FigureMovement
             if (Tile.x < GameManager.Main.Board.GetLength(0) && Tile.x >= 0 &&
                 Tile.y < GameManager.Main.Board.GetLength(1) && Tile.y >= 0)
             {
-                if (GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Knight && GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                if (GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Knight && GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                 {
                     checkingPieces.Add(Tile);
                     knightCheck = true;
@@ -288,7 +288,7 @@ public static class FigureMovement
                         {
                             validpositions.Add(Tile);
                         }
-                        else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty && GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                        else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty && GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                         {
                             validpositions.Add(Tile);
                         }
@@ -314,7 +314,7 @@ public static class FigureMovement
                                 }
                                 else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                                 {
-                                    if (GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                                    if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                     {
                                         validpositions.Add(Tile);
                                         break;
@@ -348,7 +348,7 @@ public static class FigureMovement
                                 }
                                 else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                                 {
-                                    if (GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                                    if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                     {
                                         validpositions.Add(Tile);
                                         break;
@@ -379,7 +379,7 @@ public static class FigureMovement
                             }
                             else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                             {
-                                if (GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                                if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                 {
                                     validpositions.Add(Tile);
                                 }
@@ -407,7 +407,7 @@ public static class FigureMovement
                                 }
                                 else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                                 {
-                                    if (GameManager.Main.Board[Tile.x, Tile.y].isWhite != IsWhite)
+                                    if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                     {
                                         validpositions.Add(Tile);
                                         break;
@@ -429,46 +429,46 @@ public static class FigureMovement
                 if (checkType != CheckType.DoubbleCheck)
                 {
                     if (distancefromtop > 0 &&
-                        IsWhite && GameManager.Main.Board[Position.x, Position.y + 1].figure == ChessFigure.Empty)
+                        (ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x, Position.y + 1].figure == ChessFigure.Empty)
                     {
                         validpositions.Add(Position + Vector2Int.up);
 
                         if (distancefromtop > 0 &&
-                        IsWhite && GameManager.Main.Board[Position.x, Position.y + 2].figure == ChessFigure.Empty && !FigureTile.hasMoved)
+                        (ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x, Position.y + 2].figure == ChessFigure.Empty && !FigureTile.hasMoved)
                         {
                             validpositions.Add(Position + Vector2Int.up * 2);
                         }
                     }
                     if (distancefromtop > 0 && distancefromright > 0 &&
-                        IsWhite && GameManager.Main.Board[Position.x + 1, Position.y + 1].figure != ChessFigure.Empty && !GameManager.Main.Board[Position.x + 1, Position.y + 1].isWhite)
+                        (ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x + 1, Position.y + 1].figure != ChessFigure.Empty && !(GameManager.Main.Board[Position.x + 1, Position.y + 1].ownerID == GameManager.Main.localPlayerID))
                     {
                         validpositions.Add(Position + Vector2Int.up + Vector2Int.right);
                     }
                     if (distancefromtop > 0 && distancefromleft > 0 &&
-                        IsWhite && GameManager.Main.Board[Position.x - 1, Position.y + 1].figure != ChessFigure.Empty && !GameManager.Main.Board[Position.x - 1, Position.y + 1].isWhite)
+                        (ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x - 1, Position.y + 1].figure != ChessFigure.Empty && !(GameManager.Main.Board[Position.x - 1, Position.y + 1].ownerID == GameManager.Main.localPlayerID))
                     {
                         validpositions.Add(Position + Vector2Int.up + Vector2Int.left);
                     }
 
 
                     if (distancefrombottom > 0 &&
-                        !IsWhite && GameManager.Main.Board[Position.x, Position.y - 1].figure == ChessFigure.Empty)
+                        !(ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x, Position.y - 1].figure == ChessFigure.Empty)
                     {
                         validpositions.Add(Position + Vector2Int.down);
 
                         if (distancefrombottom > 0 &&
-                            !IsWhite && GameManager.Main.Board[Position.x, Position.y - 2].figure == ChessFigure.Empty && !FigureTile.hasMoved)
+                            !(ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x, Position.y - 2].figure == ChessFigure.Empty && !FigureTile.hasMoved)
                         {
                             validpositions.Add(Position + Vector2Int.down * 2);
                         }
                     }
                     if (distancefrombottom > 0 && distancefromright > 0 &&
-                        !IsWhite && GameManager.Main.Board[Position.x + 1, Position.y - 1].figure != ChessFigure.Empty && GameManager.Main.Board[Position.x + 1, Position.y - 1].isWhite)
+                        !(ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x + 1, Position.y - 1].figure != ChessFigure.Empty && GameManager.Main.Board[Position.x + 1, Position.y - 1].ownerID == GameManager.Main.localPlayerID)
                     {
                         validpositions.Add(Position + Vector2Int.down + Vector2Int.right);
                     }
                     if (distancefrombottom > 0 && distancefromleft > 0 &&
-                        !IsWhite && GameManager.Main.Board[Position.x - 1, Position.y - 1].figure != ChessFigure.Empty && GameManager.Main.Board[Position.x - 1, Position.y - 1].isWhite)
+                        !(ID == GameManager.Main.localPlayerID) && GameManager.Main.Board[Position.x - 1, Position.y - 1].figure != ChessFigure.Empty && GameManager.Main.Board[Position.x - 1, Position.y - 1].ownerID == GameManager.Main.localPlayerID)
                     {
                         validpositions.Add(Position + Vector2Int.down + Vector2Int.left);
                     }

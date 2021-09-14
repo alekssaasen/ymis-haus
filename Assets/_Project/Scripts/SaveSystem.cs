@@ -61,6 +61,24 @@ public static class SaveSystem
             return new PlayerSaveData("Player");
         }
     }
+
+    public static void DeletePlayerData()
+    {
+        if (File.Exists(Application.persistentDataPath + SavePathToFile))
+        {
+            File.Delete(Application.persistentDataPath + SavePathToFile);
+        }
+    }
+
+    public static string ValidateName(string Name)
+    {
+        Name = Name.Replace(" ", "_");
+        if (Name.Length > 10)
+        {
+            Name = Name.Substring(0, 10);
+        }
+        return Name;
+    }
 }
 
 [System.Serializable]

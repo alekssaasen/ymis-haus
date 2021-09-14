@@ -13,44 +13,48 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PhotonView.Get(this).RpcSecure("ChangeVal", RpcTarget.AllBuffered, false, ID + 1);
-        PhotonView.Get(this).RpcSecure("SetSide", RpcTarget.AllBufferedViaServer, false, Random.Range(0, 2) == 1);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PhotonView.Get(this).RpcSecure("ChangeVal", RpcTarget.AllBuffered, false, ID + 1);
-        }
-    }
-
-    [PunRPC]
-    public void ChangeVal(int NewID)
-    {
-        ID = NewID;
-        text.text = "ID: " + ID;
-    }
-
-    [PunRPC]
-    public void SetSide(bool HostIsWhite)
-    {
         if (PhotonNetwork.IsMasterClient)
         {
-            GameManager.Main.localPlayerIsWhite = HostIsWhite;
-            GameManager.Main.localPlayersTurn = HostIsWhite;
+            int[] players = new int[PhotonNetwork.PlayerList.Length];
+            List<int> ids = new List<int>();
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                ids.Add(i);
+            }
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                int random = Random.Range(0, ids.Count);
+                players[i] = ids[random];
+                ids.Remove(ids[random]);
+            }
+
+            PhotonView.Get(this).RpcSecure("SetSide", RpcTarget.AllBufferedViaServer, false, players);
         }
-        else
+    }
+
+    [PunRPC]
+    public void SetSide(int[] PlayerID)
+    {
+        for (int i = 0; i < PlayerID.Length; i++)
         {
-            GameManager.Main.localPlayerIsWhite = !HostIsWhite;
-            GameManager.Main.localPlayersTurn = !HostIsWhite;
+            if (PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber)
+            {
+                GameManager.Main.localPlayerID = PlayerID[i];
+                text.text = "ID: " + GameManager.Main.localPlayerID;
+            }
         }
     }
 
     [PunRPC]
     public void FinishTurn(Vector2 OldPosition, Vector2 NewPosition)
     {
-        GameManager.Main.localPlayersTurn = !GameManager.Main.localPlayersTurn;
+        GameManager.Main.turnID += 1;
+        if (GameManager.Main.turnID == PhotonNetwork.PlayerList.Length)
+        {
+            GameManager.Main.turnID = 0;
+        }
         GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
     }
 

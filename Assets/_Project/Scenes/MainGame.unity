@@ -796,6 +796,7 @@ GameObject:
   m_Component:
   - component: {fileID: 920130558}
   - component: {fileID: 920130559}
+  - component: {fileID: 920130560}
   m_Layer: 0
   m_Name: Post Procesing
   m_TagString: Untagged
@@ -835,6 +836,26 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: a6dc441977fdcfe47916f66d9603107d, type: 2}
+--- !u!114 &920130560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920130557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7808efdb1141243b26669ca62040dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderAssets:
+  - {fileID: 11400000, guid: 53ba39ab9d290974f89aecaa25167b26, type: 2}
+  - {fileID: 11400000, guid: 22de1b8da95065a4ba2684742498e3e3, type: 2}
+  - {fileID: 11400000, guid: 3491a5c20b9d1a140903d8a19ccfa2fa, type: 2}
+  - {fileID: 11400000, guid: 984a757a999c8124e8215d2be9d34cf0, type: 2}
+  - {fileID: 11400000, guid: 1da1b524248dcb74991e97db476195d2, type: 2}
+  dropdown: {fileID: 0}
+  postProcessing: {fileID: 920130557}
 --- !u!1 &947996490
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,26 +964,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94030fbe66aff934c8214dd9e0559d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerIsWhite: 1
-  localPlayersTurn: 1
+  localPlayerID: 0
+  turnID: 0
   tilemap: {fileID: 1792491504}
   tiles:
   - {fileID: 11400000, guid: d67cf60b0d3735144b9b2559a19f931a, type: 2}
   - {fileID: 11400000, guid: 81314211eca66814fa7d502a90e95394, type: 2}
   - {fileID: 11400000, guid: 0a45ae0643f90844b9c8d94d313377d0, type: 2}
-  figurePrefabs:
-  - {fileID: 8811747196452130974, guid: af1e00b2b97848242999688dc4128fae, type: 3}
-  - {fileID: 8872570632638722566, guid: 86fe3bdb0c1176045b07bdeff0e8c3c2, type: 3}
-  - {fileID: 1324317499994851209, guid: 1d8de950c3b2c364b9cc2ec90aa3669d, type: 3}
-  - {fileID: 1063548438736086047, guid: 5ea2e8b7e8788af4390deed864d4b1c1, type: 3}
-  - {fileID: 4572401764773054430, guid: 33b212c5baa6b494499c5fe55ba32e7a, type: 3}
-  - {fileID: 3906167752553367235, guid: 4ab97100de37082458a58fdfaf709a25, type: 3}
-  - {fileID: 3475647762079658316, guid: 0cda15acf5398bb40bbdbcbb3c561d02, type: 3}
-  - {fileID: 8710192022938055302, guid: 766efd492e8bbbf429d814cd722786ae, type: 3}
-  - {fileID: 7237114818983637662, guid: 5bd2ad083e0497548b1ef09339722a91, type: 3}
-  - {fileID: 7454937923902211361, guid: 442a0e434ff436c4d9fac0e8fc60e3e0, type: 3}
-  - {fileID: 3201927787049033374, guid: 08a051043f5eb624abc9fabd93f51168, type: 3}
-  - {fileID: 3437050886685288307, guid: d0b457fef2960954894dcb20bb2ebc90, type: 3}
+  figurePrefab: {fileID: 7237114818983637662, guid: 5bd2ad083e0497548b1ef09339722a91, type: 3}
+  chessFigureSet: {fileID: 11400000, guid: da2b012475da9a64a82000f35a46ff2b, type: 2}
 --- !u!114 &1335291219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,7 +1048,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693036850}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1047,8 +1057,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -125, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -40, y: -47}
+  m_SizeDelta: {x: 65, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1693036852
 MonoBehaviour:
@@ -1070,7 +1080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ID:'
+  m_text: 'ID: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1104,11 +1114,11 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
+  m_characterSpacing: -3
+  m_wordSpacing: -5
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0

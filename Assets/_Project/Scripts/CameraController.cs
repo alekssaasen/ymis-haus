@@ -7,11 +7,11 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         // ------------ Decent placeholder code ------------------------------------------------------------
-        if (GameManager.Main.localPlayerIsWhite)
+        if (GameManager.Main.localPlayerID == 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        else
+        else if (GameManager.Main.localPlayerID == 1)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
