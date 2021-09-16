@@ -73,7 +73,6 @@ public class FigureMovement
         //Find our king
         Vector2Int OurKing = new Vector2Int();
 
-
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
@@ -379,7 +378,7 @@ public class FigureMovement
                                 }
                             }
                             //placeholder gamemode statement
-                            if (true)
+                            if (GameManager.Main.ChessGameSettings.CurrentGameMode == ChessGameModes.ClassicChess)
                             {
                                 int invert;
                                 if (ID == 0)
@@ -566,7 +565,7 @@ public class FigureMovement
                 if (checkType != CheckType.DoubbleCheck)
                 {
                     //gamemode placeholder statement
-                    if (true)
+                    if (GameManager.Main.ChessGameSettings.CurrentGameMode == ChessGameModes.ClassicChess)
                     {
                         //wheter or not to invert the direction, will always be multiplied by this number but when its 1 no change will occur
                         int invert;
@@ -707,5 +706,5 @@ public class FigureMovement
 
 public enum CheckType
 {
-    DoubbleCheck,KnightCheck,SingleCheck,PinnedPiece,NoCheck
+    DoubbleCheck, KnightCheck, SingleCheck, PinnedPiece, NoCheck
 }

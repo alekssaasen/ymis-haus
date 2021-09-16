@@ -12,15 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94c9ec5bb6ee1b43b44b6d46c8c7602, type: 3}
   m_Name: ClasicFigures
   m_EditorClassIdentifier: 
-  Meshes:
+  PlayerMeshes:
   - {fileID: -464318858134865513, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   - {fileID: 409370836802854717, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   - {fileID: -770617816881427307, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   - {fileID: -6286129878052703309, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   - {fileID: 5471150994327979460, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   - {fileID: -8835048660849800239, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
+  BuildingMeshes:
+  - {fileID: -6775258045016099801, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   PlayerMaterials:
   - {fileID: 2100000, guid: 988d0fc8fb9b9e849b2ffa22853f5e2d, type: 2}
   - {fileID: 2100000, guid: 75c446b030b451e4eb0855a201bcc28a, type: 2}
   - {fileID: 2100000, guid: 2fab74a51376069408afc5657ba39493, type: 2}
   - {fileID: 2100000, guid: 6f8d2a405e20af54594326f6b49f5b58, type: 2}
+  BuildingMaterials:
+  - {fileID: 2100000, guid: 1a8be94b5610ac849890af0c1d6887d6, type: 2}
+  - {fileID: 2100000, guid: 64c5a174a17386d479dc457acda73377, type: 2}
+  - {fileID: 2100000, guid: 379ad11b5aa5c0544aec9a6e0d058e58, type: 2}
+  - {fileID: 2100000, guid: d70fc75a7a8887f459019548e73cc386, type: 2}
+  - {fileID: 2100000, guid: 196677f022384f644882d4694af21f02, type: 2}

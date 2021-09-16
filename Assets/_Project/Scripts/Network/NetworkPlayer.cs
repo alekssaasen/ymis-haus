@@ -8,13 +8,14 @@ using Photon.Realtime;
 
 public class NetworkPlayer : MonoBehaviourPunCallbacks
 {
-    public TMP_Text text;
+    public TMP_Text textID;
     public int ID;
 
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("Choosing sides");
             int[] players = new int[PhotonNetwork.PlayerList.Length];
             List<int> ids = new List<int>();
 
@@ -37,30 +38,39 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetSide(int[] PlayerID)
     {
+        Debug.Log("Applying side to local");
         for (int i = 0; i < PlayerID.Length; i++)
         {
             if (PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber)
             {
                 GameManager.Main.localPlayerID = PlayerID[i];
-                text.text = "ID: " + GameManager.Main.localPlayerID;
+                textID.text = "ID: " + GameManager.Main.localPlayerID;
             }
         }
     }
 
     [PunRPC]
-    public void FinishTurn(Vector2 OldPosition, Vector2 NewPosition)
+    public void MoveFigure(Vector2 OldPosition, Vector2 NewPosition)
     {
+        Debug.Log("Moving figure");
+        GameLoop.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
+    }
+
+    [PunRPC]
+    public void FinishTurn()
+    {
+        Debug.Log("Ending turn");
         GameManager.Main.turnID += 1;
         if (GameManager.Main.turnID == PhotonNetwork.PlayerList.Length)
         {
             GameManager.Main.turnID = 0;
         }
-        GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
     }
 
     [PunRPC]
     public void FinishGame(bool LocalPlayerWon, int OnlinePlayerElo)
     {
+        Debug.Log("Ending game");
         SaveSystem.CalculateMyElo(LocalPlayerWon, OnlinePlayerElo);
     }
 

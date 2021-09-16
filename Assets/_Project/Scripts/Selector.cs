@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Selector : MonoBehaviour
 {
-    public static Vector2Int SelectedPosition;
-    private Ray ray;
+    private Vector2Int SelectedPosition;    private Ray ray;
     private RaycastHit hit;
 
     void Update()
@@ -20,14 +19,16 @@ public class Selector : MonoBehaviour
 
             Vector2Int pos = new Vector2Int((int)hitpoint.x, (int)hitpoint.z);
 
-            if (pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8)
+            if (pos.x >= 0 && pos.x < GameManager.Main.Board.GetLength(0) && pos.y >= 0 && pos.y < GameManager.Main.Board.GetLength(1))
             {
-                GameManager.Main.PositionSelected(Vector2Int.RoundToInt(pos));
+                Debug.Log(Vector2Int.RoundToInt(pos));
+                GameLoop.Main.NewPositionSelected(Vector2Int.RoundToInt(pos));
                 SelectedPosition = Vector2Int.RoundToInt(pos);
             }
             else
             {
-                GameManager.Main.PositionSelected(-Vector2Int.one);
+                Debug.Log(-Vector2Int.one);
+                GameLoop.Main.NewPositionSelected(-Vector2Int.one);
                 SelectedPosition = -Vector2Int.one;
             }
         }
