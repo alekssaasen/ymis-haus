@@ -56,21 +56,6 @@ public class FigureMovement
     public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
-
-        //Calculates distances from the map edge
-        int distancefromtop = GameManager.Main.Board.GetLength(1) - Position.y - 1;
-        int distancefromright = GameManager.Main.Board.GetLength(0) - Position.x - 1;
-        int distancefrombottom = Position.y;
-        int distancefromleft = Position.x;
-
-        int distancefromtopright = Mathf.Min(distancefromtop, distancefromright);
-        int distancefrombottomright = Mathf.Min(distancefrombottom, distancefromright);
-        int distancefrombottomleft = Mathf.Min(distancefrombottom, distancefromleft);
-        int distancefromtopleft = Mathf.Min(distancefromtop, distancefromleft);
-
-        Debug.LogFormat("Distance from edges: (T={0}), (TR={1}), (R={2}), (BR={3}), (B={4}), (BL={5}), (L={6}), (TL={7})",
-                        distancefromtop, distancefromtopright, distancefromright, distancefrombottomright,
-                        distancefrombottom, distancefrombottomleft, distancefromleft, distancefromtopleft);
         //Check-for-checks
         //Find our king
         Vector2Int OurKing = new Vector2Int();
@@ -252,37 +237,6 @@ public class FigureMovement
 
 
 
-
-
-        foreach (Vector2Int item in checkingPieces)
-        {
-            Debug.Log("checking piece: " + item);
-        }
-        foreach (Vector2Int item in pinnedPieces)
-        {
-            Debug.Log("pinned piece: " + item);
-        }
-        foreach (Vector2Int item in pinnedCheckingPieces)
-        {
-            Debug.Log("pinned checking piece: " + item);
-        }
-
-        foreach (Vector2Int item in pinnableTiles)
-        {
-            Debug.Log("pinnable tile: " + item);
-        }
-        Debug.Log("checktype: " + checkType.ToString());
-
-        foreach(List<Vector2Int[]> list in pinnedCheckedPair)
-        {
-            foreach(Vector2Int[]array in list)
-            {
-                Debug.LogError("checkpair: " + array[0] + array[1]);
-            }
-        }
-
-
-
         switch (FigureTile.figure)
         {
             case ChessFigure.King:
@@ -316,7 +270,6 @@ public class FigureMovement
                                                 if (GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Rook||
                                                     GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Queen)
                                                 {
-                                                    Debug.Log("first" + dir + x);
                                                     check = true;
                                                     directionsToSkip.Add(allDirectionsInverted[i]);
                                                     break;
@@ -352,7 +305,6 @@ public class FigureMovement
                                                     if (GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Bishop||
                                                         GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Queen)
                                                     {
-                                                        Debug.Log("second");
                                                         check = true;
                                                         directionsToSkip.Add(allDirectionsInverted[i]);
                                                         break;
@@ -385,7 +337,6 @@ public class FigureMovement
                                             {
                                                 if (GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Knight)
                                                 {
-                                                    Debug.Log("third");
                                                     check = true;
                                                     break;
                                                 }
@@ -411,7 +362,6 @@ public class FigureMovement
                                     if (InsideBoard(tileToCheck) && GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Pawn &&
                                         GameManager.Main.Board[tileToCheck.x, tileToCheck.y].ownerID != ID)
                                     {
-                                        Debug.Log("fourth");
                                         check = true;
                                     }
                                     //check right
@@ -419,7 +369,6 @@ public class FigureMovement
                                     if (InsideBoard(tileToCheck) && GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Pawn &&
                                         GameManager.Main.Board[tileToCheck.x, tileToCheck.y].ownerID != ID)
                                     {
-                                        Debug.Log("fifth");
                                         check = true;
                                     }
                                 }
@@ -438,10 +387,6 @@ public class FigureMovement
                                 if (check == false)
                                 {
                                     validpositions.Add(Tile);
-                                }
-                                else
-                                {
-                                    Debug.LogWarning("Tile in check: " + Tile);
                                 }
                             }
                         }
@@ -657,7 +602,6 @@ public class FigureMovement
         if (checkType != CheckType.DoubbleCheck && checkType != CheckType.NoCheck)
         {
             List<Vector2Int> legalMoves = new List<Vector2Int>();
-            Debug.Log("test: " + Position);
             foreach (Vector2Int piece in pinnedPieces)
             {
                 if (piece.GetHashCode() == Position.GetHashCode())
