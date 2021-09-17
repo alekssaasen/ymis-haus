@@ -394,7 +394,7 @@ public class FigureMovement
                                     }
                                 }
                                 //placeholder gamemode statement
-                                if (GameManager.Main.ChessGameSettings.CurrentGameMode == ChessGameModes.ClassicChess)
+                                if (GameManager.Main.ChessGameSettings.ChessGameMode == ChessGameModes.ClassicChess)
                                 {
                                     int invert;
                                     if (ID == 0)
@@ -582,7 +582,7 @@ public class FigureMovement
                 if (checkType != CheckType.DoubbleCheck)
                 {
                     //gamemode placeholder statement
-                    if (GameManager.Main.ChessGameSettings.CurrentGameMode == ChessGameModes.ClassicChess)
+                    if (GameManager.Main.ChessGameSettings.ChessGameMode == ChessGameModes.ClassicChess)
                     {
                         //wheter or not to invert the direction, will always be multiplied by this number but when its 1 no change will occur
                         int invert;

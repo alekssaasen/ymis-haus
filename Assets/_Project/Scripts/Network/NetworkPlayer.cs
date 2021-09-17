@@ -53,7 +53,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     public void MoveFigure(Vector2 OldPosition, Vector2 NewPosition)
     {
         Debug.Log("Moving figure");
-        GameLoop.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
+        GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
     }
 
     [PunRPC]

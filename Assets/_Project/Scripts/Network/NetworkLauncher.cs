@@ -32,7 +32,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     void Awake()
     {
         ConnectToServer();
-        gameModeSettings.CurrentGameMode = ChessGameModes.ChessEmpires;
+        gameModeSettings.ChessGameMode = ChessGameModes.ChessEmpires;
     }
 
 
@@ -188,20 +188,20 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonView.Get(this).RpcSecure("ChangeOnlineGameMode", RpcTarget.OthersBuffered, false, (int)gameModeSettings.CurrentGameMode);
+            PhotonView.Get(this).RpcSecure("ChangeOnlineGameMode", RpcTarget.OthersBuffered, false, (int)gameModeSettings.ChessGameMode);
             PhotonNetwork.LoadLevel(1);
         }
     }
 
     public void ChangeLocalGameMode(int NewGameModeID)
     {
-        gameModeSettings.CurrentGameMode = (ChessGameModes)NewGameModeID;
+        gameModeSettings.ChessGameMode = (ChessGameModes)NewGameModeID;
     }
 
     [PunRPC]
     public void ChangeOnlineGameMode(int NewGameMode)
     {
-        gameModeSettings.CurrentGameMode = (ChessGameModes)NewGameMode;
+        gameModeSettings.ChessGameMode = (ChessGameModes)NewGameMode;
     }
 
     public void LeaveLobby()

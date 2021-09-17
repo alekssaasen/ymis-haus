@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("There can only be one GameManager!");
         }
 
-        if (ChessGameSettings.CurrentGameMode == ChessGameModes.ChessEmpires)
+        if (ChessGameSettings.ChessGameMode == ChessGameModes.ChessEmpires)
         {
             Board = BoardMaster.CreateChessEmpiresBoard();
             smallBoard.SetActive(false);
@@ -86,5 +86,24 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+
+    public void MovePiece(Vector2Int OldPosition, Vector2Int NewPosition)
+    {
+        if (Main.Board[NewPosition.x, NewPosition.y].figureTransform != null)
+        {
+            Destroy(Main.Board[NewPosition.x, NewPosition.y].figureTransform.gameObject);
+            GameLoop.Main.destroyEffect.transform.position = new Vector3(NewPosition.x, 0, NewPosition.y);
+            GameLoop.Main.destroyEffect.SetGradient("Gradient", GameLoop.Main.colors[Main.Board[NewPosition.x, NewPosition.y].ownerID]);
+            GameLoop.Main.destroyEffect.Play();
+        }
+
+        Main.Board[NewPosition.x, NewPosition.y] = Main.Board[OldPosition.x, OldPosition.y];
+        Main.Board[NewPosition.x, NewPosition.y].hasMoved = true;
+        Main.Board[OldPosition.x, OldPosition.y] = new TileInfo(-1, ChessFigure.Empty, null, false);
+
+        UpdateFigures();
     }
 }

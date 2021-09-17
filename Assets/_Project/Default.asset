@@ -12,11 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  CurrentGameMode: 1
-  MaxMovePoints: 5
+  Name: Chess Empires
+  ChessGameMode: 1
+  MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 5
   BishopMoveCost: 2
   KnightMoveCost: 3
   RookMoveCost: 2
   PawnMoveCost: 1
+  QueenSpawnCost: 75
+  BishopSpawnCost: 25
+  KnightSpawnCost: 40
+  RookSpawnCost: 25
+  PawnSpawnCost: 5
+  FarmCreationCost: 10
+  BarracksCreationCost: 25
+  GoldPerTurn: 1
+  StartingGold: 10
+  GoldPerFarm: 3
+  GoldPerGoldMine: 5

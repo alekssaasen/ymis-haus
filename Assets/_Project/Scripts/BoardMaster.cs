@@ -56,6 +56,19 @@ public static class BoardMaster
         newboard[9, 5] = new TileInfo(-1, ChessBuilding.Mine, null);
         newboard[11, 2] = new TileInfo(-1, ChessBuilding.Mine, null);
 
+        // Walls
+        newboard[0, 2].wall = WallType.North;
+        newboard[1, 2].wall = WallType.NorthGate;
+        newboard[2, 2].wall = WallType.NorthEast;
+        newboard[2, 1].wall = WallType.EastGate;
+        newboard[2, 0].wall = WallType.East;
+
+        newboard[13, 11].wall = WallType.South;
+        newboard[12, 11].wall = WallType.SouthGate;
+        newboard[11, 11].wall = WallType.SouthWest;
+        newboard[11, 12].wall = WallType.WestGate;
+        newboard[11, 13].wall = WallType.West;
+
         if (true)
         {
             newboard[2, 12] = new TileInfo(0, ChessFigure.Pawn, null);
@@ -75,6 +88,7 @@ public struct TileInfo
     public int ownerID;
     public ChessFigure figure;
     public ChessBuilding building;
+    public WallType wall;
     public Transform figureTransform;
     public Transform buildingTransform;
     public bool hasMoved;
@@ -84,6 +98,7 @@ public struct TileInfo
         ownerID = NewOwnerID;
         figure = Figure;
         building = ChessBuilding.Empty;
+        wall = WallType.None;
         figureTransform = Object;
         buildingTransform = null;
         hasMoved = false;
@@ -93,6 +108,7 @@ public struct TileInfo
         ownerID = NewOwnerID;
         figure = Figure;
         building = ChessBuilding.Empty;
+        wall = WallType.None;
         figureTransform = Object;
         buildingTransform = null;
         hasMoved = HasMoved;
@@ -102,8 +118,19 @@ public struct TileInfo
         ownerID = NewOwnerID;
         figure = ChessFigure.Empty;
         building = Building;
+        wall = WallType.None;
         figureTransform = null;
         buildingTransform = Object;
+        hasMoved = false;
+    }
+    public TileInfo(WallType Wall)
+    {
+        ownerID = 0;
+        figure = ChessFigure.Empty;
+        building = ChessBuilding.Empty;
+        wall = Wall;
+        figureTransform = null;
+        buildingTransform = null;
         hasMoved = false;
     }
 }
@@ -118,4 +145,10 @@ public enum ChessFigure
 public enum ChessBuilding
 {
     Empty, Mine, Farm, Barracks,
+}
+
+[System.Serializable]
+public enum WallType
+{
+    None, North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest, NorthGate, EastGate, SouthGate, WestGate
 }

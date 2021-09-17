@@ -7,24 +7,21 @@ public class Selector : MonoBehaviour
     private Vector2Int SelectedPosition;
     private Ray ray;
     private RaycastHit hit;
+    public Transform mouseMarker;
 
     void Update()
     {
         // ------------ Shit placeholder code --------------------------------------------------------------
+        mouseMarker.localPosition = new Vector3(0, 0, 1);
         if (Input.GetMouseButtonDown(0))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray.origin, ray.direction, out hit);
-
-            Vector3 hitpoint = hit.point + new Vector3(0.5f, 0, 0.5f);
-
-            Vector2Int pos = new Vector2Int((int)hitpoint.x, (int)hitpoint.z);
-
-            if (pos.x >= 0 && pos.x < GameManager.Main.Board.GetLength(0) && pos.y >= 0 && pos.y < GameManager.Main.Board.GetLength(1))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit))
             {
-                Debug.Log(Vector2Int.RoundToInt(pos));
-                GameLoop.Main.NewPositionSelected(Vector2Int.RoundToInt(pos));
-                SelectedPosition = Vector2Int.RoundToInt(pos);
+                Vector2Int pos = new Vector2Int(Mathf.RoundToInt(hit.point.x), Mathf.RoundToInt(hit.point.z));
+                Debug.Log(pos);
+                GameLoop.Main.NewPositionSelected(pos);
+                SelectedPosition = pos;
             }
             else
             {
@@ -33,6 +30,19 @@ public class Selector : MonoBehaviour
                 SelectedPosition = -Vector2Int.one;
             }
         }
+        else
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray.origin, ray.direction, out hit))
+            {
+                Vector2Int pos = new Vector2Int(Mathf.RoundToInt(hit.point.x), Mathf.RoundToInt(hit.point.z));
+                if (GameLoop.Main.validPositions.Contains(pos))
+                {
+                    mouseMarker.localPosition = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
+                }
+            }
+        }
+        
     }
 
     private void OnDrawGizmos()
