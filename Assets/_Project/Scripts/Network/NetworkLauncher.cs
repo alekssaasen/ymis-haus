@@ -26,9 +26,13 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public TMP_Dropdown gamemodeSelection;
     public Button gamemodeText;
 
+    public TMP_Dropdown gameModeDropdown;
+    public GameSettings gameModeSettings;
+
     void Awake()
     {
         ConnectToServer();
+        gameModeSettings.CurrentGameMode = ChessGameModes.ChessEmpires;
     }
 
 
@@ -184,8 +188,20 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonView.Get(this).RpcSecure("ChangeOnlineGameMode", RpcTarget.OthersBuffered, false, (int)gameModeSettings.CurrentGameMode);
             PhotonNetwork.LoadLevel(1);
         }
+    }
+
+    public void ChangeLocalGameMode(int NewGameModeID)
+    {
+        gameModeSettings.CurrentGameMode = (ChessGameModes)NewGameModeID;
+    }
+
+    [PunRPC]
+    public void ChangeOnlineGameMode(int NewGameMode)
+    {
+        gameModeSettings.CurrentGameMode = (ChessGameModes)NewGameMode;
     }
 
     public void LeaveLobby()

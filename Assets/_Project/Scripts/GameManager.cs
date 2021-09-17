@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public ChessFigureSet chessFigureSet;
     public GameSettings ChessGameSettings;
 
+    [SerializeField] private GameObject smallBoard;
+    [SerializeField] private GameObject bigBoard;
+
     private void Awake()
     {
         // Make GameManager a singleton
@@ -28,8 +31,19 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("There can only be one GameManager!");
         }
 
-        //Board = BoardMaster.CreateClasicChessBoard();
-        Board = BoardMaster.CreateChessEmpiresBoard();
+        if (ChessGameSettings.CurrentGameMode == ChessGameModes.ChessEmpires)
+        {
+            Board = BoardMaster.CreateChessEmpiresBoard();
+            smallBoard.SetActive(false);
+            bigBoard.SetActive(true);
+        }
+        else
+        {
+            Board = BoardMaster.CreateClasicChessBoard();
+            smallBoard.SetActive(true);
+            bigBoard.SetActive(false);
+        }
+
         UpdateFigures();
     }
 

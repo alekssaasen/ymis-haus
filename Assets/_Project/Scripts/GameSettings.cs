@@ -18,6 +18,11 @@ public class GameSettings : ScriptableObject
 
     public int GetMoveCost(ChessFigure Figure)
     {
+        if (CurrentGameMode == ChessGameModes.ClassicChess)
+        {
+            return 5;
+        }
+
         switch (Figure)
         {
             case ChessFigure.Empty:

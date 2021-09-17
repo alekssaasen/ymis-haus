@@ -14,13 +14,27 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         // ------------ Decent placeholder code ------------------------------------------------------------
-        if (GameManager.Main.localPlayerID == 0)
+        if (GameManager.Main.ChessGameSettings.CurrentGameMode == ChessGameModes.ChessEmpires)
         {
-            transform.rotation = Quaternion.Euler(0, 45, 0);
+            if (GameManager.Main.localPlayerID == 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 45, 0);
+            }
+            else if (GameManager.Main.localPlayerID == 1)
+            {
+                transform.rotation = Quaternion.Euler(0, 225, 0);
+            }
         }
-        else if (GameManager.Main.localPlayerID == 1)
+        else
         {
-            transform.rotation = Quaternion.Euler(0, 225, 0);
+            if (GameManager.Main.localPlayerID == 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (GameManager.Main.localPlayerID == 1)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
         }
 
         move = (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")).normalized * Time.deltaTime * movementSpeed;
