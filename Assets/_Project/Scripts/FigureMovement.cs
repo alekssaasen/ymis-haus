@@ -314,6 +314,10 @@ public class FigureMovement
                                                 check = true;
                                                 break;
                                             }
+                                            else
+                                            {
+                                                break;
+                                            }
                                         }
                                         else if (GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure != ChessFigure.Empty &&
                                             GameManager.Main.Board[tileToCheck.x, tileToCheck.y].ownerID == ID)
@@ -343,6 +347,10 @@ public class FigureMovement
                                                 {
                                                     Debug.Log("second");
                                                     check = true;
+                                                    break;
+                                                }
+                                                else
+                                                {
                                                     break;
                                                 }
                                             }
