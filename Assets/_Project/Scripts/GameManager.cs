@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     public int turnPointsLeft = 5;
     public TileInfo[,] Board;
 
-    [SerializeField] private GameLoop mainGameLoop;
-
     public GameObject figurePrefab;
     public ChessFigureSet chessFigureSet;
     public GameSettings ChessGameSettings;
@@ -23,7 +21,6 @@ public class GameManager : MonoBehaviour
         if (Main == null)
         {
             Main = this;
-            GameLoop.Main = mainGameLoop;
         }
         else
         {
