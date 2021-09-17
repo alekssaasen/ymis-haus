@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.VFX;
 
 public class GameLoop : MonoBehaviour
 {
@@ -12,9 +13,25 @@ public class GameLoop : MonoBehaviour
     public TMP_Text turnCountText;
     public Tilemap tilemap;
     public Tile[] tiles;
+    public VisualEffect destroyEffect;
+    public Gradient[] colors;
 
     private List<Vector2Int> validPositions = new List<Vector2Int>();
     private Vector2Int selectedPosition;
+
+    private void Awake()
+    {
+        // Make GameLoop a singleton
+        if (Main == null)
+        {
+            Main = this;
+        }
+        else
+        {
+            Destroy(this);
+            Debug.LogWarning("There can only be one GameLoop!");
+        }
+    }
 
     public void  NewPositionSelected(Vector2Int Position)
     {
@@ -80,6 +97,9 @@ public class GameLoop : MonoBehaviour
         if (GameManager.Main.Board[NewPosition.x, NewPosition.y].figureTransform != null)
         {
             Destroy(GameManager.Main.Board[NewPosition.x, NewPosition.y].figureTransform.gameObject);
+            destroyEffect.transform.position = new Vector3(NewPosition.x, 0, NewPosition.y);
+            destroyEffect.SetGradient("Gradient", colors[GameManager.Main.Board[NewPosition.x, NewPosition.y].ownerID]);
+            destroyEffect.Play();
         }
 
         GameManager.Main.Board[NewPosition.x, NewPosition.y] = GameManager.Main.Board[OldPosition.x, OldPosition.y];

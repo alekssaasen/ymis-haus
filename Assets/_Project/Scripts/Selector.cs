@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Selector : MonoBehaviour
 {
-    private Vector2Int SelectedPosition;    private Ray ray;
+    private Vector2Int SelectedPosition;
+    private Ray ray;
     private RaycastHit hit;
 
     void Update()

@@ -56,6 +56,15 @@ public static class BoardMaster
         newboard[9, 5] = new TileInfo(-1, ChessBuilding.Mine, null);
         newboard[11, 2] = new TileInfo(-1, ChessBuilding.Mine, null);
 
+        if (true)
+        {
+            newboard[2, 12] = new TileInfo(0, ChessFigure.Pawn, null);
+            newboard[4, 9] = new TileInfo(1, ChessFigure.Pawn, null);
+
+            newboard[9, 6] = new TileInfo(0, ChessFigure.Pawn, null);
+            newboard[11, 3] = new TileInfo(1, ChessFigure.Pawn, null);
+        }
+
         return newboard;
     }
 }
