@@ -1100,7 +1100,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'TP: 5'
+  m_text: 'TP: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1967,10 +1967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localPlayerID: 0
   turnID: 0
-  turnPointsLeft: 5
+  turnPointsLeft: 0
   figurePrefab: {fileID: 7237114818983637662, guid: 5bd2ad083e0497548b1ef09339722a91, type: 3}
-  chessFigureSet: {fileID: 11400000, guid: da2b012475da9a64a82000f35a46ff2b, type: 2}
-  ChessGameSettings: {fileID: 11400000, guid: bf32201a386b4774288b02a9ee275b9a, type: 2}
   smallBoard: {fileID: 1299058345}
   bigBoard: {fileID: 2293488642375926781}
 --- !u!114 &1335291219

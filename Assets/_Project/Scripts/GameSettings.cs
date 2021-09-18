@@ -6,10 +6,19 @@ using UnityEngine;
 public class GameSettings : ScriptableObject
 {
     [Header("Gamemode Settings")]
-    public ChessGameModes ChessGameMode = ChessGameModes.ChessEmpires;
+    public string GamemodeName = "ChessEmpires";
+    public int MinPlayerCount = 2;
+    public int MaxPlayerCount = 2;
+    public Vector2Int MapSize = new Vector2Int(14, 14);
+    public bool CanBuildBuildings = true;
+    public bool CanSpawnFigures = true;
+    public bool ClassicCheckmate = false;
+    public bool ClassicMovement = false;
+    public float[] CameraOffsets = { 45, 135 };
 
     [Header("Movement costs")]
     public int MovePointsPerTurn = 5;
+    [Space(3)]
     public int KingMoveCost = 5;
     public int QueenMoveCost = 5;
     public int BishopMoveCost = 2;
@@ -36,11 +45,6 @@ public class GameSettings : ScriptableObject
 
     public int GetMoveCost(ChessFigure Figure)
     {
-        if (ChessGameMode == ChessGameModes.ClassicChess)
-        {
-            return 5;
-        }
-
         switch (Figure)
         {
             case ChessFigure.Empty:
@@ -66,9 +70,4 @@ public class GameSettings : ScriptableObject
         }
         return -1;
     }
-}
-
-public enum ChessGameModes
-{
-    ClassicChess, ChessEmpires
 }

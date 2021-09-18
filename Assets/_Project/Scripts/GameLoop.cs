@@ -57,7 +57,7 @@ public class GameLoop : MonoBehaviour
         {
             Select(NewSelectedPosition);
         }
-        else if (validPositions.Contains(NewSelectedPosition) && GameManager.Main.turnPointsLeft - GameManager.Main.ChessGameSettings.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure) >= 0)
+        else if (validPositions.Contains(NewSelectedPosition) && GameManager.Main.turnPointsLeft - GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure) >= 0)
         {
             Move(NewSelectedPosition);
         }
@@ -118,7 +118,7 @@ public class GameLoop : MonoBehaviour
     private void Move(Vector2Int NewSelectedPosition)
     {
         PhotonView.Get(this).RpcSecure("MoveFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)selectedPosition, (Vector2)NewSelectedPosition);
-        GameManager.Main.turnPointsLeft -= GameManager.Main.ChessGameSettings.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure);
+        GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure);
         if (GameManager.Main.turnPointsLeft <= 0)
         {
             FinishLocalTurn();
@@ -131,7 +131,7 @@ public class GameLoop : MonoBehaviour
     {
         if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
         {
-            GameManager.Main.turnPointsLeft = GameManager.Main.ChessGameSettings.MovePointsPerTurn;
+            GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
             turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
         }

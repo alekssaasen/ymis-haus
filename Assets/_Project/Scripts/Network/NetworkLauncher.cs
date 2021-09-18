@@ -9,10 +9,6 @@ using Photon.Pun;
 
 public class NetworkLauncher : MonoBehaviourPunCallbacks
 {
-    private string gameVersion = "Game1";
-    public static readonly RoomOptions PUBLIC_ROOM_OPTIONS = new RoomOptions() { MaxPlayers = 2, IsVisible = true};
-    public static readonly RoomOptions PRIVATE_ROOM_OPTIONS = new RoomOptions() { MaxPlayers = 2, IsVisible = false };
-
     public GameObject menuBackground;
 
     public GameObject mainButtons;
@@ -27,12 +23,24 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public Button gamemodeText;
 
     public TMP_Dropdown gameModeDropdown;
+    public TMP_Text gameModeText;
     public GameSettings gameModeSettings;
+
+    private GameSettings[] AllGameModes;
 
     void Awake()
     {
         ConnectToServer();
-        gameModeSettings.ChessGameMode = ChessGameModes.ChessEmpires;
+        GameManager.ChessFigureSetInUse = Resources.LoadAll<ChessFigureSet>("FigureSets")[0];
+        AllGameModes = Resources.LoadAll<GameSettings>("GameModes");
+
+        List<TMP_Dropdown.OptionData> dropdowndata = new List<TMP_Dropdown.OptionData>();
+        for (int i = 0; i < AllGameModes.Length; i++)
+        {
+            dropdowndata.Add(new TMP_Dropdown.OptionData(AllGameModes[i].GamemodeName));
+        }
+
+        gameModeDropdown.AddOptions(dropdowndata);
     }
 
 
@@ -45,51 +53,10 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         {
             // #Critical, we must first and foremost connect to Photon Online Server.
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.GameVersion = Application.version;
         }
     }
-
-
-
-    /*public void JoinRandomRoom()
-    {
-        if (PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Join random room");
-            PhotonNetwork.JoinRandomRoom();
-        }
-        else
-        {
-            Debug.Log("Not connected to server");
-        }
-    }
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.Log("Room not found, creating a new one");
-        PhotonNetwork.CreateRoom(null, PUBLIC_ROOM_OPTIONS, null);
-    }
-
-    public void JoinCustomRoom(TMP_InputField RoomName)
-    {
-        roomName = RoomName.text.Replace(" ", "_");
-        if (PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Join custom room: " + roomName);
-            PhotonNetwork.JoinRoom(roomName);
-        }
-        else
-        {
-            Debug.Log("Not connected to server");
-        }
-    }
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log("Room " + roomName + " not found, creating a new one");
-        PhotonNetwork.CreateRoom(roomName, PRIVATE_ROOM_OPTIONS, null);
-    }*/
-
-
-
+    
     public override void OnConnectedToMaster()
     {
         Debug.Log("Server connected");
@@ -100,7 +67,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("No room find, creating a new one");
-        PhotonNetwork.CreateRoom(null, PUBLIC_ROOM_OPTIONS);
+        PhotonNetwork.CreateRoom(null);
     }
 
     public override void OnJoinedRoom()
@@ -110,11 +77,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         menuBackground.SetActive(false);
         lobbyJoin.SetActive(true);
         UpdatePlayerList();
-
-        if (true)
-        {
-            gamemodeSelection.gameObject.SetActive(true);
-        }
     }
     public override void OnLeftRoom()
     {
@@ -179,29 +141,45 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
             }
         }
         playerList.text = players;
-        launchButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         gamemodeSelection.gameObject.SetActive(PhotonNetwork.IsMasterClient);
         gamemodeText.gameObject.SetActive(!PhotonNetwork.IsMasterClient);
+        if (PhotonNetwork.IsMasterClient && AllGameModes[gamemodeSelection.value].MinPlayerCount <= PhotonNetwork.PlayerList.Length && PhotonNetwork.PlayerList.Length <= AllGameModes[gamemodeSelection.value].MaxPlayerCount)
+        {
+            launchButton.gameObject.SetActive(PhotonNetwork.IsMasterClient);
+        }
+        else
+        {
+            launchButton.gameObject.SetActive(false);
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonView.Get(this).RpcSecure("UpdateGameMode", RpcTarget.AllBufferedViaServer, false, gameModeDropdown.value);
+        }
     }
 
     public void LaunchGame()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonView.Get(this).RpcSecure("ChangeOnlineGameMode", RpcTarget.OthersBuffered, false, (int)gameModeSettings.ChessGameMode);
             PhotonNetwork.LoadLevel(1);
         }
     }
 
-    public void ChangeLocalGameMode(int NewGameModeID)
+    public void ChangeGameMode(int NewGameModeID)
     {
-        gameModeSettings.ChessGameMode = (ChessGameModes)NewGameModeID;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("Change gamemode to: " + NewGameModeID);
+            PhotonView.Get(this).RpcSecure("UpdateGameMode", RpcTarget.AllBufferedViaServer, false, NewGameModeID);
+        }
     }
 
     [PunRPC]
-    public void ChangeOnlineGameMode(int NewGameMode)
+    public void UpdateGameMode(int NewGameModeID)
     {
-        gameModeSettings.ChessGameMode = (ChessGameModes)NewGameMode;
+        GameManager.GameSettingsInUse = AllGameModes[NewGameModeID];
+        gameModeText.text = AllGameModes[NewGameModeID].GamemodeName;
+        UpdatePlayerList();
     }
 
     public void LeaveLobby()

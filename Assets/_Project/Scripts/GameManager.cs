@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public int localPlayerID = 0;
     [HideInInspector] public int turnID = 0;
-    public int turnPointsLeft = 5;
+    public int turnPointsLeft = 0;
     public TileInfo[,] Board;
 
     public GameObject figurePrefab;
-    public ChessFigureSet chessFigureSet;
-    public GameSettings ChessGameSettings;
+    public static ChessFigureSet ChessFigureSetInUse;
+    public static GameSettings GameSettingsInUse;
 
     [SerializeField] private GameObject smallBoard;
     [SerializeField] private GameObject bigBoard;
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("There can only be one GameManager!");
         }
 
-        if (ChessGameSettings.ChessGameMode == ChessGameModes.ChessEmpires)
+        if (GameSettingsInUse.MapSize == new Vector2Int(14, 14))
         {
             Board = BoardMaster.CreateChessEmpiresBoard();
             smallBoard.SetActive(false);
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateFigures();
+        turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,8 +64,8 @@ public class GameManager : MonoBehaviour
                     obj.name = Board[x, y].figure.ToString() + " (" + Board[x, y].ownerID + ")";
                     obj.transform.parent = transform;
 
-                    obj.GetComponent<MeshFilter>().mesh = chessFigureSet.GetMesh(Board[x, y].figure);
-                    obj.GetComponent<MeshRenderer>().material = chessFigureSet.MaterialsByID[Board[x, y].ownerID + 1];
+                    obj.GetComponent<MeshFilter>().mesh = ChessFigureSetInUse.GetMesh(Board[x, y].figure);
+                    obj.GetComponent<MeshRenderer>().material = ChessFigureSetInUse.MaterialsByID[Board[x, y].ownerID + 1];
 
                     Board[x, y].transform = obj.transform;
                 }

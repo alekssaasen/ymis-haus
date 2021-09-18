@@ -29,29 +29,7 @@ public class CameraController : MonoBehaviour
             offset -= 40;
         }
 
-        // ------------ Decent placeholder code ------------------------------------------------------------
-        if (GameManager.Main.ChessGameSettings.ChessGameMode == ChessGameModes.ChessEmpires)
-        {
-            if (GameManager.Main.localPlayerID == 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 45 + offset, 0);
-            }
-            else if (GameManager.Main.localPlayerID == 1)
-            {
-                transform.rotation = Quaternion.Euler(0, 225 + offset, 0);
-            }
-        }
-        else
-        {
-            if (GameManager.Main.localPlayerID == 0)
-            {
-                transform.rotation = Quaternion.Euler(0, offset, 0);
-            }
-            else if (GameManager.Main.localPlayerID == 1)
-            {
-                transform.rotation = Quaternion.Euler(0, 180 + offset, 0);
-            }
-        }
+        transform.rotation = Quaternion.Euler(0, GameManager.GameSettingsInUse.CameraOffsets[GameManager.Main.localPlayerID] + offset, 0);
 
         move = (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")).normalized * Time.deltaTime * movementSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
