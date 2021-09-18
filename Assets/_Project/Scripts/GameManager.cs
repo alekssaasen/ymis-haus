@@ -49,40 +49,29 @@ public class GameManager : MonoBehaviour
 
     // -----------------------------------------------------------------------------------------------------
     
-    public static void UpdateFigures()
+    public void UpdateFigures()
     {
         // For each tile on the board
-        for (int x = 0; x < Main.Board.GetLength(0); x++)
+        for (int x = 0; x < Board.GetLength(0); x++)
         {
-            for (int y = 0; y < Main.Board.GetLength(1); y++)
+            for (int y = 0; y < Board.GetLength(1); y++)
             {
                 // Check if Chess figure is created / referenced on the board and if not create it
-                if (Main.Board[x, y].figureTransform == null && Main.Board[x, y].figure != ChessFigure.Empty)
+                if (Board[x, y].transform == null && Board[x, y].figure != ChessFigure.Empty)
                 {
-                    GameObject obj = Instantiate(Main.figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, Main.Board[x, y].ownerID * 180, 0));
-                    obj.name = Main.Board[x, y].figure.ToString() + " (" + Main.Board[x, y].ownerID + ")";
-                    obj.transform.parent = Main.transform;
+                    GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, Board[x, y].ownerID * 180, 0));
+                    obj.name = Board[x, y].figure.ToString() + " (" + Board[x, y].ownerID + ")";
+                    obj.transform.parent = transform;
 
-                    obj.GetComponent<MeshFilter>().mesh = Main.chessFigureSet.PlayerMeshes[(int)Main.Board[x, y].figure - 1];
-                    obj.GetComponent<MeshRenderer>().material = Main.chessFigureSet.PlayerMaterials[Main.Board[x, y].ownerID];
+                    obj.GetComponent<MeshFilter>().mesh = chessFigureSet.GetMesh(Board[x, y].figure);
+                    obj.GetComponent<MeshRenderer>().material = chessFigureSet.MaterialsByID[Board[x, y].ownerID + 1];
 
-                    Main.Board[x, y].figureTransform = obj.transform;
-                }
-                else if (Main.Board[x, y].buildingTransform == null && Main.Board[x, y].building != ChessBuilding.Empty)
-                {
-                    GameObject obj = Instantiate(Main.figurePrefab, new Vector3(x, 0, y), Quaternion.identity);
-                    obj.name = Main.Board[x, y].building.ToString() + " (" + Main.Board[x, y].ownerID + ")";
-                    obj.transform.parent = Main.transform;
-
-                    obj.GetComponent<MeshFilter>().mesh = Main.chessFigureSet.BuildingMeshes[(int)Main.Board[x, y].building - 1];
-                    obj.GetComponent<MeshRenderer>().material = Main.chessFigureSet.BuildingMaterials[Main.Board[x, y].ownerID + 1];
-
-                    Main.Board[x, y].buildingTransform = obj.transform;
+                    Board[x, y].transform = obj.transform;
                 }
                 // If Chess figure is created update the position
-                else if (Main.Board[x, y].figure != ChessFigure.Empty)
+                else if (Board[x, y].figure != ChessFigure.Empty)
                 {
-                    Main.Board[x, y].figureTransform.position = new Vector3(x, 0, y);
+                    Board[x, y].transform.position = new Vector3(x, 0, y);
                 }
             }
         }
@@ -92,17 +81,25 @@ public class GameManager : MonoBehaviour
 
     public void MovePiece(Vector2Int OldPosition, Vector2Int NewPosition)
     {
-        if (Main.Board[NewPosition.x, NewPosition.y].figureTransform != null)
+        if (Board[NewPosition.x, NewPosition.y].transform != null)
         {
-            Destroy(Main.Board[NewPosition.x, NewPosition.y].figureTransform.gameObject);
+            Destroy(Board[NewPosition.x, NewPosition.y].transform.gameObject);
             GameLoop.Main.destroyEffect.transform.position = new Vector3(NewPosition.x, 0, NewPosition.y);
-            GameLoop.Main.destroyEffect.SetGradient("Gradient", GameLoop.Main.colors[Main.Board[NewPosition.x, NewPosition.y].ownerID]);
+            GameLoop.Main.destroyEffect.SetGradient("Gradient", GameLoop.Main.colors[Board[NewPosition.x, NewPosition.y].ownerID]);
             GameLoop.Main.destroyEffect.Play();
         }
 
-        Main.Board[NewPosition.x, NewPosition.y] = Main.Board[OldPosition.x, OldPosition.y];
-        Main.Board[NewPosition.x, NewPosition.y].hasMoved = true;
-        Main.Board[OldPosition.x, OldPosition.y] = new TileInfo(-1, ChessFigure.Empty, null, false);
+        Board[NewPosition.x, NewPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].ownerID;
+        Board[OldPosition.x, OldPosition.y].ownerID = 0;
+
+        Board[NewPosition.x, NewPosition.y].figure = Board[OldPosition.x, OldPosition.y].figure;
+        Board[OldPosition.x, OldPosition.y].figure = ChessFigure.Empty;
+
+        Board[NewPosition.x, NewPosition.y].transform = Board[OldPosition.x, OldPosition.y].transform;
+        Board[OldPosition.x, OldPosition.y].transform = null;
+
+        Board[NewPosition.x, NewPosition.y].hasMoved = true;
+        Board[OldPosition.x, OldPosition.y].hasMoved = false;
 
         UpdateFigures();
     }

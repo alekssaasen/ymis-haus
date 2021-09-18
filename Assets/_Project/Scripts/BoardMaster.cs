@@ -47,14 +47,14 @@ public static class BoardMaster
         newboard[1, 1] = new TileInfo(0, ChessFigure.King, null);
         newboard[12, 12] = new TileInfo(1, ChessFigure.King, null);
 
-        newboard[1, 2] = new TileInfo(0, ChessFigure.Pawn, null, false);
-        newboard[12, 11] = new TileInfo(1, ChessFigure.Pawn, null, false);
+        newboard[1, 2] = new TileInfo(0, ChessFigure.Pawn, null);
+        newboard[12, 11] = new TileInfo(1, ChessFigure.Pawn, null);
 
-        newboard[2, 11] = new TileInfo(-1, ChessBuilding.Mine, null);
-        newboard[4, 8] = new TileInfo(-1, ChessBuilding.Mine, null);
+        newboard[2, 11] = new TileInfo(-1, ChessFigure.Mine, null);
+        newboard[4, 8] = new TileInfo(-1, ChessFigure.Mine, null);
 
-        newboard[9, 5] = new TileInfo(-1, ChessBuilding.Mine, null);
-        newboard[11, 2] = new TileInfo(-1, ChessBuilding.Mine, null);
+        newboard[9, 5] = new TileInfo(-1, ChessFigure.Mine, null);
+        newboard[11, 2] = new TileInfo(-1, ChessFigure.Mine, null);
 
         // Walls
         newboard[0, 2].wall = WallType.North;
@@ -87,50 +87,24 @@ public struct TileInfo
 {
     public int ownerID;
     public ChessFigure figure;
-    public ChessBuilding building;
     public WallType wall;
-    public Transform figureTransform;
-    public Transform buildingTransform;
+    public Transform transform;
     public bool hasMoved;
 
     public TileInfo(int NewOwnerID, ChessFigure Figure, Transform Object)
     {
         ownerID = NewOwnerID;
         figure = Figure;
-        building = ChessBuilding.Empty;
         wall = WallType.None;
-        figureTransform = Object;
-        buildingTransform = null;
-        hasMoved = false;
-    }
-    public TileInfo(int NewOwnerID, ChessFigure Figure, Transform Object, bool HasMoved)
-    {
-        ownerID = NewOwnerID;
-        figure = Figure;
-        building = ChessBuilding.Empty;
-        wall = WallType.None;
-        figureTransform = Object;
-        buildingTransform = null;
-        hasMoved = HasMoved;
-    }
-    public TileInfo(int NewOwnerID, ChessBuilding Building, Transform Object)
-    {
-        ownerID = NewOwnerID;
-        figure = ChessFigure.Empty;
-        building = Building;
-        wall = WallType.None;
-        figureTransform = null;
-        buildingTransform = Object;
+        transform = Object;
         hasMoved = false;
     }
     public TileInfo(WallType Wall)
     {
         ownerID = 0;
         figure = ChessFigure.Empty;
-        building = ChessBuilding.Empty;
         wall = Wall;
-        figureTransform = null;
-        buildingTransform = null;
+        transform = null;
         hasMoved = false;
     }
 }
@@ -138,13 +112,7 @@ public struct TileInfo
 [System.Serializable]
 public enum ChessFigure
 {
-    Empty, King, Queen, Bishop, Knight, Rook, Pawn,
-}
-
-[System.Serializable]
-public enum ChessBuilding
-{
-    Empty, Mine, Farm, Barracks,
+    Empty, King, Queen, Bishop, Knight, Rook, Pawn, Farm, Mine, Barracks,
 }
 
 [System.Serializable]

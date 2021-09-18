@@ -54,16 +54,21 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     {
         Debug.Log("Moving figure");
         GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
+        GameLoop.Main.Deselect();
     }
 
     [PunRPC]
     public void FinishTurn()
     {
-        Debug.Log("Ending turn");
         GameManager.Main.turnID += 1;
         if (GameManager.Main.turnID == PhotonNetwork.PlayerList.Length)
         {
             GameManager.Main.turnID = 0;
+            Debug.Log("Ending turn with a player loop");
+        }
+        else
+        {
+            Debug.Log("Ending turn");
         }
     }
 

@@ -67,7 +67,7 @@ public class GameLoop : MonoBehaviour
         }
     }
 
-    private void Deselect()
+    public void Deselect()
     {
         selectedPosition = -Vector2Int.one;
         validPositions = new List<Vector2Int>();
