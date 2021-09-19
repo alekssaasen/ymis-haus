@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FigureMovement
+public static class FigureMovement
 {
     private static readonly Vector2Int[] allDirections = new Vector2Int[8]
     {
@@ -236,7 +236,7 @@ public class FigureMovement
         }
 
 
-
+        
         switch (FigureTile.figure)
         {
             case ChessFigure.King:

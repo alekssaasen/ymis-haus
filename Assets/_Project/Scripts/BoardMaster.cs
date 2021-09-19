@@ -50,11 +50,20 @@ public static class BoardMaster
         newboard[1, 2] = new TileInfo(0, ChessFigure.Pawn, null);
         newboard[12, 11] = new TileInfo(1, ChessFigure.Pawn, null);
 
-        newboard[2, 11] = new TileInfo(-1, ChessFigure.Mine, null);
-        newboard[4, 8] = new TileInfo(-1, ChessFigure.Mine, null);
+        newboard[2, 11] = new TileInfo(-1, ChessBuiding.Mine, null);
+        newboard[4, 8] = new TileInfo(-1, ChessBuiding.Mine, null);
 
-        newboard[9, 5] = new TileInfo(-1, ChessFigure.Mine, null);
-        newboard[11, 2] = new TileInfo(-1, ChessFigure.Mine, null);
+        newboard[9, 5] = new TileInfo(-1, ChessBuiding.Mine, null);
+        newboard[11, 2] = new TileInfo(-1, ChessBuiding.Mine, null);
+
+        if (true)
+        {
+            newboard[2, 12] = new TileInfo(0, ChessFigure.Pawn, null);
+            newboard[4, 9] = new TileInfo(1, ChessFigure.Pawn, null);
+
+            newboard[9, 6] = new TileInfo(0, ChessFigure.Pawn, null);
+            newboard[11, 3] = new TileInfo(1, ChessFigure.Pawn, null);
+        }
 
         // Walls
         newboard[0, 2].wall = WallType.North;
@@ -69,14 +78,16 @@ public static class BoardMaster
         newboard[11, 12].wall = WallType.WestGate;
         newboard[11, 13].wall = WallType.West;
 
-        if (true)
-        {
-            newboard[2, 12] = new TileInfo(0, ChessFigure.Pawn, null);
-            newboard[4, 9] = new TileInfo(1, ChessFigure.Pawn, null);
+        // Inside walls
+        newboard[0, 1].wall = WallType.Inside;
+        newboard[1, 1].wall = WallType.Inside;
+        newboard[1, 0].wall = WallType.Inside;
+        newboard[0, 0].wall = WallType.Inside;
 
-            newboard[9, 6] = new TileInfo(0, ChessFigure.Pawn, null);
-            newboard[11, 3] = new TileInfo(1, ChessFigure.Pawn, null);
-        }
+        newboard[13, 12].wall = WallType.Inside;
+        newboard[12, 12].wall = WallType.Inside;
+        newboard[12, 13].wall = WallType.Inside;
+        newboard[13, 13].wall = WallType.Inside;
 
         return newboard;
     }
@@ -87,24 +98,40 @@ public struct TileInfo
 {
     public int ownerID;
     public ChessFigure figure;
+    public ChessBuiding building;
     public WallType wall;
-    public Transform transform;
+    public Transform figureTransform;
+    public Transform buildingTransform;
     public bool hasMoved;
 
     public TileInfo(int NewOwnerID, ChessFigure Figure, Transform Object)
     {
         ownerID = NewOwnerID;
         figure = Figure;
+        building = ChessBuiding.Empty;
         wall = WallType.None;
-        transform = Object;
+        figureTransform = Object;
+        buildingTransform = null;
+        hasMoved = false;
+    }
+    public TileInfo(int NewOwnerID, ChessBuiding Building, Transform Object)
+    {
+        ownerID = NewOwnerID;
+        figure = ChessFigure.Empty;
+        building = Building;
+        wall = WallType.None;
+        figureTransform = null;
+        buildingTransform = Object;
         hasMoved = false;
     }
     public TileInfo(WallType Wall)
     {
         ownerID = 0;
         figure = ChessFigure.Empty;
+        building = ChessBuiding.Empty;
         wall = Wall;
-        transform = null;
+        figureTransform = null;
+        buildingTransform = null;
         hasMoved = false;
     }
 }
@@ -112,11 +139,17 @@ public struct TileInfo
 [System.Serializable]
 public enum ChessFigure
 {
-    Empty, King, Queen, Bishop, Knight, Rook, Pawn, Farm, Mine, Barracks,
+    Empty, King, Queen, Bishop, Knight, Rook, Pawn,
+}
+
+[System.Serializable]
+public enum ChessBuiding
+{
+    Empty, Farm, Mine, Barracks,
 }
 
 [System.Serializable]
 public enum WallType
 {
-    None, North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest, NorthGate, EastGate, SouthGate, WestGate
+    None, North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest, NorthGate, EastGate, SouthGate, WestGate, Inside
 }

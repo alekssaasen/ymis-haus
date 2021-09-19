@@ -58,6 +58,14 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    public void PlaceBuilding(Vector2 NewPosition, ChessBuiding Building)
+    {
+        Debug.Log("Moving figure");
+        GameManager.Main.BuildBuilding(Vector2Int.RoundToInt(NewPosition), Building);
+        GameLoop.Main.Deselect();
+    }
+
+    [PunRPC]
     public void FinishTurn()
     {
         GameManager.Main.turnID += 1;

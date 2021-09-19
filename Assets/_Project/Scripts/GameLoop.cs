@@ -11,12 +11,15 @@ public class GameLoop : MonoBehaviour
     public static GameLoop Main;
 
     public TMP_Text turnCountText;
+    public TMP_Text goldCountText;
     public Tilemap tilemap;
     public Tile[] tiles;
     public VisualEffect destroyEffect;
     public Gradient[] colors;
 
+
     [HideInInspector] public List<Vector2Int> validPositions = new List<Vector2Int>();
+    [HideInInspector] public List<Vector2Int> validFoundations = new List<Vector2Int>();
     [HideInInspector] public List<Vector2Int> moveableFigures = new List<Vector2Int>();
     [HideInInspector] public Vector2Int selectedPosition;
 
@@ -45,6 +48,8 @@ public class GameLoop : MonoBehaviour
         {
             tilemap.gameObject.SetActive(false);
         }
+        goldCountText.text = "Gold: " + EconomySystem.Money;
+        turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
     }
 
     public void NewPositionSelected(Vector2Int NewSelectedPosition)
@@ -61,6 +66,10 @@ public class GameLoop : MonoBehaviour
         {
             Move(NewSelectedPosition);
         }
+        else if (validFoundations.Contains(NewSelectedPosition) && validPositions.Count == 0)
+        {
+            Build(NewSelectedPosition);
+        }
         else
         {
             Deselect();
@@ -71,6 +80,7 @@ public class GameLoop : MonoBehaviour
     {
         selectedPosition = -Vector2Int.one;
         validPositions = new List<Vector2Int>();
+        validFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID);
         moveableFigures = new List<Vector2Int>();
         tilemap.ClearAllTiles();
 
@@ -87,6 +97,10 @@ public class GameLoop : MonoBehaviour
                         moveableFigures.Add(new Vector2Int(x, y));
                     }
                 }
+                if (validFoundations.Contains(new Vector2Int(x, y)))
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tiles[3]);
+                }
             }
         }
     }
@@ -101,7 +115,7 @@ public class GameLoop : MonoBehaviour
             tilemap.SetTile((Vector3Int)NewSelectedPosition, tiles[0]);
             for (int i = 0; i < validPositions.Count; i++)
             {
-                if (GameManager.Main.Board[validPositions[i].x, validPositions[i].y].figure != ChessFigure.Empty)
+                if (GameManager.Main.Board[validPositions[i].x, validPositions[i].y].figure != ChessFigure.Empty || GameManager.Main.Board[validPositions[i].x, validPositions[i].y].building != ChessBuiding.Empty)
                 {
                     tilemap.SetTile((Vector3Int)validPositions[i], tiles[4]);
                 }
@@ -123,7 +137,16 @@ public class GameLoop : MonoBehaviour
         {
             FinishLocalTurn();
         }
-        turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
+        Deselect();
+    }
+
+    private void Build(Vector2Int NewSelectedPosition)
+    {
+        if (EconomySystem.CheckBuildingPrice(ChessBuiding.Farm, out int price))
+        {
+            EconomySystem.Money -= price;
+            PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, ChessBuiding.Farm);
+        }
         Deselect();
     }
 
@@ -131,8 +154,8 @@ public class GameLoop : MonoBehaviour
     {
         if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
         {
+            EconomySystem.CalculateMoneyForTurn();
             GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
-            turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
         }
     }

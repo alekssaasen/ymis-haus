@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
         UpdateFigures();
         turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
+        EconomySystem.Initialize();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,22 +58,39 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < Board.GetLength(1); y++)
             {
-                // Check if Chess figure is created / referenced on the board and if not create it
-                if (Board[x, y].transform == null && Board[x, y].figure != ChessFigure.Empty)
+                if (Board[x, y].figureTransform == null && Board[x, y].figure != ChessFigure.Empty && Board[x, y].building == ChessBuiding.Empty)
                 {
+                    // Create figure
                     GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, Board[x, y].ownerID * 180, 0));
                     obj.name = Board[x, y].figure.ToString() + " (" + Board[x, y].ownerID + ")";
                     obj.transform.parent = transform;
 
-                    obj.GetComponent<MeshFilter>().mesh = ChessFigureSetInUse.GetMesh(Board[x, y].figure);
+                    obj.GetComponent<MeshFilter>().mesh = ChessFigureSetInUse.GetMesh(Board[x, y].figure, Board[x, y].building);
                     obj.GetComponent<MeshRenderer>().material = ChessFigureSetInUse.MaterialsByID[Board[x, y].ownerID + 1];
 
-                    Board[x, y].transform = obj.transform;
+                    Board[x, y].figureTransform = obj.transform;
                 }
-                // If Chess figure is created update the position
-                else if (Board[x, y].figure != ChessFigure.Empty)
+                else if (Board[x, y].figureTransform != null && Board[x, y].figure != ChessFigure.Empty && Board[x, y].building == ChessBuiding.Empty)
                 {
-                    Board[x, y].transform.position = new Vector3(x, 0, y);
+                    // Update figure
+                    Board[x, y].figureTransform.position = new Vector3(x, 0, y);
+                }
+
+                else if (Board[x, y].buildingTransform == null && Board[x, y].building != ChessBuiding.Empty && Board[x, y].figure == ChessFigure.Empty)
+                {
+                    // Create building
+                    GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.identity);
+                    obj.name = Board[x, y].building.ToString() + " (" + Board[x, y].ownerID + ")";
+                    obj.transform.parent = transform;
+
+                    obj.GetComponent<MeshFilter>().mesh = ChessFigureSetInUse.GetMesh(Board[x, y].figure, Board[x, y].building);
+                    obj.GetComponent<MeshRenderer>().material = ChessFigureSetInUse.MaterialsByID[Board[x, y].ownerID + 1];
+
+                    Board[x, y].buildingTransform = obj.transform;
+                }
+                else if (Board[x, y].buildingTransform != null && Board[x, y].building != ChessBuiding.Empty && Board[x, y].figure == ChessFigure.Empty)
+                {
+                    // Update building
                 }
             }
         }
@@ -82,9 +100,9 @@ public class GameManager : MonoBehaviour
 
     public void MovePiece(Vector2Int OldPosition, Vector2Int NewPosition)
     {
-        if (Board[NewPosition.x, NewPosition.y].transform != null)
+        if (Board[NewPosition.x, NewPosition.y].figureTransform != null)
         {
-            Destroy(Board[NewPosition.x, NewPosition.y].transform.gameObject);
+            Destroy(Board[NewPosition.x, NewPosition.y].figureTransform.gameObject);
             GameLoop.Main.destroyEffect.transform.position = new Vector3(NewPosition.x, 0, NewPosition.y);
             GameLoop.Main.destroyEffect.SetGradient("Gradient", GameLoop.Main.colors[Board[NewPosition.x, NewPosition.y].ownerID]);
             GameLoop.Main.destroyEffect.Play();
@@ -96,11 +114,18 @@ public class GameManager : MonoBehaviour
         Board[NewPosition.x, NewPosition.y].figure = Board[OldPosition.x, OldPosition.y].figure;
         Board[OldPosition.x, OldPosition.y].figure = ChessFigure.Empty;
 
-        Board[NewPosition.x, NewPosition.y].transform = Board[OldPosition.x, OldPosition.y].transform;
-        Board[OldPosition.x, OldPosition.y].transform = null;
+        Board[NewPosition.x, NewPosition.y].figureTransform = Board[OldPosition.x, OldPosition.y].figureTransform;
+        Board[OldPosition.x, OldPosition.y].figureTransform = null;
 
         Board[NewPosition.x, NewPosition.y].hasMoved = true;
         Board[OldPosition.x, OldPosition.y].hasMoved = false;
+
+        UpdateFigures();
+    }
+
+    public void BuildBuilding(Vector2Int NewPosition, ChessBuiding Building)
+    {
+        Board[NewPosition.x, NewPosition.y].building = Building;
 
         UpdateFigures();
     }
