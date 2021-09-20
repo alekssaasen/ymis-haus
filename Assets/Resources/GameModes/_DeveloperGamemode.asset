@@ -20,9 +20,12 @@ MonoBehaviour:
   CanSpawnFigures: 1
   ClassicCheckmate: 0
   ClassicMovement: 0
-  CameraOffsets:
+  CameraRotationOffsets:
   - 45
-  - 135
+  - 225
+  CameraPositionOffsets:
+  - {x: 1, y: 0, z: 1}
+  - {x: 12, y: 0, z: 12}
   MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 5

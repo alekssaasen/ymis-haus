@@ -67,27 +67,45 @@ public static class BoardMaster
 
         // Walls
         newboard[0, 2].wall = WallType.North;
+        newboard[0, 2].ownerID = 0;
         newboard[1, 2].wall = WallType.NorthGate;
+        newboard[1, 2].ownerID = 0;
         newboard[2, 2].wall = WallType.NorthEast;
+        newboard[2, 2].ownerID = 0;
         newboard[2, 1].wall = WallType.EastGate;
+        newboard[2, 1].ownerID = 0;
         newboard[2, 0].wall = WallType.East;
+        newboard[2, 0].ownerID = 0;
 
         newboard[13, 11].wall = WallType.South;
+        newboard[13, 11].ownerID = 1;
         newboard[12, 11].wall = WallType.SouthGate;
+        newboard[12, 11].ownerID = 1;
         newboard[11, 11].wall = WallType.SouthWest;
+        newboard[11, 11].ownerID = 1;
         newboard[11, 12].wall = WallType.WestGate;
+        newboard[11, 12].ownerID = 1;
         newboard[11, 13].wall = WallType.West;
+        newboard[11, 13].ownerID = 1;
 
         // Inside walls
         newboard[0, 1].wall = WallType.Inside;
+        newboard[0, 1].ownerID = 0;
         newboard[1, 1].wall = WallType.Inside;
+        newboard[1, 1].ownerID = 0;
         newboard[1, 0].wall = WallType.Inside;
+        newboard[1, 0].ownerID = 0;
         newboard[0, 0].wall = WallType.Inside;
+        newboard[0, 0].ownerID = 0;
 
         newboard[13, 12].wall = WallType.Inside;
+        newboard[13, 12].ownerID = 1;
         newboard[12, 12].wall = WallType.Inside;
+        newboard[12, 12].ownerID = 1;
         newboard[12, 13].wall = WallType.Inside;
+        newboard[12, 13].ownerID = 1;
         newboard[13, 13].wall = WallType.Inside;
+        newboard[13, 13].ownerID = 1;
 
         return newboard;
     }
@@ -124,9 +142,9 @@ public struct TileInfo
         buildingTransform = Object;
         hasMoved = false;
     }
-    public TileInfo(WallType Wall)
+    public TileInfo(int NewOwnerID, WallType Wall)
     {
-        ownerID = 0;
+        ownerID = NewOwnerID;
         figure = ChessFigure.Empty;
         building = ChessBuiding.Empty;
         wall = Wall;

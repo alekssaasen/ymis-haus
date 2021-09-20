@@ -20,7 +20,7 @@ MonoBehaviour:
   PawnMesh: {fileID: -8835048660849800239, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   FarmMesh: {fileID: -3424123794405857241, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   MineMesh: {fileID: -6775258045016099801, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
-  BarracksMesh: {fileID: 0}
+  BarracksMesh: {fileID: 1770038987878240848, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   MaterialsByID:
   - {fileID: 2100000, guid: 0bf1ac8612347cd4bb9ee132535552b0, type: 2}
   - {fileID: 2100000, guid: 988d0fc8fb9b9e849b2ffa22853f5e2d, type: 2}

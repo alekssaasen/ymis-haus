@@ -47,22 +47,31 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
                 textID.text = "ID: " + GameManager.Main.localPlayerID;
             }
         }
+        GameLoop.Main.cameraController.Initialize();
     }
 
     [PunRPC]
     public void MoveFigure(Vector2 OldPosition, Vector2 NewPosition)
     {
-        Debug.Log("Moving figure");
+        Debug.Log("Moving figure to: " + NewPosition.ToString());
         GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
-        GameLoop.Main.Deselect();
+        GameLoop.Main.ResetUI();
     }
 
     [PunRPC]
     public void PlaceBuilding(Vector2 NewPosition, ChessBuiding Building)
     {
-        Debug.Log("Moving figure");
+        Debug.Log("Building: " + Building.ToString());
         GameManager.Main.BuildBuilding(Vector2Int.RoundToInt(NewPosition), Building);
-        GameLoop.Main.Deselect();
+        GameLoop.Main.ResetUI();
+    }
+
+    [PunRPC]
+    public void SpawnFigure(Vector2 NewPosition, ChessFigure Figure)
+    {
+        Debug.Log("Spawning: " + Figure.ToString());
+        GameManager.Main.SpawnFigure(Vector2Int.RoundToInt(NewPosition), Figure);
+        GameLoop.Main.ResetUI();
     }
 
     [PunRPC]

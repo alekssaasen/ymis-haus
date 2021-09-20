@@ -46,5 +46,37 @@ public static class FigureBuilding
             }
         }
         return validfoundations;
-    }    
+    }
+
+    public static List<Vector2Int> GetValidSpawnpoints(int ID)
+    {
+        List<Vector2Int> validspawnpoints = new List<Vector2Int>();
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
+        {
+            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
+            {
+                if (EconomySystem.CanBuyFigure() && GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].figure == ChessFigure.Empty)
+                        {
+                            if (!validspawnpoints.Contains(new Vector2Int(x, y) + Directions[i]))
+                            {
+                                validspawnpoints.Add(new Vector2Int(x, y) + Directions[i]);
+                            }
+                        }
+                    }
+                }
+                if (EconomySystem.CanBuyFigure() && GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
+                {
+                    if (!validspawnpoints.Contains(new Vector2Int(x, y)))
+                    {
+                        validspawnpoints.Add(new Vector2Int(x, y));
+                    }
+                }
+            }
+        }
+        return validspawnpoints;
+    }
 }

@@ -10,18 +10,23 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Main;
 
+    public CameraController cameraController;
     public TMP_Text turnCountText;
     public TMP_Text goldCountText;
+    public TMP_Dropdown figureSelection;
+    public TMP_Dropdown buildingSelection;
     public Tilemap tilemap;
     public Tile[] tiles;
     public VisualEffect destroyEffect;
     public Gradient[] colors;
 
+    [SerializeField] private GameToolSelection gameTool;
 
-    [HideInInspector] public List<Vector2Int> validPositions = new List<Vector2Int>();
-    [HideInInspector] public List<Vector2Int> validFoundations = new List<Vector2Int>();
-    [HideInInspector] public List<Vector2Int> moveableFigures = new List<Vector2Int>();
-    [HideInInspector] public Vector2Int selectedPosition;
+    public Vector2Int selectedFigurePosition = -Vector2Int.one;
+    public List<Vector2Int> validNewFigurePositions = new List<Vector2Int>();
+    public List<Vector2Int> figuresThatCanMove = new List<Vector2Int>();
+    public List<Vector2Int> buildingFoundations = new List<Vector2Int>();
+    public List<Vector2Int> figureSpawnpoints = new List<Vector2Int>();
 
     private void Awake()
     {
@@ -35,7 +40,7 @@ public class GameLoop : MonoBehaviour
             Destroy(this);
             Debug.LogWarning("There can only be one GameLoop!");
         }
-        Deselect();
+        NewPositionSelected(-Vector2Int.one);
     }
 
     public void Update()
@@ -52,103 +57,204 @@ public class GameLoop : MonoBehaviour
         turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
     }
 
+    public void UpdateTool(int Tool)
+    {
+        gameTool = (GameToolSelection)Tool;
+        ResetUI();
+    }
+
+
+
     public void NewPositionSelected(Vector2Int NewSelectedPosition)
     {
-        if (NewSelectedPosition == new Vector2Int(-1, -1))
+        switch (gameTool)
         {
-            Deselect();
+            case GameToolSelection.Select:
+                Select(NewSelectedPosition);
+                break;
+
+            case GameToolSelection.Move:
+                Move(NewSelectedPosition);
+                break;
+
+            case GameToolSelection.Build:
+                Build(NewSelectedPosition);
+                break;
+
+            case GameToolSelection.Spawn:
+                Spawn(NewSelectedPosition);
+                break;
+
+            default:
+                break;
         }
-        else if (validPositions.Count == 0 && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].figure != ChessFigure.Empty && moveableFigures.Contains(NewSelectedPosition))
-        {
-            Select(NewSelectedPosition);
-        }
-        else if (validPositions.Contains(NewSelectedPosition) && GameManager.Main.turnPointsLeft - GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure) >= 0)
-        {
-            Move(NewSelectedPosition);
-        }
-        else if (validFoundations.Contains(NewSelectedPosition) && validPositions.Count == 0)
-        {
-            Build(NewSelectedPosition);
-        }
-        else
-        {
-            Deselect();
-        }
+
+        UpdateUI();
     }
 
-    public void Deselect()
-    {
-        selectedPosition = -Vector2Int.one;
-        validPositions = new List<Vector2Int>();
-        validFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID);
-        moveableFigures = new List<Vector2Int>();
-        tilemap.ClearAllTiles();
 
-        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
-        {
-            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
-            {
-                if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == GameManager.Main.localPlayerID)
-                {
-                    List<Vector2Int> validpos = FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y));
-                    if (validpos.Count > 0)
-                    {
-                        tilemap.SetTile(new Vector3Int(x, y, 0), tiles[0]);
-                        moveableFigures.Add(new Vector2Int(x, y));
-                    }
-                }
-                if (validFoundations.Contains(new Vector2Int(x, y)))
-                {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), tiles[3]);
-                }
-            }
-        }
-    }
 
     private void Select(Vector2Int NewSelectedPosition)
     {
-        if (GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].ownerID == GameManager.Main.localPlayerID && GameManager.Main.turnID == GameManager.Main.localPlayerID)
+        if (NewSelectedPosition != -Vector2Int.one && figuresThatCanMove.Count != 0 && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].ownerID == GameManager.Main.localPlayerID && GameManager.Main.turnID == GameManager.Main.localPlayerID && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].figure != ChessFigure.Empty && figuresThatCanMove.Contains(NewSelectedPosition))
         {
-            validPositions = FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y], NewSelectedPosition);
-
-            tilemap.ClearAllTiles();
-            tilemap.SetTile((Vector3Int)NewSelectedPosition, tiles[0]);
-            for (int i = 0; i < validPositions.Count; i++)
+            selectedFigurePosition = NewSelectedPosition;
+            validNewFigurePositions = FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y], NewSelectedPosition);
+            gameTool = GameToolSelection.Move;
+            figuresThatCanMove = new List<Vector2Int>();
+            UpdateUI();
+        }
+        else if (figuresThatCanMove.Count == 0)
+        {
+            for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
             {
-                if (GameManager.Main.Board[validPositions[i].x, validPositions[i].y].figure != ChessFigure.Empty || GameManager.Main.Board[validPositions[i].x, validPositions[i].y].building != ChessBuiding.Empty)
+                for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
                 {
-                    tilemap.SetTile((Vector3Int)validPositions[i], tiles[4]);
-                }
-                else
-                {
-                    tilemap.SetTile((Vector3Int)validPositions[i], tiles[2]);
+                    if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == GameManager.Main.localPlayerID && FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y)).Count > 0)
+                    {
+                        if (GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
+                        {
+                            figuresThatCanMove.Add(new Vector2Int(x, y));
+                        }
+                    }
                 }
             }
-
-            selectedPosition = NewSelectedPosition;
+        }
+        else
+        {
+            ResetUI();
         }
     }
 
     private void Move(Vector2Int NewSelectedPosition)
     {
-        PhotonView.Get(this).RpcSecure("MoveFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)selectedPosition, (Vector2)NewSelectedPosition);
-        GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedPosition.x, selectedPosition.y].figure);
-        if (GameManager.Main.turnPointsLeft <= 0)
+        if (validNewFigurePositions.Contains(NewSelectedPosition) && GameManager.Main.turnPointsLeft - GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedFigurePosition.x, selectedFigurePosition.y].figure) >= 0)
         {
-            FinishLocalTurn();
+            PhotonView.Get(this).RpcSecure("MoveFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)selectedFigurePosition, (Vector2)NewSelectedPosition);
+            GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[selectedFigurePosition.x, selectedFigurePosition.y].figure);
+
+            if (GameManager.Main.turnPointsLeft <= 0)
+            {
+                FinishLocalTurn();
+            }
         }
-        Deselect();
+        else
+        {
+            gameTool = GameToolSelection.Select;
+            ResetUI();
+        }
     }
 
     private void Build(Vector2Int NewSelectedPosition)
     {
-        if (EconomySystem.CheckBuildingPrice(ChessBuiding.Farm, out int price))
+        ChessBuiding NewChessBuiding = ChessBuiding.Empty;
+
+        if (buildingSelection.value == 0)
         {
-            EconomySystem.Money -= price;
-            PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, ChessBuiding.Farm);
+            NewChessBuiding = ChessBuiding.Farm;
         }
-        Deselect();
+        else if(buildingSelection.value == 1)
+        {
+            NewChessBuiding = ChessBuiding.Barracks;
+        }
+
+        if (buildingFoundations.Count != 0)
+        {
+            if (EconomySystem.CheckBuildingPrice(NewChessBuiding, out int price) && buildingFoundations.Contains(NewSelectedPosition) && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].building == ChessBuiding.Empty)
+            {
+                EconomySystem.Money -= price;
+                PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessBuiding);
+            }
+            else
+            {
+                ResetUI();
+            }
+        }
+        else if (buildingFoundations.Count == 0)
+        {
+            buildingFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID);
+        }
+        else
+        {
+            ResetUI();
+        }
     }
+
+    private void Spawn(Vector2Int NewSelectedPosition)
+    {
+        ChessFigure NewChessFigure = ChessFigure.Empty;
+        NewChessFigure = (ChessFigure)(2 + figureSelection.value);
+
+        if (figureSpawnpoints.Count != 0)
+        {
+            if (EconomySystem.CheckFigurePrice(NewChessFigure, out int price) && figureSpawnpoints.Contains(NewSelectedPosition) && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].building == ChessBuiding.Empty)
+            {
+                EconomySystem.Money -= price;
+                PhotonView.Get(this).RpcSecure("SpawnFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessFigure);
+            }
+            else
+            {
+                ResetUI();
+            }
+        }
+        else if (figureSpawnpoints.Count == 0)
+        {
+            figureSpawnpoints = FigureBuilding.GetValidSpawnpoints(GameManager.Main.localPlayerID);
+        }
+        else
+        {
+            ResetUI();
+        }
+    }
+
+    public void ResetUI()
+    {
+        selectedFigurePosition = -Vector2Int.one;
+        validNewFigurePositions = new List<Vector2Int>();
+        figuresThatCanMove = new List<Vector2Int>();
+        buildingFoundations = new List<Vector2Int>();
+        figureSpawnpoints = new List<Vector2Int>();
+
+        NewPositionSelected(-Vector2Int.one);
+    }
+
+    public void UpdateUI()
+    {
+        tilemap.ClearAllTiles();
+        if (selectedFigurePosition != -Vector2Int.one)
+        {
+            tilemap.SetTile((Vector3Int)selectedFigurePosition, tiles[0]);
+        }
+
+        for (int i = 0; i < validNewFigurePositions.Count; i++)
+        {
+            if (GameManager.Main.Board[validNewFigurePositions[i].x, validNewFigurePositions[i].y].figure == ChessFigure.Empty)
+            {
+                tilemap.SetTile(new Vector3Int(validNewFigurePositions[i].x, validNewFigurePositions[i].y, 0), tiles[2]);
+            }
+            else
+            {
+                tilemap.SetTile(new Vector3Int(validNewFigurePositions[i].x, validNewFigurePositions[i].y, 0), tiles[4]);
+            }
+        }
+
+        for (int i = 0; i < figuresThatCanMove.Count; i++)
+        {
+            tilemap.SetTile(new Vector3Int(figuresThatCanMove[i].x, figuresThatCanMove[i].y, 0), tiles[0]);
+        }
+
+        for (int i = 0; i < buildingFoundations.Count; i++)
+        {
+            tilemap.SetTile(new Vector3Int(buildingFoundations[i].x, buildingFoundations[i].y, 0), tiles[3]);
+        }
+
+        for (int i = 0; i < figureSpawnpoints.Count; i++)
+        {
+            tilemap.SetTile(new Vector3Int(figureSpawnpoints[i].x, figureSpawnpoints[i].y, 0), tiles[7]);
+        }
+    }
+
+
 
     public void FinishLocalTurn()
     {
@@ -159,4 +265,10 @@ public class GameLoop : MonoBehaviour
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
         }
     }
+}
+
+[System.Serializable]
+public enum GameToolSelection
+{
+    Select, Move, Build, Spawn
 }

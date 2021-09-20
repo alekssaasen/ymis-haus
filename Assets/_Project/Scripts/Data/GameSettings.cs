@@ -14,7 +14,8 @@ public class GameSettings : ScriptableObject
     public bool CanSpawnFigures = true;
     public bool ClassicCheckmate = false;
     public bool ClassicMovement = false;
-    public float[] CameraOffsets = { 45, 135 };
+    public float[] CameraRotationOffsets = { 45, 225 };
+    public Vector3[] CameraPositionOffsets = { new Vector3(1, 0, 1), new Vector3(12, 0, 12) };
 
     [Header("Movement costs")]
     public int MovePointsPerTurn = 5;

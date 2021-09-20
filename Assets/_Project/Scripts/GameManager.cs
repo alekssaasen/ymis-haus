@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Main;
 
-    [HideInInspector] public int localPlayerID = 0;
+    [HideInInspector] public int localPlayerID = -1;
     [HideInInspector] public int turnID = 0;
     public int turnPointsLeft = 0;
     public TileInfo[,] Board;
@@ -126,6 +126,13 @@ public class GameManager : MonoBehaviour
     public void BuildBuilding(Vector2Int NewPosition, ChessBuiding Building)
     {
         Board[NewPosition.x, NewPosition.y].building = Building;
+
+        UpdateFigures();
+    }
+
+    public void SpawnFigure(Vector2Int NewPosition, ChessFigure Figure)
+    {
+        Board[NewPosition.x, NewPosition.y].figure = Figure;
 
         UpdateFigures();
     }

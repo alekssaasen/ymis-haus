@@ -12,8 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
   m_Name: ChessEmpires
   m_EditorClassIdentifier: 
-  Name: Chess Empires
-  ChessGameMode: 1
+  GamemodeName: ChessEmpires
+  MinPlayerCount: 2
+  MaxPlayerCount: 2
+  MapSize: {x: 14, y: 14}
+  CanBuildBuildings: 1
+  CanSpawnFigures: 1
+  ClassicCheckmate: 0
+  ClassicMovement: 0
+  CameraRotationOffsets:
+  - 45
+  - 225
+  CameraPositionOffsets:
+  - {x: 1, y: 0, z: 1}
+  - {x: 12, y: 0, z: 12}
   MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 5

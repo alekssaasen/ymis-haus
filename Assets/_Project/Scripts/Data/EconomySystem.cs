@@ -82,8 +82,21 @@ public static class EconomySystem
         }
         return Money >= Price;
     }
+
     public static bool CanBuyBuilding()
     {
         return Money >= Mathf.Min(GameManager.GameSettingsInUse.FarmCreationCost, GameManager.GameSettingsInUse.BarracksCreationCost);
+    }
+
+    public static bool CanBuyFigure()
+    {
+        return Money >= Mathf.Min(new int[5]
+        {
+            GameManager.GameSettingsInUse.QueenSpawnCost,
+            GameManager.GameSettingsInUse.BishopSpawnCost,
+            GameManager.GameSettingsInUse.KnightSpawnCost,
+            GameManager.GameSettingsInUse.RookSpawnCost,
+            GameManager.GameSettingsInUse.PawnSpawnCost,
+        });
     }
 }
