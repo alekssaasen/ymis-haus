@@ -19,7 +19,7 @@ public class Selector : MonoBehaviour
             if (Physics.Raycast(ray.origin, ray.direction, out hit))
             {
                 Vector2Int pos = new Vector2Int(Mathf.RoundToInt(hit.point.x), Mathf.RoundToInt(hit.point.z));
-                Debug.Log(pos);
+                Debug.Log("Pos: " + pos + ", ID: " + GameManager.Main.Board[pos.x,pos.y].ownerID);
                 GameLoop.Main.NewPositionSelected(pos);
                 SelectedPosition = pos;
             }

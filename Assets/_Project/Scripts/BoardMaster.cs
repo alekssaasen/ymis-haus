@@ -66,27 +66,34 @@ public static class BoardMaster
         }
 
         // Walls
-        newboard[0, 2].wall = WallType.North;
-        newboard[0, 2].ownerID = 0;
-        newboard[1, 2].wall = WallType.NorthGate;
-        newboard[1, 2].ownerID = 0;
-        newboard[2, 2].wall = WallType.NorthEast;
-        newboard[2, 2].ownerID = 0;
-        newboard[2, 1].wall = WallType.EastGate;
-        newboard[2, 1].ownerID = 0;
-        newboard[2, 0].wall = WallType.East;
-        newboard[2, 0].ownerID = 0;
+        newboard[0, 2].wall = WallType.InteriorWall;
+        newboard[0, 3].wall = WallType.ExteriorWall;
+        newboard[1, 2].wall = WallType.InteriorGate;
+        newboard[1, 3].wall = WallType.ExteriorGate;
+        newboard[2, 2].wall = WallType.InteriorWall;
+        newboard[2, 3].wall = WallType.ExteriorWall;
+        newboard[3, 3].wall = WallType.ExteriorWall;
+        newboard[3, 2].wall = WallType.ExteriorWall;
+        newboard[2, 1].wall = WallType.InteriorGate;
+        newboard[3, 1].wall = WallType.ExteriorGate;
+        newboard[2, 0].wall = WallType.InteriorWall;
+        newboard[3, 0].wall = WallType.ExteriorWall;
 
-        newboard[13, 11].wall = WallType.South;
-        newboard[13, 11].ownerID = 1;
-        newboard[12, 11].wall = WallType.SouthGate;
-        newboard[12, 11].ownerID = 1;
-        newboard[11, 11].wall = WallType.SouthWest;
-        newboard[11, 11].ownerID = 1;
-        newboard[11, 12].wall = WallType.WestGate;
-        newboard[11, 12].ownerID = 1;
-        newboard[11, 13].wall = WallType.West;
-        newboard[11, 13].ownerID = 1;
+        int x = newboard.GetLength(0) - 1;
+        int y = newboard.GetLength(1) - 1;
+
+        newboard[x - 0, y - 2].wall = WallType.InteriorWall;
+        newboard[x - 0, y - 3].wall = WallType.ExteriorWall;
+        newboard[x - 1, y - 2].wall = WallType.InteriorGate;
+        newboard[x - 1, y - 3].wall = WallType.ExteriorGate;
+        newboard[x - 2, y - 2].wall = WallType.InteriorWall;
+        newboard[x - 2, y - 3].wall = WallType.ExteriorWall;
+        newboard[x - 3, y - 3].wall = WallType.ExteriorWall;
+        newboard[x - 3, y - 2].wall = WallType.ExteriorWall;
+        newboard[x - 2, y - 1].wall = WallType.InteriorGate;
+        newboard[x - 3, y - 1].wall = WallType.ExteriorGate;
+        newboard[x - 2, y - 0].wall = WallType.InteriorWall;
+        newboard[x - 3, y - 0].wall = WallType.ExteriorWall;
 
         // Inside walls
         newboard[0, 1].wall = WallType.Inside;
@@ -169,5 +176,5 @@ public enum ChessBuiding
 [System.Serializable]
 public enum WallType
 {
-    None, North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest, NorthGate, EastGate, SouthGate, WestGate, Inside
+    None, InteriorWall, InteriorGate, ExteriorWall, ExteriorGate, Inside
 }

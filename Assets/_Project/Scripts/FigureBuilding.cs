@@ -27,7 +27,8 @@ public static class FigureBuilding
                 {
                     for (int i = 0; i < 8; i++)
                     {
-                        if (GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].building == ChessBuiding.Empty)
+                        if (FigureMovement.InsideBoard(new Vector2Int(x + Directions[i].x, y + Directions[i].y)) &&
+                            GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].building == ChessBuiding.Empty)
                         {
                             if (!validfoundations.Contains(new Vector2Int(x, y) + Directions[i]))
                             {
@@ -68,7 +69,9 @@ public static class FigureBuilding
                         }
                     }
                 }
-                if (EconomySystem.CanBuyFigure() && GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
+                if (EconomySystem.CanBuyFigure() && (GameManager.Main.Board[x, y].wall != WallType.None &&
+                    GameManager.Main.Board[x, y].wall != WallType.ExteriorWall &&
+                    GameManager.Main.Board[x, y].wall != WallType.ExteriorGate) && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     if (!validspawnpoints.Contains(new Vector2Int(x, y)))
                     {
