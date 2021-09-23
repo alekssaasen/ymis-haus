@@ -83,20 +83,42 @@ public static class EconomySystem
         return Money >= Price;
     }
 
-    public static bool CanBuyBuilding()
+    public static bool CanBuyBuilding(ChessBuiding Building)
     {
-        return Money >= Mathf.Min(GameManager.GameSettingsInUse.FarmCreationCost, GameManager.GameSettingsInUse.BarracksCreationCost);
+        switch (Building)
+        {
+            case ChessBuiding.Farm:
+                return GameManager.GameSettingsInUse.FarmCreationCost <= Money;
+
+            case ChessBuiding.Barracks:
+                return GameManager.GameSettingsInUse.BarracksCreationCost <= Money;
+
+            default:
+                return false;
+        }
     }
 
-    public static bool CanBuyFigure()
+    public static bool CanBuyFigure(ChessFigure Figure)
     {
-        return Money >= Mathf.Min(new int[5]
+        switch (Figure)
         {
-            GameManager.GameSettingsInUse.QueenSpawnCost,
-            GameManager.GameSettingsInUse.BishopSpawnCost,
-            GameManager.GameSettingsInUse.KnightSpawnCost,
-            GameManager.GameSettingsInUse.RookSpawnCost,
-            GameManager.GameSettingsInUse.PawnSpawnCost,
-        });
+            case ChessFigure.Queen:
+                return GameManager.GameSettingsInUse.QueenSpawnCost <= Money;
+
+            case ChessFigure.Bishop:
+                return GameManager.GameSettingsInUse.BishopSpawnCost <= Money;
+
+            case ChessFigure.Knight:
+                return GameManager.GameSettingsInUse.KnightSpawnCost <= Money;
+
+            case ChessFigure.Rook:
+                return GameManager.GameSettingsInUse.RookSpawnCost <= Money;
+
+            case ChessFigure.Pawn:
+                return GameManager.GameSettingsInUse.PawnSpawnCost <= Money;
+
+            default:
+                return false;
+        }
     }
 }

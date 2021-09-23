@@ -172,7 +172,7 @@ public class GameLoop : MonoBehaviour
         }
         else if (buildingFoundations.Count == 0)
         {
-            buildingFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID);
+            buildingFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID, NewChessBuiding);
         }
         else
         {
@@ -182,8 +182,7 @@ public class GameLoop : MonoBehaviour
 
     private void Spawn(Vector2Int NewSelectedPosition)
     {
-        ChessFigure NewChessFigure = ChessFigure.Empty;
-        NewChessFigure = (ChessFigure)(2 + figureSelection.value);
+        ChessFigure NewChessFigure = (ChessFigure)(2 + figureSelection.value);
 
         if (figureSpawnpoints.Count != 0)
         {
@@ -199,7 +198,7 @@ public class GameLoop : MonoBehaviour
         }
         else if (figureSpawnpoints.Count == 0)
         {
-            figureSpawnpoints = FigureBuilding.GetValidSpawnpoints(GameManager.Main.localPlayerID);
+            figureSpawnpoints = FigureBuilding.GetValidSpawnpoints(GameManager.Main.localPlayerID, NewChessFigure);
         }
         else
         {
@@ -264,6 +263,11 @@ public class GameLoop : MonoBehaviour
             GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
         }
+    }
+
+    public void test(int num)
+    {
+        Debug.Log(num);
     }
 }
 
