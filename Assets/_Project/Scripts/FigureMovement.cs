@@ -286,8 +286,7 @@ public static class FigureMovement
                             if ((GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Empty ||
                                 (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID))&&
                                 (GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Empty ||
-                                 GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Farm && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID||
-                                 GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Barracks && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID))
+                                 GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID))
                             {
                                 if(CrossedWall(wall1,wall2) == WallBlock.Pass||
                                     CrossedWall(wall1, wall2) == WallBlock.Stop)
@@ -454,8 +453,7 @@ public static class FigureMovement
                                         wall1 = wall2;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -477,8 +475,7 @@ public static class FigureMovement
                                         break;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -524,8 +521,7 @@ public static class FigureMovement
                                         wall1 = wall2;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -547,8 +543,7 @@ public static class FigureMovement
                                         break;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -586,8 +581,7 @@ public static class FigureMovement
                                 validpositions.Add(Tile);
                             }
                             else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                     GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                             {
                                 if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                 {
@@ -623,8 +617,7 @@ public static class FigureMovement
                                         wall1 = wall2;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -646,8 +639,7 @@ public static class FigureMovement
                                         break;
                                     }
                                     else if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm ||
-                                        GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks)
+                                             GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
                                     {
                                         if (GameManager.Main.Board[Tile.x, Tile.y].ownerID != ID)
                                         {
@@ -727,7 +719,7 @@ public static class FigureMovement
                             Vector2Int wall1 = Position;
                             Tile = Position + straightDirections[dir];
                             if (InsideBoard(Tile) && GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Empty &&
-                                GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Empty)
+                                                     GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Empty)
                             {
                                 Vector2Int wall2 = Tile;
                                 if (CrossedWall(wall1, wall2) == WallBlock.Pass ||
@@ -743,8 +735,7 @@ public static class FigureMovement
                             Vector2Int wall1 = Position;
                             Tile = Position + diagonalDirections[dir];
                             if (InsideBoard(Tile) && GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID ||
-                                InsideBoard(Tile) &&  GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Farm && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID ||
-                                InsideBoard(Tile) && GameManager.Main.Board[Tile.x, Tile.y].building == ChessBuiding.Barracks && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID)
+                                InsideBoard(Tile) && GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty && ID != GameManager.Main.Board[Tile.x, Tile.y].ownerID)
                             {
                                 Vector2Int wall2 = Tile;
                                 if (CrossedWall(wall1, wall2) == WallBlock.Pass ||

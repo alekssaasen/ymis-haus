@@ -40,7 +40,7 @@ MonoBehaviour:
   PawnSpawnCost: 5
   FarmCreationCost: 10
   BarracksCreationCost: 25
-  GoldPerTurn: 1
-  StartingGold: 10
+  GoldPerTurn: 25
+  StartingGold: 100
   GoldPerFarm: 3
   GoldPerGoldMine: 5

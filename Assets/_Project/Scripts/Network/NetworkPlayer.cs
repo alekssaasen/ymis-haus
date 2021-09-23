@@ -59,18 +59,18 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void PlaceBuilding(Vector2 NewPosition, ChessBuiding Building)
+    public void PlaceBuilding(Vector2 NewPosition, ChessBuiding Building, int NewID)
     {
         Debug.Log("Building: " + Building.ToString());
-        GameManager.Main.BuildBuilding(Vector2Int.RoundToInt(NewPosition), Building);
+        GameManager.Main.BuildBuilding(Vector2Int.RoundToInt(NewPosition), Building, NewID);
         GameLoop.Main.ResetUI();
     }
 
     [PunRPC]
-    public void SpawnFigure(Vector2 NewPosition, ChessFigure Figure)
+    public void SpawnFigure(Vector2 NewPosition, ChessFigure Figure, int NewID)
     {
         Debug.Log("Spawning: " + Figure.ToString());
-        GameManager.Main.SpawnFigure(Vector2Int.RoundToInt(NewPosition), Figure);
+        GameManager.Main.SpawnFigure(Vector2Int.RoundToInt(NewPosition), Figure, NewID);
         GameLoop.Main.ResetUI();
     }
 

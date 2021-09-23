@@ -53,8 +53,8 @@ public static class BoardMaster
         newboard[2, 11] = new TileInfo(-1, ChessBuiding.Mine, null);
         newboard[4, 8] = new TileInfo(-1, ChessBuiding.Mine, null);
 
-        newboard[9, 5] = new TileInfo(-1, ChessBuiding.Mine, null);
-        newboard[11, 2] = new TileInfo(-1, ChessBuiding.Mine, null);
+        newboard[9, 5] = new TileInfo(0, ChessBuiding.Mine, null);
+        newboard[11, 2] = new TileInfo(0, ChessBuiding.Mine, null);
 
         if (true)
         {

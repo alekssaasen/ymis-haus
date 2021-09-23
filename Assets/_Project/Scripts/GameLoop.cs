@@ -163,7 +163,7 @@ public class GameLoop : MonoBehaviour
             if (EconomySystem.CheckBuildingPrice(NewChessBuiding, out int price) && buildingFoundations.Contains(NewSelectedPosition) && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].building == ChessBuiding.Empty)
             {
                 EconomySystem.Money -= price;
-                PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessBuiding);
+                PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessBuiding, GameManager.Main.localPlayerID);
             }
             else
             {
@@ -189,7 +189,7 @@ public class GameLoop : MonoBehaviour
             if (EconomySystem.CheckFigurePrice(NewChessFigure, out int price) && figureSpawnpoints.Contains(NewSelectedPosition) && GameManager.Main.Board[NewSelectedPosition.x, NewSelectedPosition.y].building == ChessBuiding.Empty)
             {
                 EconomySystem.Money -= price;
-                PhotonView.Get(this).RpcSecure("SpawnFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessFigure);
+                PhotonView.Get(this).RpcSecure("SpawnFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)NewSelectedPosition, NewChessFigure, GameManager.Main.localPlayerID);
             }
             else
             {
@@ -227,7 +227,7 @@ public class GameLoop : MonoBehaviour
 
         for (int i = 0; i < validNewFigurePositions.Count; i++)
         {
-            if (GameManager.Main.Board[validNewFigurePositions[i].x, validNewFigurePositions[i].y].figure == ChessFigure.Empty)
+            if (GameManager.Main.Board[validNewFigurePositions[i].x, validNewFigurePositions[i].y].figure == ChessFigure.Empty && GameManager.Main.Board[validNewFigurePositions[i].x, validNewFigurePositions[i].y].building == ChessBuiding.Empty)
             {
                 tilemap.SetTile(new Vector3Int(validNewFigurePositions[i].x, validNewFigurePositions[i].y, 0), tiles[2]);
             }
