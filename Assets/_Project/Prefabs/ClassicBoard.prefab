@@ -1185,7 +1185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &879561897477546756
 Transform:
   m_ObjectHideFlags: 0
@@ -2134,8 +2134,9 @@ GameObject:
   - component: {fileID: 6372197615495462587}
   - component: {fileID: 1397658952703749119}
   - component: {fileID: 1432372444618791817}
+  - component: {fileID: -1199811597624985014}
   m_Layer: 0
-  m_Name: Big Board
+  m_Name: ClassicBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2163,7 +2164,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432372444618791818}
-  m_Mesh: {fileID: -4168185958146996732, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
+  m_Mesh: {fileID: 1389287669536040490, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
 --- !u!23 &1397658952703749119
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2184,6 +2185,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 284ab04f526cd0140b7c132705e21a40, type: 2}
+  - {fileID: 2100000, guid: cf5e5a6e80556cc4491efd2803dc51ae, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2218,3 +2220,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14, y: 0.2, z: 14}
   m_Center: {x: 6.5, y: -0.1, z: 6.5}
+--- !u!114 &-1199811597624985014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432372444618791818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38deee996f7b64747a9fbe3749f3762e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
