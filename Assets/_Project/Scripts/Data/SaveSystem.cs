@@ -57,8 +57,8 @@ public static class SaveSystem
         else
         {
             Directory.CreateDirectory(Application.persistentDataPath + SavePathToFolder);
-            SavePlayerData(new PlayerSaveData("Player"));
-            return new PlayerSaveData("Player");
+            SavePlayerData(new PlayerSaveData("Player", (RenderQuality)QualitySettings.GetQualityLevel()));
+            return new PlayerSaveData("Player", (RenderQuality)QualitySettings.GetQualityLevel());
         }
     }
 
@@ -89,12 +89,12 @@ public struct PlayerSaveData
 
     public RenderQuality graphicsQuality;
 
-    public PlayerSaveData(string NewPlayerName)
+    public PlayerSaveData(string NewPlayerName, RenderQuality RenderQuality)
     {
         playerName = NewPlayerName;
         Elo = 1000;
 
-        graphicsQuality = RenderQuality.High;
+        graphicsQuality = RenderQuality;
     }
 }
 

@@ -83,41 +83,50 @@ public static class EconomySystem
         return Money >= Price;
     }
 
-    public static bool CanBuyBuilding(ChessBuiding Building)
+    public static bool CanBuyBuilding(ChessBuiding Building, out string ErrorMessage)
     {
         switch (Building)
         {
             case ChessBuiding.Farm:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.FarmCreationCost <= Money;
 
             case ChessBuiding.Barracks:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.BarracksCreationCost <= Money;
 
             default:
+                ErrorMessage = "Not enough money";
                 return false;
         }
     }
 
-    public static bool CanBuyFigure(ChessFigure Figure)
+    public static bool CanBuyFigure(ChessFigure Figure, out string ErrorMessage)
     {
         switch (Figure)
         {
             case ChessFigure.Queen:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.QueenSpawnCost <= Money;
 
             case ChessFigure.Bishop:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.BishopSpawnCost <= Money;
 
             case ChessFigure.Knight:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.KnightSpawnCost <= Money;
 
             case ChessFigure.Rook:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.RookSpawnCost <= Money;
 
             case ChessFigure.Pawn:
+                ErrorMessage = "";
                 return GameManager.GameSettingsInUse.PawnSpawnCost <= Money;
 
             default:
+                ErrorMessage = "Not enough money";
                 return false;
         }
     }

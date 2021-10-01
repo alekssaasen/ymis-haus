@@ -12,35 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
   m_Name: ClassicChess
   m_EditorClassIdentifier: 
-  GamemodeName: ClassicChess
+  GamemodeName: ChessEmpires
   MinPlayerCount: 2
   MaxPlayerCount: 2
-  MapSize: {x: 8, y: 8}
-  CanBuildBuildings: 0
-  CanSpawnFigures: 0
-  ClassicCheckmate: 1
-  ClassicMovement: 1
+  CanSpawnFigures: 1
+  CanBuildBuildings: 1
+  ClassicCheckmate: 0
+  ClassicMovement: 0
   CameraRotationOffsets:
-  - 0
-  - 180
+  - 45
+  - 225
   CameraPositionOffsets:
-  - {x: 0, y: 0, z: -1}
-  - {x: 0, y: 0, z: 1}
-  MovePointsPerTurn: 1
-  KingMoveCost: 1
-  QueenMoveCost: 1
-  BishopMoveCost: 1
-  KnightMoveCost: 1
-  RookMoveCost: 1
+  - {x: 1, y: 0, z: 1}
+  - {x: 12, y: 0, z: 12}
+  MovePointsPerTurn: 5
+  KingMoveCost: 5
+  QueenMoveCost: 5
+  BishopMoveCost: 2
+  KnightMoveCost: 3
+  RookMoveCost: 2
   PawnMoveCost: 1
-  QueenSpawnCost: 0
-  BishopSpawnCost: 0
-  KnightSpawnCost: 0
-  RookSpawnCost: 0
-  PawnSpawnCost: 0
-  FarmCreationCost: 0
-  BarracksCreationCost: 0
-  GoldPerTurn: 0
-  StartingGold: 0
-  GoldPerFarm: 0
-  GoldPerGoldMine: 0
+  QueenSpawnCost: 75
+  BishopSpawnCost: 25
+  KnightSpawnCost: 40
+  RookSpawnCost: 25
+  PawnSpawnCost: 5
+  FarmCreationCost: 10
+  BarracksCreationCost: 25
+  GoldPerTurn: 1
+  StartingGold: 10
+  GoldPerFarm: 3
+  GoldPerGoldMine: 5
+  BoardSetup: {fileID: 0}
+  hidegoldswitch: 1
+  hidegoldvalue: 1

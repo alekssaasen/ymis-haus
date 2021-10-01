@@ -9,6 +9,8 @@ public class ChessFigureSet : ScriptableObject
 
     public Material[] MaterialsByID;
 
+    public Color[] ColorsByID;
+
     public Mesh GetMesh(ChessFigure Figure, ChessBuiding Building)
     {
         switch (Figure)

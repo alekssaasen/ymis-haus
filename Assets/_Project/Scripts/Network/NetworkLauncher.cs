@@ -88,6 +88,10 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("Server disconnected");
+        mainButtons.SetActive(false);
+        menuBackground.SetActive(true);
+        lobbyJoin.SetActive(false);
+        ConnectToServer();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

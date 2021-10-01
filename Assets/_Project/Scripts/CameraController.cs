@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     private Vector2 minMove = new Vector2(1, 1);
     private Vector2 maxMove;
+    private Vector2 minMaxZoom = new Vector2(-3, 5);
     public float movementSpeed;
 
     private Vector3 move;

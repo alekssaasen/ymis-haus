@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,39 +16,53 @@ public class GameManager : MonoBehaviour
     public GameObject figurePrefab;
     public static ChessFigureSet ChessFigureSetInUse;
     public static GameSettings GameSettingsInUse;
+    public static Texture2D MapTexture2D;
 
     [SerializeField] private GameObject smallBoard;
     [SerializeField] private GameObject bigBoard;
+    [SerializeField] private GameObject[] walls;
 
     private void Awake()
     {
-        // Make GameManager a singleton
-        if (Main == null)
+        if (!PhotonNetwork.InRoom)
         {
-            Main = this;
+            SceneManager.LoadScene(0);
         }
         else
         {
-            Destroy(this);
-            Debug.LogWarning("There can only be one GameManager!");
-        }
+            // Make GameManager a singleton
+            if (Main == null)
+            {
+                Main = this;
+            }
+            else
+            {
+                Main = this;
+                Debug.LogWarning("There can only be one GameManager!");
+            }
 
-        if (GameSettingsInUse.MapSize == new Vector2Int(14, 14))
-        {
-            Board = BoardMaster.CreateChessEmpiresBoard();
-            smallBoard.SetActive(false);
-            bigBoard.SetActive(true);
-        }
-        else
-        {
-            Board = BoardMaster.CreateClasicChessBoard();
-            smallBoard.SetActive(true);
-            bigBoard.SetActive(false);
-        }
+            if (GameSettingsInUse.BoardSetup.MapSize == new Vector2Int(14, 14))
+            {
+                Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
+                smallBoard.SetActive(false);
+                bigBoard.SetActive(true);
 
-        UpdateFigures();
-        turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
-        EconomySystem.Initialize();
+                for (int i = 0; i < 4; i++)
+                {
+                    walls[i].SetActive(i < PhotonNetwork.PlayerList.Length);
+                }
+            }
+            else
+            {
+                Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
+                smallBoard.SetActive(true);
+                bigBoard.SetActive(false);
+            }
+
+            UpdateFigures();
+            turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
+            EconomySystem.Initialize();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,11 +74,16 @@ public class GameManager : MonoBehaviour
         {
             for (int y = 0; y < Board.GetLength(1); y++)
             {
+                if (Board[x, y].ownerID >= PhotonNetwork.PlayerList.Length)
+                {
+                    Board[x, y] = new TileInfo(-1);
+                }
+
                 if (Board[x, y].figureTransform == null && Board[x, y].figure != ChessFigure.Empty && Board[x, y].building == ChessBuiding.Empty)
                 {
                     // Create figure
                     Debug.Log("Create figure");
-                    GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, Board[x, y].ownerID * 180, 0));
+                    GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, GameSettingsInUse.CameraRotationOffsets[Board[x, y].ownerID], 0));
                     obj.name = Board[x, y].figure.ToString() + " (" + Board[x, y].ownerID + ")";
                     obj.transform.parent = transform;
 
@@ -155,7 +176,7 @@ public class GameManager : MonoBehaviour
 
             // Set ownership
             Board[NewPosition.x, NewPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].ownerID;
-            Board[OldPosition.x, OldPosition.y].ownerID = 0;
+            Board[OldPosition.x, OldPosition.y].ownerID = -1;
 
             // Set figure
             Board[NewPosition.x, NewPosition.y].figure = Board[OldPosition.x, OldPosition.y].figure;

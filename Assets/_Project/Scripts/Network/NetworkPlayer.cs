@@ -9,9 +9,8 @@ using Photon.Realtime;
 public class NetworkPlayer : MonoBehaviourPunCallbacks
 {
     public TMP_Text textID;
-    public int ID;
 
-    private void Start()
+    private void Awake()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -87,13 +86,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         {
             Debug.Log("Ending turn");
         }
-    }
-
-    [PunRPC]
-    public void FinishGame(bool LocalPlayerWon, int OnlinePlayerElo)
-    {
-        Debug.Log("Ending game");
-        SaveSystem.CalculateMyElo(LocalPlayerWon, OnlinePlayerElo);
     }
 
     public void LeaveRoom()

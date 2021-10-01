@@ -23,7 +23,7 @@ public static class FigureBuilding
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (EconomySystem.CanBuyBuilding(Building) && GameManager.Main.Board[x, y].figure == ChessFigure.Pawn && GameManager.Main.Board[x, y].ownerID == ID)
+                if (EconomySystem.CanBuyBuilding(Building, out string msg1) && GameManager.Main.Board[x, y].figure == ChessFigure.Pawn && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     for (int i = 0; i < 8; i++)
                     {
@@ -37,7 +37,7 @@ public static class FigureBuilding
                         }
                     }
                 }
-                if (EconomySystem.CanBuyBuilding(Building) && GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
+                if (EconomySystem.CanBuyBuilding(Building, out string msg2) && GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     if (GameManager.Main.Board[x, y].wall == WallType.Inside || GameManager.Main.Board[x, y].wall == WallType.InteriorWall || GameManager.Main.Board[x, y].wall == WallType.InteriorGate)
                     {
@@ -59,7 +59,7 @@ public static class FigureBuilding
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (EconomySystem.CanBuyFigure(Figure) && GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
+                if (EconomySystem.CanBuyFigure(Figure, out string msg1) && GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     for (int i = 0; i < 8; i++)
                     {
@@ -72,7 +72,7 @@ public static class FigureBuilding
                         }
                     }
                 }
-                if (EconomySystem.CanBuyFigure(Figure) && GameManager.Main.Board[x, y].ownerID == ID)
+                if (EconomySystem.CanBuyFigure(Figure, out string msg2) && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     if (GameManager.Main.Board[x, y].wall == WallType.Inside || GameManager.Main.Board[x, y].wall == WallType.InteriorWall || GameManager.Main.Board[x, y].wall == WallType.InteriorGate)
                     {

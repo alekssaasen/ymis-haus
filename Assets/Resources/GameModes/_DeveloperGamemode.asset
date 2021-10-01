@@ -15,17 +15,20 @@ MonoBehaviour:
   GamemodeName: UseThisOnlyForTesting
   MinPlayerCount: 1
   MaxPlayerCount: 4
-  MapSize: {x: 14, y: 14}
-  CanBuildBuildings: 1
   CanSpawnFigures: 1
+  CanBuildBuildings: 1
   ClassicCheckmate: 0
   ClassicMovement: 0
   CameraRotationOffsets:
   - 45
   - 225
+  - 135
+  - 315
   CameraPositionOffsets:
   - {x: 1, y: 0, z: 1}
   - {x: 12, y: 0, z: 12}
+  - {x: 1, y: 0, z: 12}
+  - {x: 12, y: 0, z: 1}
   MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 5
@@ -44,3 +47,6 @@ MonoBehaviour:
   StartingGold: 100
   GoldPerFarm: 3
   GoldPerGoldMine: 5
+  BoardSetup: {fileID: 11400000, guid: 5d15d285209440949a139c3f1a6b7edd, type: 2}
+  hidegoldswitch: 1
+  hidegoldvalue: 1

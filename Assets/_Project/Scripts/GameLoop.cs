@@ -11,8 +11,6 @@ public class GameLoop : MonoBehaviour
     public static GameLoop Main;
 
     public CameraController cameraController;
-    public TMP_Text turnCountText;
-    public TMP_Text goldCountText;
     public TMP_Dropdown figureSelection;
     public TMP_Dropdown buildingSelection;
     public Tilemap tilemap;
@@ -30,17 +28,20 @@ public class GameLoop : MonoBehaviour
 
     private void Awake()
     {
-        // Make GameLoop a singleton
-        if (Main == null)
+        if (PhotonNetwork.InRoom)
         {
-            Main = this;
+            // Make GameLoop a singleton
+            if (Main == null)
+            {
+                Main = this;
+            }
+            else
+            {
+                Main = this;
+                Debug.LogWarning("There can only be one GameLoop!");
+            }
+            NewPositionSelected(-Vector2Int.one);
         }
-        else
-        {
-            Destroy(this);
-            Debug.LogWarning("There can only be one GameLoop!");
-        }
-        NewPositionSelected(-Vector2Int.one);
     }
 
     public void Update()
@@ -53,8 +54,6 @@ public class GameLoop : MonoBehaviour
         {
             tilemap.gameObject.SetActive(false);
         }
-        goldCountText.text = "Gold: " + EconomySystem.Money;
-        turnCountText.text = "TP: " + GameManager.Main.turnPointsLeft;
     }
 
     public void UpdateTool(int Tool)
@@ -106,19 +105,7 @@ public class GameLoop : MonoBehaviour
         }
         else if (figuresThatCanMove.Count == 0)
         {
-            for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
-            {
-                for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
-                {
-                    if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == GameManager.Main.localPlayerID && FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y)).Count > 0)
-                    {
-                        if (GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
-                        {
-                            figuresThatCanMove.Add(new Vector2Int(x, y));
-                        }
-                    }
-                }
-            }
+            figuresThatCanMove = FigureMovement.GetMoveableFigures(GameManager.Main.localPlayerID);
         }
         else
         {
@@ -264,15 +251,10 @@ public class GameLoop : MonoBehaviour
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
         }
     }
-
-    public void test(int num)
-    {
-        Debug.Log(num);
-    }
 }
 
 [System.Serializable]
 public enum GameToolSelection
 {
-    Select, Move, Build, Spawn
+    Select, Build, Move, Spawn 
 }

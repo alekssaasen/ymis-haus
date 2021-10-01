@@ -814,6 +814,27 @@ public static class FigureMovement
         return validpositions;
     }
 
+    public static List<Vector2Int> GetMoveableFigures(int ID)
+    {
+        List<Vector2Int> figuresThatCanMove = new List<Vector2Int>();
+
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
+        {
+            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
+            {
+                if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == ID && GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y)).Count > 0)
+                {
+                    if (GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
+                    {
+                        figuresThatCanMove.Add(new Vector2Int(x, y));
+                    }
+                }
+            }
+        }
+
+        return figuresThatCanMove;
+    }
+
 }
 
 public enum CheckType
