@@ -48,13 +48,13 @@ MonoBehaviour:
   drawMode: 2
   mapWidth: 240
   mapHeight: 240
-  noiseScale: 28.96
-  octaves: 4
-  persistance: 0.142
+  noiseScale: 75
+  octaves: 8
+  persistance: 0.25
   lacunarity: 5.32
   seed: 117
   offset: {x: 0, y: 0}
-  meshHeightMultiplier: 10
+  meshHeightMultiplier: 15
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:
@@ -90,7 +90,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   autoUpdate: 1
   TextureScale: 4
-  TextureRandomness: 0.069
+  TextureRandomness: 0
+  tilesToFlatten: 28
+  flattenAmmount: 0
+  flattenOffset: 1
   regions:
   - name: Sand1
     height: 0.05
@@ -163,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029761481922766040}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.34, y: 0, z: 0.64}
+  m_LocalPosition: {x: 6.22, y: 0, z: 6.76}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 1029761481429042829}
