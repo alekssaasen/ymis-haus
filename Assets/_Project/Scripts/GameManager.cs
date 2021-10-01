@@ -41,23 +41,8 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("There can only be one GameManager!");
             }
 
-            if (GameSettingsInUse.BoardSetup.MapSize == new Vector2Int(14, 14))
-            {
-                Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
-                smallBoard.SetActive(false);
-                bigBoard.SetActive(true);
-
-                for (int i = 0; i < 4; i++)
-                {
-                    walls[i].SetActive(i < PhotonNetwork.PlayerList.Length);
-                }
-            }
-            else
-            {
-                Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
-                smallBoard.SetActive(true);
-                bigBoard.SetActive(false);
-            }
+            Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
+            Instantiate(GameSettingsInUse.BoardSetup.Prefab);
 
             UpdateFigures();
             turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;

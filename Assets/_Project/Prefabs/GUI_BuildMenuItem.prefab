@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 6162893450277390467}
   - component: {fileID: 104558320858377641}
   - component: {fileID: 7662689814312122587}
+  - component: {fileID: -5817283306897980057}
   m_Layer: 5
   m_Name: GUI_BuildMenuItem
   m_TagString: Untagged
@@ -335,9 +336,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 104558320858377641}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GUI_BuildMenuTile, Assembly-CSharp
-        m_MethodName: Click
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -376,6 +377,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1429bb6cfcbdcd741a67b5c81be60966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5817283306897980057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478394834871584652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a658b91270571da4888ce655728ea480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5292616282956499057

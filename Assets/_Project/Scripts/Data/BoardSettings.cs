@@ -6,6 +6,7 @@ using UnityEngine;
 public class BoardSettings : ScriptableObject
 {
     public Vector2Int MapSize = new Vector2Int(14, 14);
+    public GameObject Prefab;
 
     public FigureOverwrite[] Figures;
     public BuildingOverwrite[] Buildings;

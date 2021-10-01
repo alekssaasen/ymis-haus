@@ -40,7 +40,6 @@ public class GameLoop : MonoBehaviour
                 Main = this;
                 Debug.LogWarning("There can only be one GameLoop!");
             }
-            NewPositionSelected(-Vector2Int.one);
         }
     }
 
