@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ChessEmpiresBoard
   m_EditorClassIdentifier: 
   MapSize: {x: 14, y: 14}
+  Prefab: {fileID: 1029761481429042824, guid: e0292c6b6369da944a46b634ad91206a, type: 3}
   Figures:
   - ID: 0
     Position: {x: 1, y: 1}
