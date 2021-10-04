@@ -12,13 +12,11 @@ public class GUI_TileSelector : MonoBehaviour
     
     public void ClickOnTile()
     {
-        mouseMarker.localPosition = new Vector3(0, 0, 1);
-
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray.origin, ray.direction, out hit))
         {
             Vector2Int pos = new Vector2Int(Mathf.RoundToInt(hit.point.x), Mathf.RoundToInt(hit.point.z));
-            Debug.Log("Pos: " + pos + ", ID: " + GameManager.Main.Board[pos.x, pos.y].ownerID);
+            Debug.LogFormat("Pos: {0}, OwnerID: {1}, DefaultID: {2}", pos, GameManager.Main.Board[pos.x, pos.y].ownerID, GameManager.Main.Board[pos.x, pos.y].defaultID);
             GameLoop.Main.NewPositionSelected(pos);
         }
         else
@@ -31,6 +29,7 @@ public class GUI_TileSelector : MonoBehaviour
 
     public void Update()
     {
+        mouseMarker.localPosition = new Vector3(0, 0, 1);
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray.origin, ray.direction, out hit))
         {

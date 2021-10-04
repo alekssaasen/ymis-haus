@@ -10,7 +10,15 @@ public class GUI_Info : MonoBehaviour
 
     private void FixedUpdate()
     {
-        goldCountText.text = EconomySystem.Money + "$";
-        turnCountText.text = GameManager.Main.turnPointsLeft + "¤";
+        if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
+        {
+            goldCountText.text = EconomySystem.Money + "$";
+            turnCountText.text = GameManager.Main.turnPointsLeft + "¤";
+        }
+        else
+        {
+            goldCountText.text = "*$";
+            turnCountText.text = "*¤";
+        }
     }
 }

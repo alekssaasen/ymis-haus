@@ -51,5 +51,8 @@ public class GUI_BuildMenu : MonoBehaviour
     public void UpdateBool()
     {
         open = !open;
+        GameLoop.Main.figureSelected = ChessFigure.Empty;
+        GameLoop.Main.buildingSelected = ChessBuiding.Empty;
+        GameLoop.Main.ChangeState(ChessFigure.Empty, ChessBuiding.Empty);
     }
 }

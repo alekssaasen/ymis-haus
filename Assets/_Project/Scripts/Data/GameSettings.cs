@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Game Settings", menuName = "ScriptableObjects/GameSettings")]
 public class GameSettings : ScriptableObject
 {
-    [Header("Gamemode Settings")]
+    [Header("Gamemode Main Settings")]
     public string GamemodeName = "ChessEmpires";
     public int MinPlayerCount = 2;
     public int MaxPlayerCount = 2;
@@ -13,6 +13,10 @@ public class GameSettings : ScriptableObject
     public bool CanBuildBuildings = true;
     public bool ClassicCheckmate = false;
     public bool ClassicMovement = false;
+
+    [Header("Gamemode Other Settings")]
+    [ConditionalHide("CanSpawnFigures", false)] public bool FiguresCanMoveOnSpawn = false;
+    [ConditionalHide("ClassicMovement", true)] public bool OneFigureMovePerTurn = true;
     public float[] CameraRotationOffsets = { 45, 225, 135, 315 };
     public Vector3[] CameraPositionOffsets = { new Vector3(1, 0, 1), new Vector3(12, 0, 12), new Vector3(1, 0, 12), new Vector3(12, 0, 1) };
 

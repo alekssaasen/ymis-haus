@@ -9,6 +9,7 @@ using Photon.Realtime;
 public class NetworkPlayer : MonoBehaviourPunCallbacks
 {
     public TMP_Text textID;
+    public string[] playerNamesByIndex;
 
     private void Awake()
     {
@@ -37,9 +38,11 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetSide(int[] PlayerID)
     {
+        playerNamesByIndex = new string[PlayerID.Length];
         Debug.Log("Applying side to local");
         for (int i = 0; i < PlayerID.Length; i++)
         {
+            playerNamesByIndex[PlayerID[i]] = PhotonNetwork.PlayerList[i].NickName;
             if (PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber)
             {
                 GameManager.Main.localPlayerID = PlayerID[i];
@@ -54,7 +57,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     {
         Debug.Log("Moving figure to: " + NewPosition.ToString());
         GameManager.Main.MovePiece(Vector2Int.RoundToInt(OldPosition), Vector2Int.RoundToInt(NewPosition));
-        GameLoop.Main.ResetUI();
     }
 
     [PunRPC]
@@ -62,7 +64,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     {
         Debug.Log("Building: " + Building.ToString());
         GameManager.Main.BuildBuilding(Vector2Int.RoundToInt(NewPosition), Building, NewID);
-        GameLoop.Main.ResetUI();
     }
 
     [PunRPC]
@@ -70,7 +71,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     {
         Debug.Log("Spawning: " + Figure.ToString());
         GameManager.Main.SpawnFigure(Vector2Int.RoundToInt(NewPosition), Figure, NewID);
-        GameLoop.Main.ResetUI();
     }
 
     [PunRPC]
@@ -80,11 +80,21 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         if (GameManager.Main.turnID == PhotonNetwork.PlayerList.Length)
         {
             GameManager.Main.turnID = 0;
-            Debug.Log("Ending turn with a player loop");
+        }
+
+        if (PhotonNetwork.LocalPlayer.NickName == playerNamesByIndex[GameManager.Main.turnID])
+        {
+            GUI_MainMessage.SendNewMessage("Your turn!");
         }
         else
         {
-            Debug.Log("Ending turn");
+            GUI_MainMessage.SendNewMessage(playerNamesByIndex[GameManager.Main.turnID] + "'s turn!");
+        }
+
+        if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
+        {
+            GameLoop.Main.StartLocalTurn();
+            GameLoop.Main.NewPositionSelected(-Vector2Int.one);
         }
     }
 

@@ -7,6 +7,7 @@ public class GUI_Deselect : MonoBehaviour, IDeselectHandler //This Interface is 
 {
     public void OnDeselect(BaseEventData data)
     {
-        Debug.Log("Deselected");
+        Debug.Log("Deselected: " + gameObject.name);
+        GameLoop.Main.ChangeState(ChessFigure.Empty, ChessBuiding.Empty);
     }
 }

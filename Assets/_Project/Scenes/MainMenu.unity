@@ -3031,10 +3031,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
+  m_HorizontalAxis: UI_Horizontal
+  m_VerticalAxis: UI_Vertical
+  m_SubmitButton: UI_Click
+  m_CancelButton: UI_Back
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
@@ -10745,12 +10745,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee7808efdb1141243b26669ca62040dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderAssets:
-  - {fileID: 11400000, guid: 53ba39ab9d290974f89aecaa25167b26, type: 2}
-  - {fileID: 11400000, guid: 22de1b8da95065a4ba2684742498e3e3, type: 2}
-  - {fileID: 11400000, guid: 3491a5c20b9d1a140903d8a19ccfa2fa, type: 2}
-  - {fileID: 11400000, guid: 984a757a999c8124e8215d2be9d34cf0, type: 2}
-  - {fileID: 11400000, guid: 1da1b524248dcb74991e97db476195d2, type: 2}
   dropdown: {fileID: 1609571257}
   postProcessing: {fileID: 920130557}
 --- !u!1 &2144681704

@@ -22,6 +22,7 @@ public class GUI_BuildMenuTile : MonoBehaviour
         if (EconomySystem.CanBuyFigure(figure, out string msg1) || EconomySystem.CanBuyBuilding(buiding, out string msg2))
         {
             errorText.transform.parent.gameObject.SetActive(false);
+            errorText.text = "";
             canBuy = true;
         }
         else
@@ -44,6 +45,9 @@ public class GUI_BuildMenuTile : MonoBehaviour
 
     public void Click()
     {
-        Debug.Log("Click!");
+        if (!canBuy)
+        {
+            GUI_MainMessage.SendNewMessage(errorText.text);
+        }
     }
 }

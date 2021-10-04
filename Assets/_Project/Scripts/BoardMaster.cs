@@ -39,30 +39,35 @@ public static class BoardMaster
                 pos = RotateAroundVector2Int(Settings.Walls[i].RotationOffset, Settings.MapSize, Settings.Walls[i].InteriorWalls[j]);
                 newboard[pos.x, pos.y].wall = WallType.InteriorWall;
                 newboard[pos.x, pos.y].ownerID = Settings.Walls[i].ID;
+                newboard[pos.x, pos.y].defaultID = Settings.Walls[i].ID;
             }
             for (int j = 0; j < Settings.Walls[i].InteriorGates.Length; j++)
             {
                 pos = RotateAroundVector2Int(Settings.Walls[i].RotationOffset, Settings.MapSize, Settings.Walls[i].InteriorGates[j]);
                 newboard[pos.x, pos.y].wall = WallType.InteriorGate;
                 newboard[pos.x, pos.y].ownerID = Settings.Walls[i].ID;
+                newboard[pos.x, pos.y].defaultID = Settings.Walls[i].ID;
             }
             for (int j = 0; j < Settings.Walls[i].ExteriorWalls.Length; j++)
             {
                 pos = RotateAroundVector2Int(Settings.Walls[i].RotationOffset, Settings.MapSize, Settings.Walls[i].ExteriorWalls[j]);
                 newboard[pos.x, pos.y].wall = WallType.ExteriorWall;
                 newboard[pos.x, pos.y].ownerID = Settings.Walls[i].ID;
+                newboard[pos.x, pos.y].defaultID = Settings.Walls[i].ID;
             }
             for (int j = 0; j < Settings.Walls[i].ExteriorGates.Length; j++)
             {
                 pos = RotateAroundVector2Int(Settings.Walls[i].RotationOffset, Settings.MapSize, Settings.Walls[i].ExteriorGates[j]);
                 newboard[pos.x, pos.y].wall = WallType.ExteriorGate;
                 newboard[pos.x, pos.y].ownerID = Settings.Walls[i].ID;
+                newboard[pos.x, pos.y].defaultID = Settings.Walls[i].ID;
             }
             for (int j = 0; j < Settings.Walls[i].InsideTiles.Length; j++)
             {
                 pos = RotateAroundVector2Int(Settings.Walls[i].RotationOffset, Settings.MapSize, Settings.Walls[i].InsideTiles[j]);
                 newboard[pos.x, pos.y].wall = WallType.Inside;
                 newboard[pos.x, pos.y].ownerID = Settings.Walls[i].ID;
+                newboard[pos.x, pos.y].defaultID = Settings.Walls[i].ID;
             }
         }
 
@@ -96,6 +101,7 @@ public static class BoardMaster
 public struct TileInfo
 {
     public int ownerID;
+    public int defaultID;
     public ChessFigure figure;
     public ChessBuiding building;
     public WallType wall;
@@ -106,6 +112,7 @@ public struct TileInfo
     public TileInfo(int NewOwnerID)
     {
         ownerID = NewOwnerID;
+        defaultID = -1;
         figure = ChessFigure.Empty;
         building = ChessBuiding.Empty;
         wall = WallType.None;
@@ -117,6 +124,7 @@ public struct TileInfo
     public TileInfo(int NewOwnerID, ChessFigure Figure, Transform Object)
     {
         ownerID = NewOwnerID;
+        defaultID = -1;
         figure = Figure;
         building = ChessBuiding.Empty;
         wall = WallType.None;
@@ -127,6 +135,7 @@ public struct TileInfo
     public TileInfo(int NewOwnerID, ChessBuiding Building, Transform Object)
     {
         ownerID = NewOwnerID;
+        defaultID = -1;
         figure = ChessFigure.Empty;
         building = Building;
         wall = WallType.None;
@@ -137,6 +146,7 @@ public struct TileInfo
     public TileInfo(int NewOwnerID, TileInfo OldTile, WallType Wall)
     {
         ownerID = NewOwnerID;
+        defaultID = NewOwnerID;
         figure = OldTile.figure;
         building = OldTile.building;
         wall = Wall;

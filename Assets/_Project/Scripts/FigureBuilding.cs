@@ -16,19 +16,18 @@ public static class FigureBuilding
         new Vector2Int(-1, 1),
     };
 
-    public static List<Vector2Int> GetValidFoundations(int ID, ChessBuiding Building)
+    public static List<Vector2Int> GetValidFoundations(int ID)
     {
         List<Vector2Int> validfoundations = new List<Vector2Int>();
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (EconomySystem.CanBuyBuilding(Building, out string msg1) && GameManager.Main.Board[x, y].figure == ChessFigure.Pawn && GameManager.Main.Board[x, y].ownerID == ID)
+                if (GameManager.Main.Board[x, y].figure == ChessFigure.Pawn && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     for (int i = 0; i < 8; i++)
                     {
-                        if (FigureMovement.InsideBoard(new Vector2Int(x + Directions[i].x, y + Directions[i].y)) &&
-                            GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].building == ChessBuiding.Empty)
+                        if (FigureMovement.InsideBoard(new Vector2Int(x + Directions[i].x, y + Directions[i].y)) && GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].building == ChessBuiding.Empty)
                         {
                             if (!validfoundations.Contains(new Vector2Int(x, y) + Directions[i]))
                             {
@@ -37,7 +36,7 @@ public static class FigureBuilding
                         }
                     }
                 }
-                if (EconomySystem.CanBuyBuilding(Building, out string msg2) && GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
+                if (GameManager.Main.Board[x, y].wall != WallType.None && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     if (GameManager.Main.Board[x, y].wall == WallType.Inside || GameManager.Main.Board[x, y].wall == WallType.InteriorWall || GameManager.Main.Board[x, y].wall == WallType.InteriorGate)
                     {
@@ -52,18 +51,18 @@ public static class FigureBuilding
         return validfoundations;
     }
 
-    public static List<Vector2Int> GetValidSpawnpoints(int ID, ChessFigure Figure)
+    public static List<Vector2Int> GetValidSpawnpoints(int ID)
     {
         List<Vector2Int> validspawnpoints = new List<Vector2Int>();
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (EconomySystem.CanBuyFigure(Figure, out string msg1) && GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
+                if (GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     for (int i = 0; i < 8; i++)
                     {
-                        if (GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].figure == ChessFigure.Empty)
+                        if (FigureMovement.InsideBoard(new Vector2Int(x + Directions[i].x, y + Directions[i].y)) && GameManager.Main.Board[x + Directions[i].x, y + Directions[i].y].figure == ChessFigure.Empty)
                         {
                             if (!validspawnpoints.Contains(new Vector2Int(x, y) + Directions[i]))
                             {
@@ -72,7 +71,7 @@ public static class FigureBuilding
                         }
                     }
                 }
-                if (EconomySystem.CanBuyFigure(Figure, out string msg2) && GameManager.Main.Board[x, y].ownerID == ID)
+                if (GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     if (GameManager.Main.Board[x, y].wall == WallType.Inside || GameManager.Main.Board[x, y].wall == WallType.InteriorWall || GameManager.Main.Board[x, y].wall == WallType.InteriorGate)
                     {

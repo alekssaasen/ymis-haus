@@ -22,19 +22,9 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        float offset = 0;
-        if (Input.GetKey(KeyCode.Q))
-        {
-            offset += 40;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            offset -= 40;
-        }
+        transform.rotation = Quaternion.Euler(0, GameManager.GameSettingsInUse.CameraRotationOffsets[GameManager.Main.localPlayerID] + 40 * Input.GetAxis("RotationX"), 0);
 
-        transform.rotation = Quaternion.Euler(0, GameManager.GameSettingsInUse.CameraRotationOffsets[GameManager.Main.localPlayerID] + offset, 0);
-
-        move = (transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical")).normalized * Time.deltaTime * movementSpeed;
+        move = (transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical")).normalized * Time.deltaTime * movementSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
             move *= 3;

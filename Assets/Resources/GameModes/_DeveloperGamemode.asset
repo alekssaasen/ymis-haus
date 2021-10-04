@@ -19,6 +19,8 @@ MonoBehaviour:
   CanBuildBuildings: 1
   ClassicCheckmate: 0
   ClassicMovement: 0
+  FiguresCanMoveOnSpawn: 0
+  OneFigureMovePerTurn: 1
   CameraRotationOffsets:
   - 45
   - 225

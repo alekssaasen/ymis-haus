@@ -18,10 +18,6 @@ public class GameManager : MonoBehaviour
     public static GameSettings GameSettingsInUse;
     public static Texture2D MapTexture2D;
 
-    [SerializeField] private GameObject smallBoard;
-    [SerializeField] private GameObject bigBoard;
-    [SerializeField] private GameObject[] walls;
-
     private void Awake()
     {
         if (!PhotonNetwork.InRoom)
@@ -67,7 +63,7 @@ public class GameManager : MonoBehaviour
                 if (Board[x, y].figureTransform == null && Board[x, y].figure != ChessFigure.Empty && Board[x, y].building == ChessBuiding.Empty)
                 {
                     // Create figure
-                    Debug.Log("Create figure");
+                    Debug.Log("Create figure: (" + x + "," + y + ")");
                     GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.Euler(0, GameSettingsInUse.CameraRotationOffsets[Board[x, y].ownerID], 0));
                     obj.name = Board[x, y].figure.ToString() + " (" + Board[x, y].ownerID + ")";
                     obj.transform.parent = transform;
@@ -80,14 +76,14 @@ public class GameManager : MonoBehaviour
                 else if (Board[x, y].figureTransform != null && Board[x, y].figure != ChessFigure.Empty && Board[x, y].building == ChessBuiding.Empty)
                 {
                     // Update figure
-                    Debug.Log("Update figure");
+                    Debug.Log("Update figure: (" + x + "," + y + ")");
                     Board[x, y].figureTransform.position = new Vector3(x, 0, y);
                 }
 
                 else if (Board[x, y].buildingTransform == null && Board[x, y].building != ChessBuiding.Empty && Board[x, y].figure == ChessFigure.Empty)
                 {
                     // Create building
-                    Debug.Log("Create building");
+                    Debug.Log("Create building: (" + x + "," + y + ")");
                     GameObject obj = Instantiate(figurePrefab, new Vector3(x, 0, y), Quaternion.identity);
                     obj.name = Board[x, y].building.ToString() + " (" + Board[x, y].ownerID + ")";
                     obj.transform.parent = transform;
@@ -100,7 +96,7 @@ public class GameManager : MonoBehaviour
                 else if (Board[x, y].buildingTransform != null && Board[x, y].building != ChessBuiding.Empty && Board[x, y].figure == ChessFigure.Empty)
                 {
                     // Update building
-                    Debug.Log("Update building");
+                    Debug.Log("Update building: (" + x + "," + y + ")");
                     Board[x, y].buildingTransform.GetComponent<MeshRenderer>().material = ChessFigureSetInUse.MaterialsByID[Board[x, y].ownerID + 1];
                 }
             }
@@ -130,7 +126,7 @@ public class GameManager : MonoBehaviour
 
             // Set ownership
             Board[NewPosition.x, NewPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].ownerID;
-            Board[OldPosition.x, OldPosition.y].ownerID = 0;
+            Board[OldPosition.x, OldPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].defaultID;
 
             // Set figure
             Board[NewPosition.x, NewPosition.y].building = ChessBuiding.Empty;
@@ -161,7 +157,7 @@ public class GameManager : MonoBehaviour
 
             // Set ownership
             Board[NewPosition.x, NewPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].ownerID;
-            Board[OldPosition.x, OldPosition.y].ownerID = -1;
+            Board[OldPosition.x, OldPosition.y].ownerID = Board[OldPosition.x, OldPosition.y].defaultID;
 
             // Set figure
             Board[NewPosition.x, NewPosition.y].figure = Board[OldPosition.x, OldPosition.y].figure;
@@ -177,17 +173,22 @@ public class GameManager : MonoBehaviour
 
             UpdateFigures();
         }
+        GameLoop.Main.NewPositionSelected(NewPosition);
     }
 
     public void BuildBuilding(Vector2Int NewPosition, ChessBuiding Building, int NewID)
     {
-        Board[NewPosition.x, NewPosition.y] = new TileInfo(NewID, Building, null);
+        Board[NewPosition.x, NewPosition.y].building = Building;
+        Board[NewPosition.x, NewPosition.y].buildingTransform = null;
+        Board[NewPosition.x, NewPosition.y].ownerID = NewID;
         UpdateFigures();
     }
 
     public void SpawnFigure(Vector2Int NewPosition, ChessFigure Figure, int NewID)
     {
-        Board[NewPosition.x, NewPosition.y] = new TileInfo(NewID, Figure, null);
+        Board[NewPosition.x, NewPosition.y].figure = Figure;
+        Board[NewPosition.x, NewPosition.y].figureTransform = null;
+        Board[NewPosition.x, NewPosition.y].ownerID = NewID;
         UpdateFigures();
     }
 }
