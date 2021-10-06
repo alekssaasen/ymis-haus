@@ -91,11 +91,28 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
             GUI_MainMessage.SendNewMessage(playerNamesByIndex[GameManager.Main.turnID] + "'s turn!");
         }
 
-        if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
+        GameLoop.Main.StartLocalTurn();
+    }
+
+    [PunRPC]
+    public void DestroyPlayer(int ID)
+    {
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
-            GameLoop.Main.StartLocalTurn();
-            GameLoop.Main.NewPositionSelected(-Vector2Int.one);
+            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
+            {
+                if (GameManager.Main.Board[x, y].ownerID == ID)
+                {
+                    GameManager.Main.Board[x, y].ownerID = GameManager.Main.Board[x, y].defaultID;
+                    GameManager.Main.Board[x, y].figure = ChessFigure.Empty;
+                    GameManager.Main.Board[x, y].figureTransform = null;
+                    GameManager.Main.Board[x, y].building = ChessBuiding.Empty;
+                    GameManager.Main.Board[x, y].buildingTransform = null;
+                }
+            }
         }
+
+        GameManager.Main.UpdateFigures();
     }
 
     public void LeaveRoom()

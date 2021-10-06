@@ -814,7 +814,7 @@ public static class FigureMovement
         return validpositions;
     }
 
-    public static List<Vector2Int> GetMoveableFigures(int ID)
+    public static List<Vector2Int> GetMoveableFigures(int ID, bool CheckMovementCost)
     {
         List<Vector2Int> figuresThatCanMove = new List<Vector2Int>();
 
@@ -824,7 +824,11 @@ public static class FigureMovement
             {
                 if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == ID && GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y)).Count > 0)
                 {
-                    if (GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
+                    if (CheckMovementCost && GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
+                    {
+                        figuresThatCanMove.Add(new Vector2Int(x, y));
+                    }
+                    else if (!CheckMovementCost)
                     {
                         figuresThatCanMove.Add(new Vector2Int(x, y));
                     }

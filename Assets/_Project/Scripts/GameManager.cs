@@ -46,8 +46,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GameLoop.Main.StartLocalTurn();
+    }
+
     // -----------------------------------------------------------------------------------------------------
-    
+
     public void UpdateFigures()
     {
         // For each tile on the board

@@ -10,6 +10,7 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Main;
     public GameObject BackgroungButton;
+    public GUI_GameOver gameOverUI;
 
     public CameraController cameraController;
     public Tilemap tilemap;
@@ -45,18 +46,6 @@ public class GameLoop : MonoBehaviour
                 Main = this;
                 Debug.LogWarning("There can only be one GameLoop!");
             }
-        }
-    }
-
-    public void Update()
-    {
-        if (GameManager.Main.localPlayerID == GameManager.Main.turnID)
-        {
-            tilemap.gameObject.SetActive(true);
-        }
-        else
-        {
-            tilemap.gameObject.SetActive(false);
         }
     }
 
@@ -128,11 +117,6 @@ public class GameLoop : MonoBehaviour
                 GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[oldSelectedPosition.x, oldSelectedPosition.y].figure);
 
                 ignoredFigures.Add(newSelectedPosition);
-
-                if (GameManager.Main.turnPointsLeft <= 0)
-                {
-                    FinishLocalTurn();
-                }
             }
             if (newSelectedPosition == oldSelectedPosition)
             {
@@ -182,7 +166,7 @@ public class GameLoop : MonoBehaviour
 
     public void UpdateUI()
     {
-        figuresThatCanMove = FigureMovement.GetMoveableFigures(GameManager.Main.localPlayerID);
+        figuresThatCanMove = FigureMovement.GetMoveableFigures(GameManager.Main.localPlayerID, true);
         buildingFoundations = FigureBuilding.GetValidFoundations(GameManager.Main.localPlayerID);
         figureSpawnpoints = FigureBuilding.GetValidSpawnpoints(GameManager.Main.localPlayerID);
 
@@ -193,11 +177,6 @@ public class GameLoop : MonoBehaviour
                 figuresThatCanMove.RemoveAt(i);
                 i--;
             }
-        }
-
-        if (figuresThatCanMove.Count <= 0)
-        {
-            FinishLocalTurn();
         }
 
         UpdateTileset();
@@ -259,11 +238,27 @@ public class GameLoop : MonoBehaviour
     {
         if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
         {
-            EconomySystem.CalculateMoneyForTurn();
-            GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
-            ignoredFigures = new List<Vector2Int>();
+            if (GameOver.DidThePlayerLose(GameManager.Main.localPlayerID))
+            {
+                gameOverUI.EndGame(false);
+                PhotonView.Get(this).RpcSecure("DestroyPlayer", RpcTarget.AllBufferedViaServer, false, GameManager.Main.localPlayerID);
+                FinishLocalTurn();
+            }
+            else if (GameOver.DidThePlayerWin(GameManager.Main.localPlayerID))
+            {
+                gameOverUI.EndGame(true);
+                FinishLocalTurn();
+            }
+            else
+            {
+                EconomySystem.CalculateMoneyForTurn();
+                GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
+                ignoredFigures = new List<Vector2Int>();
 
-            tilemap.gameObject.SetActive(true);
+                tilemap.gameObject.SetActive(true);
+            }
+
+            NewPositionSelected(-Vector2Int.one);
         }
     }
 
