@@ -81,7 +81,7 @@ public static class FigureMovement
 
 
 
-    public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position)
+    public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position,out CheckType TypeOfCheck)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
         //Check-for-checks
@@ -263,6 +263,7 @@ public static class FigureMovement
             checkType = CheckType.NoCheck;
         }
 
+        TypeOfCheck = checkType;
 
         
         switch (FigureTile.figure)
@@ -822,7 +823,7 @@ public static class FigureMovement
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == ID && GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y)).Count > 0)
+                if (GameManager.Main.Board[x, y].figure != ChessFigure.Empty && GameManager.Main.Board[x, y].ownerID == ID && GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[x, y], new Vector2Int(x, y),out CheckType discard).Count > 0)
                 {
                     if (CheckMovementCost && GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[x, y].figure) <= GameManager.Main.turnPointsLeft)
                     {

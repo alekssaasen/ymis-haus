@@ -107,7 +107,7 @@ public class GameLoop : MonoBehaviour
     {
         if (figuresThatCanMove.Contains(newSelectedPosition) && newSelectedPosition != oldSelectedPosition && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].figure != ChessFigure.Empty && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].ownerID == GameManager.Main.localPlayerID)
         {
-            validNewFigurePositions = FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y], newSelectedPosition);
+            validNewFigurePositions = FigureMovement.GetValidPositions(GameManager.Main.localPlayerID, GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y], newSelectedPosition, out CheckType checkType);
         }
         else
         {
