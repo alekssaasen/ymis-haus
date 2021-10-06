@@ -155,10 +155,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         {
             launchButton.gameObject.SetActive(false);
         }
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonView.Get(this).RpcSecure("UpdateGameMode", RpcTarget.AllBufferedViaServer, false, gameModeDropdown.value);
-        }
     }
 
     public void LaunchGame()

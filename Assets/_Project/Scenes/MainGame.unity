@@ -5111,7 +5111,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 849733954}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.82016796
+  m_Size: 0.8200268
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7021,6 +7021,7 @@ GameObject:
   - component: {fileID: 1731674613}
   - component: {fileID: 1731674615}
   - component: {fileID: 1731674614}
+  - component: {fileID: 1731674616}
   m_Layer: 5
   m_Name: Message
   m_TagString: Untagged
@@ -7082,6 +7083,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &1731674616
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731674612}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1761483084
 GameObject:
   m_ObjectHideFlags: 0

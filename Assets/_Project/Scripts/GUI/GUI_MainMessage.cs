@@ -7,7 +7,6 @@ public class GUI_MainMessage : MonoBehaviour
 {
     public static GUI_MainMessage Main;
     public Animator messageAnimator;
-    public AnimationClip messageClip;
     public TMP_Text messageText;
 
     void Awake()
