@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _DeveloperGamemode
   m_EditorClassIdentifier: 
   GamemodeName: UseThisOnlyForTesting
-  MinPlayerCount: 1
+  MinPlayerCount: 2
   MaxPlayerCount: 4
   CanSpawnFigures: 1
   CanBuildBuildings: 1

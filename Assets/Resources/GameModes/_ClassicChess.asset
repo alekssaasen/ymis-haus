@@ -10,27 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
-  m_Name: ClassicChess
+  m_Name: _ClassicChess
   m_EditorClassIdentifier: 
-  GamemodeName: ChessEmpires
+  GamemodeName: ClassicChess
   MinPlayerCount: 2
   MaxPlayerCount: 2
-  CanSpawnFigures: 1
-  CanBuildBuildings: 1
-  ClassicCheckmate: 0
-  ClassicMovement: 0
+  CanSpawnFigures: 0
+  CanBuildBuildings: 0
+  ClassicCheckmate: 1
+  ClassicMovement: 1
+  FiguresCanMoveOnSpawn: 0
+  OneFigureMovePerTurn: 1
   CameraRotationOffsets:
-  - 45
-  - 225
+  - 0
+  - 180
   CameraPositionOffsets:
-  - {x: 1, y: 0, z: 1}
-  - {x: 12, y: 0, z: 12}
-  MovePointsPerTurn: 5
-  KingMoveCost: 5
-  QueenMoveCost: 5
-  BishopMoveCost: 2
-  KnightMoveCost: 3
-  RookMoveCost: 2
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 0, z: 1}
+  MovePointsPerTurn: 1
+  KingMoveCost: 1
+  QueenMoveCost: 1
+  BishopMoveCost: 1
+  KnightMoveCost: 1
+  RookMoveCost: 1
   PawnMoveCost: 1
   QueenSpawnCost: 75
   BishopSpawnCost: 25
@@ -43,6 +45,6 @@ MonoBehaviour:
   StartingGold: 10
   GoldPerFarm: 3
   GoldPerGoldMine: 5
-  BoardSetup: {fileID: 0}
+  BoardSetup: {fileID: 11400000, guid: 762347b6d26cefa4abbcdf9eca957171, type: 2}
   hidegoldswitch: 1
-  hidegoldvalue: 1
+  hidegoldvalue: 0

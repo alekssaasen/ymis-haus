@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
-  m_Name: ChessEmpires
+  m_Name: _ChessEmpires
   m_EditorClassIdentifier: 
   GamemodeName: ChessEmpires
   MinPlayerCount: 2
@@ -19,6 +19,8 @@ MonoBehaviour:
   CanBuildBuildings: 1
   ClassicCheckmate: 0
   ClassicMovement: 0
+  FiguresCanMoveOnSpawn: 0
+  OneFigureMovePerTurn: 1
   CameraRotationOffsets:
   - 45
   - 225
