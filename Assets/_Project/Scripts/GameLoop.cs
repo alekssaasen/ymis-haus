@@ -116,7 +116,14 @@ public class GameLoop : MonoBehaviour
                 PhotonView.Get(this).RpcSecure("MoveFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)oldSelectedPosition, (Vector2)newSelectedPosition);
                 GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.GetMoveCost(GameManager.Main.Board[oldSelectedPosition.x, oldSelectedPosition.y].figure);
 
-                ignoredFigures.Add(newSelectedPosition);
+                if (GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].building == ChessBuiding.Mine)
+                {
+                    ignoredFigures.Add(oldSelectedPosition);
+                }
+                else
+                {
+                    ignoredFigures.Add(newSelectedPosition);
+                }
             }
             if (newSelectedPosition == oldSelectedPosition)
             {
@@ -128,7 +135,7 @@ public class GameLoop : MonoBehaviour
 
     private void Build()
     {
-        if (EconomySystem.CheckBuildingPrice(buildingSelected, out int price) && buildingFoundations.Contains(newSelectedPosition) && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].building == ChessBuiding.Empty && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].figure == ChessFigure.Empty)
+        if (EconomySystem.CanBuyBuilding(buildingSelected, out string message, out int price) && buildingFoundations.Contains(newSelectedPosition) && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].building == ChessBuiding.Empty && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].figure == ChessFigure.Empty)
         {
             EconomySystem.Money -= price;
             PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)newSelectedPosition, buildingSelected, GameManager.Main.localPlayerID);
@@ -145,7 +152,7 @@ public class GameLoop : MonoBehaviour
 
     private void Spawn()
     {
-        if (EconomySystem.CheckFigurePrice(figureSelected, out int price) && figureSpawnpoints.Contains(newSelectedPosition) && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].building == ChessBuiding.Empty && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].figure == ChessFigure.Empty)
+        if (EconomySystem.CanBuyFigure(figureSelected, out string message, out int price) && figureSpawnpoints.Contains(newSelectedPosition) && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].building == ChessBuiding.Empty && GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y].figure == ChessFigure.Empty)
         {
             EconomySystem.Money -= price;
             PhotonView.Get(this).RpcSecure("SpawnFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)newSelectedPosition, figureSelected, GameManager.Main.localPlayerID);

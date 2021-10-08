@@ -3419,6 +3419,10 @@ PrefabInstance:
       propertyPath: buiding
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 104558320858377641, guid: fbce782d09449524297d0fd8f40ed6d0, type: 3}
+      propertyPath: building
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2478394834871584652, guid: fbce782d09449524297d0fd8f40ed6d0, type: 3}
       propertyPath: m_Name
       value: GUI_ShopItem (7)
@@ -8417,6 +8421,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 104558320858377641, guid: fbce782d09449524297d0fd8f40ed6d0, type: 3}
       propertyPath: buiding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 104558320858377641, guid: fbce782d09449524297d0fd8f40ed6d0, type: 3}
+      propertyPath: building
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2478394834871584652, guid: fbce782d09449524297d0fd8f40ed6d0, type: 3}

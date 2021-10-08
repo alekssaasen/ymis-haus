@@ -15,31 +15,45 @@ public class GUI_BuildMenuTile : MonoBehaviour
     public RawImage backgroundImage;
 
     public ChessFigure figure;
-    public ChessBuiding buiding;
+    public ChessBuiding building;
 
     private void FixedUpdate()
     {
-        if (EconomySystem.CanBuyFigure(figure, out string msg1) || EconomySystem.CanBuyBuilding(buiding, out string msg2))
+        if (figure != ChessFigure.Empty && building == ChessBuiding.Empty)
         {
-            errorText.transform.parent.gameObject.SetActive(false);
-            errorText.text = "";
-            canBuy = true;
+            bool canbuyfigure = EconomySystem.CanBuyFigure(figure, out string msg, out int price);
+            if (canbuyfigure)
+            {
+                errorText.transform.parent.gameObject.SetActive(false);
+                errorText.text = "";
+                canBuy = true;
+                goldText.text = price.ToString();
+            }
+            else
+            {
+                errorText.transform.parent.gameObject.SetActive(true);
+                errorText.text = msg;
+                canBuy = false;
+                goldText.text = price.ToString();
+            }
         }
-        else
+        else if (building != ChessBuiding.Empty && figure == ChessFigure.Empty)
         {
-            errorText.transform.parent.gameObject.SetActive(true);
-            errorText.text = msg1 + msg2;
-            canBuy = false;
-        }
-
-        if (figure != ChessFigure.Empty && EconomySystem.CheckFigurePrice(figure, out int num1))
-        {
-            goldText.text = num1.ToString();
-        }
-
-        if (buiding != ChessBuiding.Empty && EconomySystem.CheckBuildingPrice(buiding, out int num2))
-        {
-            goldText.text = num2.ToString();
+            bool canbuybuilding = EconomySystem.CanBuyBuilding(building, out string msg, out int price);
+            if (canbuybuilding)
+            {
+                errorText.transform.parent.gameObject.SetActive(false);
+                errorText.text = "";
+                canBuy = true;
+                goldText.text = price.ToString();
+            }
+            else
+            {
+                errorText.transform.parent.gameObject.SetActive(true);
+                errorText.text = msg;
+                canBuy = false;
+                goldText.text = price.ToString();
+            }
         }
     }
 

@@ -38,96 +38,156 @@ public static class EconomySystem
         }
     }
 
-    public static bool CheckFigurePrice(ChessFigure Figure, out int Price)
+    private static int CheckFigurePrice(ChessFigure Figure)
     {
-        Price = 0;
+        int price = 0;
         switch (Figure)
         {
             case ChessFigure.Queen:
-                Price = GameManager.GameSettingsInUse.QueenSpawnCost;
+                price = GameManager.GameSettingsInUse.QueenSpawnCost;
                 break;
 
             case ChessFigure.Bishop:
-                Price = GameManager.GameSettingsInUse.BishopSpawnCost;
+                price = GameManager.GameSettingsInUse.BishopSpawnCost;
                 break;
 
             case ChessFigure.Knight:
-                Price = GameManager.GameSettingsInUse.KnightSpawnCost;
+                price = GameManager.GameSettingsInUse.KnightSpawnCost;
                 break;
 
             case ChessFigure.Rook:
-                Price = GameManager.GameSettingsInUse.RookSpawnCost;
+                price = GameManager.GameSettingsInUse.RookSpawnCost;
                 break;
 
             case ChessFigure.Pawn:
-                Price = GameManager.GameSettingsInUse.PawnSpawnCost;
+                price = GameManager.GameSettingsInUse.PawnSpawnCost;
                 break;
 
         }
-        return Money >= Price;
+        return Mathf.RoundToInt((float)price * FigureMultiplayer(Figure, GameManager.Main.localPlayerID));
     }
 
-    public static bool CheckBuildingPrice(ChessBuiding Building, out int Price)
+    private static int CheckBuildingPrice(ChessBuiding Building)
     {
-        Price = 0;
+        int price = 0;
         switch (Building)
         {
             case ChessBuiding.Farm:
-                Price = GameManager.GameSettingsInUse.FarmCreationCost;
+                price = GameManager.GameSettingsInUse.FarmCreationCost;
                 break;
 
             case ChessBuiding.Barracks:
-                Price = GameManager.GameSettingsInUse.BarracksCreationCost;
+                price = GameManager.GameSettingsInUse.BarracksCreationCost;
                 break;
         }
-        return Money >= Price;
+        return Mathf.RoundToInt((float)price * BuildingMultiplayer(Building, GameManager.Main.localPlayerID));
     }
 
-    public static bool CanBuyBuilding(ChessBuiding Building, out string ErrorMessage)
+    public static bool CanBuyBuilding(ChessBuiding Building, out string ErrorMessage, out int Price)
     {
         switch (Building)
         {
             case ChessBuiding.Farm:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.FarmCreationCost <= Money;
+                Price = CheckBuildingPrice(Building);
+                if (Price <= Money)
+                {
+                    ErrorMessage = "";
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = "Not enough money";
+                    return false;
+                }
 
             case ChessBuiding.Barracks:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.BarracksCreationCost <= Money;
+                Price = CheckBuildingPrice(Building);
+                if (Price <= Money)
+                {
+                    ErrorMessage = "";
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = "Not enough money";
+                    return false;
+                }
 
             default:
+                Price = 0;
                 ErrorMessage = "Not enough money";
                 return false;
         }
     }
 
-    public static bool CanBuyFigure(ChessFigure Figure, out string ErrorMessage)
+    public static bool CanBuyFigure(ChessFigure Figure, out string ErrorMessage, out int Price)
     {
-        switch (Figure)
+        Price = CheckFigurePrice(Figure);
+        if (Price <= Money)
         {
-            case ChessFigure.Queen:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.QueenSpawnCost <= Money;
-
-            case ChessFigure.Bishop:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.BishopSpawnCost <= Money;
-
-            case ChessFigure.Knight:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.KnightSpawnCost <= Money;
-
-            case ChessFigure.Rook:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.RookSpawnCost <= Money;
-
-            case ChessFigure.Pawn:
-                ErrorMessage = "";
-                return GameManager.GameSettingsInUse.PawnSpawnCost <= Money;
-
-            default:
-                ErrorMessage = "Not enough money";
-                return false;
+            ErrorMessage = "";
+            return true;
         }
+        else
+        {
+            ErrorMessage = "Not enough money";
+            return false;
+        }
+    }
+
+    private static float FigureMultiplayer(ChessFigure Figure, int ID)
+    {
+        float multiplayer = 1;
+        int figurecount = 0;
+
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
+        {
+            for (int y = 0; y < GameManager.Main.Board.GetLength(0); y++)
+            {
+                if (GameManager.Main.Board[x, y].figure == Figure)
+                {
+                    figurecount++;
+                }
+            }
+        }
+
+        if (GameManager.GameSettingsInUse.AlternativeMultiplayerFormula)
+        {
+            multiplayer = Mathf.Pow(GameManager.GameSettingsInUse.FigureCostMultiplayer, figurecount);
+        }
+        else
+        {
+
+        }
+
+        return multiplayer;
+    }
+
+    private static float BuildingMultiplayer(ChessBuiding Buiding, int ID)
+    {
+        float multiplayer = 1;
+        int buildingcount = 0;
+
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
+        {
+            for (int y = 0; y < GameManager.Main.Board.GetLength(0); y++)
+            {
+                if (GameManager.Main.Board[x,y].building == Buiding)
+                {
+                    buildingcount++;
+                }
+            }
+        }
+
+        if (GameManager.GameSettingsInUse.AlternativeMultiplayerFormula)
+        {
+            multiplayer = Mathf.Pow(GameManager.GameSettingsInUse.BuildingCostMultiplayer, buildingcount);
+        }
+        else
+        {
+
+        }
+
+        return multiplayer;
     }
 }

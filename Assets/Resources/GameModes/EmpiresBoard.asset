@@ -47,7 +47,23 @@ MonoBehaviour:
     Position: {x: 1, y: 2}
     Figure: 6
     RotationOffset: 3
-  Buildings: []
+  Buildings:
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 0
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 1
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 2
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 3
   Walls:
   - ID: 0
     InteriorWalls:

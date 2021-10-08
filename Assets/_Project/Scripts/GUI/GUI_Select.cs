@@ -12,7 +12,7 @@ public class GUI_Select : MonoBehaviour, ISelectHandler //This Interface is requ
         if (tile.canBuy)
         {
             Debug.Log("Selected: " + gameObject.name);
-            GameLoop.Main.ChangeState(tile.figure, tile.buiding);
+            GameLoop.Main.ChangeState(tile.figure, tile.building);
         }
         else
         {

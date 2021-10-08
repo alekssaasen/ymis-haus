@@ -21,6 +21,7 @@ MonoBehaviour:
   ClassicMovement: 0
   FiguresCanMoveOnSpawn: 0
   OneFigureMovePerTurn: 1
+  AlternativeMultiplayerFormula: 1
   CameraRotationOffsets:
   - 45
   - 225
@@ -33,18 +34,20 @@ MonoBehaviour:
   - {x: 12, y: 0, z: 1}
   MovePointsPerTurn: 5
   KingMoveCost: 5
-  QueenMoveCost: 5
+  QueenMoveCost: 3
   BishopMoveCost: 2
   KnightMoveCost: 3
   RookMoveCost: 2
   PawnMoveCost: 1
-  QueenSpawnCost: 75
+  QueenSpawnCost: 50
   BishopSpawnCost: 25
   KnightSpawnCost: 40
   RookSpawnCost: 25
   PawnSpawnCost: 5
+  FigureCostMultiplayer: 1.25
   FarmCreationCost: 10
   BarracksCreationCost: 25
+  BuildingCostMultiplayer: 1.5
   GoldPerTurn: 25
   StartingGold: 100
   GoldPerFarm: 3

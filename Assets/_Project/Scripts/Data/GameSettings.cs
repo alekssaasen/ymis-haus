@@ -17,6 +17,7 @@ public class GameSettings : ScriptableObject
     [Header("Gamemode Other Settings")]
     [ConditionalHide("CanSpawnFigures", false)] public bool FiguresCanMoveOnSpawn = false;
     [ConditionalHide("ClassicMovement", true)] public bool OneFigureMovePerTurn = true;
+    public bool AlternativeMultiplayerFormula = false;
     public float[] CameraRotationOffsets = { 45, 225, 135, 315 };
     public Vector3[] CameraPositionOffsets = { new Vector3(1, 0, 1), new Vector3(12, 0, 12), new Vector3(1, 0, 12), new Vector3(12, 0, 1) };
 
@@ -35,10 +36,12 @@ public class GameSettings : ScriptableObject
     [ConditionalHide("CanSpawnFigures", false)] public int KnightSpawnCost = 40;
     [ConditionalHide("CanSpawnFigures", false)] public int RookSpawnCost = 25;
     [ConditionalHide("CanSpawnFigures", false)] public int PawnSpawnCost = 5;
+    [ConditionalHide("CanSpawnFigures", false)] public float FigureCostMultiplayer = 1.1f;
 
     [Header("Building costs")]
     [ConditionalHide("CanBuildBuildings", false)] public int FarmCreationCost = 10;
     [ConditionalHide("CanBuildBuildings", false)] public int BarracksCreationCost = 25;
+    [ConditionalHide("CanBuildBuildings", false)] public float BuildingCostMultiplayer = 1.5f;
 
     [Header("Money system")]
     [ConditionalHide("hidegoldvalue", false)] public int GoldPerTurn = 1;
