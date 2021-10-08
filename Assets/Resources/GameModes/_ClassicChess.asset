@@ -45,6 +45,6 @@ MonoBehaviour:
   StartingGold: 10
   GoldPerFarm: 3
   GoldPerGoldMine: 5
-  BoardSetup: {fileID: 11400000, guid: 762347b6d26cefa4abbcdf9eca957171, type: 2}
+  BoardSetup: {fileID: 11400000, guid: 6303c581d2720044cbfa273ec1f659a8, type: 2}
   hidegoldswitch: 1
   hidegoldvalue: 0
