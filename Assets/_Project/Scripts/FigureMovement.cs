@@ -113,58 +113,84 @@ public static class FigureMovement
         {
             Vector2Int possiblePin = new Vector2Int(-1, -1);
             List<Vector2Int> possiblePinnableTiles = new List<Vector2Int>();
-            for (int i = 1; i <= Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); i++)
+            WallBlock block1 = WallBlock.Pass;
+            WallBlock block2 = WallBlock.Pass;
+
+
+            if (InsideBoard(straightDirections[dir]))
             {
-                Vector2Int Tile = OurKing + (straightDirections[dir] * i);
-                if (Tile.x < GameManager.Main.Board.GetLength(0) && Tile.x >= 0 &&
-                    Tile.y < GameManager.Main.Board.GetLength(1) && Tile.y >= 0)
+                block1 = CrossedWall(OurKing, straightDirections[dir]);
+                if (InsideBoard(straightDirections[dir]*2))
                 {
-                    if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
+                    block2 = CrossedWall(straightDirections[dir],straightDirections[dir]*2);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+            if (block1 != WallBlock.Pass &&
+                block2 != WallBlock.Stop &&
+                (block1 != WallBlock.Block ||
+                block2 != WallBlock.Block))
+            {
+                for (int i = 1; i <= Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); i++)
+                {
+                    Vector2Int Tile = OurKing + (straightDirections[dir] * i);
+                    if (Tile.x < GameManager.Main.Board.GetLength(0) && Tile.x >= 0 &&
+                        Tile.y < GameManager.Main.Board.GetLength(1) && Tile.y >= 0)
                     {
-                        if (GameManager.Main.Board[Tile.x, Tile.y].ownerID == ID)
+                        if (GameManager.Main.Board[Tile.x, Tile.y].figure != ChessFigure.Empty)
                         {
-                            if (possiblePin != new Vector2Int(-1, -1))
+                            if (GameManager.Main.Board[Tile.x, Tile.y].ownerID == ID)
                             {
-                                break;
+                                if (possiblePin != new Vector2Int(-1, -1))
+                                {
+                                    break;
+                                }
+                                possiblePin = Tile;
                             }
-                            possiblePin = Tile;
+                            else
+                            {
+                                if (GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
+                                {
+                                    break;
+                                }
+
+                                if (GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Rook ||
+                                    GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Queen)
+                                {
+                                    if (possiblePin != new Vector2Int(-1, -1))
+                                    {
+                                        pinnedPieces.Add(possiblePin);
+                                        pinnedCheckingPieces.Add(Tile);
+                                        possiblePinnableTiles.Add(Tile);
+                                        pinnedPinnableTiles.AddRange(possiblePinnableTiles);
+                                        List<Vector2Int[]> arrayList = new List<Vector2Int[]>();
+                                        foreach (Vector2Int tile in pinnedPinnableTiles)
+                                        {
+                                            Vector2Int[] tilearray = new Vector2Int[2] { possiblePin, tile };
+                                            arrayList.Add(tilearray);
+                                        }
+                                        pinnedCheckedPair.Add(arrayList);
+                                    }
+                                    else
+                                    {
+                                        pinnableTiles.AddRange(possiblePinnableTiles);
+                                        checkingPieces.Add(Tile);
+                                    }
+                                    break;
+                                }
+                            }
                         }
                         else
                         {
-                            if (GameManager.Main.Board[Tile.x, Tile.y].building != ChessBuiding.Empty)
-                            {
-                                break;
-                            }
-
-                            if (GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Rook ||
-                                GameManager.Main.Board[Tile.x, Tile.y].figure == ChessFigure.Queen)
-                            {
-                                if (possiblePin != new Vector2Int(-1,-1))
-                                {
-                                    pinnedPieces.Add(possiblePin);
-                                    pinnedCheckingPieces.Add(Tile);
-                                    possiblePinnableTiles.Add(Tile);
-                                    pinnedPinnableTiles.AddRange(possiblePinnableTiles);
-                                    List<Vector2Int[]> arrayList = new List<Vector2Int[]>();
-                                    foreach (Vector2Int tile in pinnedPinnableTiles)
-                                    {
-                                        Vector2Int[] tilearray = new Vector2Int[2] {possiblePin,tile};
-                                        arrayList.Add(tilearray);
-                                    }
-                                    pinnedCheckedPair.Add(arrayList);
-                                }
-                                else
-                                {
-                                    pinnableTiles.AddRange(possiblePinnableTiles);
-                                    checkingPieces.Add(Tile);
-                                }
-                                break;
-                            }
+                            possiblePinnableTiles.Add(Tile);
                         }
-                    }
-                    else
-                    {
-                        possiblePinnableTiles.Add(Tile);
                     }
                 }
             }
