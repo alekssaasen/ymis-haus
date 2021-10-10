@@ -85,38 +85,47 @@ public static class EconomySystem
 
     public static bool CanBuyBuilding(ChessBuiding Building, out string ErrorMessage, out int Price)
     {
-        switch (Building)
+        if (GameManager.Main.turnPointsLeft >= GameManager.GameSettingsInUse.FigureSpawnTurnCost)
         {
-            case ChessBuiding.Farm:
-                Price = CheckBuildingPrice(Building);
-                if (Price <= Money)
-                {
-                    ErrorMessage = "";
-                    return true;
-                }
-                else
-                {
-                    ErrorMessage = "Not enough money";
-                    return false;
-                }
+            switch (Building)
+            {
+                case ChessBuiding.Farm:
+                    Price = CheckBuildingPrice(Building);
+                    if (Price <= Money)
+                    {
+                        ErrorMessage = "";
+                        return true;
+                    }
+                    else
+                    {
+                        ErrorMessage = "Not enough money";
+                        return false;
+                    }
 
-            case ChessBuiding.Barracks:
-                Price = CheckBuildingPrice(Building);
-                if (Price <= Money)
-                {
-                    ErrorMessage = "";
-                    return true;
-                }
-                else
-                {
-                    ErrorMessage = "Not enough money";
-                    return false;
-                }
+                case ChessBuiding.Barracks:
+                    Price = CheckBuildingPrice(Building);
+                    if (Price <= Money)
+                    {
+                        ErrorMessage = "";
+                        return true;
+                    }
+                    else
+                    {
+                        ErrorMessage = "Not enough money";
+                        return false;
+                    }
 
-            default:
-                Price = 0;
-                ErrorMessage = "Not enough money";
-                return false;
+                default:
+                    Price = 0;
+                    ErrorMessage = "<BuildingNotAvailable>";
+                    return false;
+            }
+        }
+        else
+        {
+            Price = 0;
+            ErrorMessage = "Not enough turn Points";
+            return false;
         }
     }
 
@@ -125,8 +134,16 @@ public static class EconomySystem
         Price = CheckFigurePrice(Figure);
         if (Price <= Money)
         {
-            ErrorMessage = "";
-            return true;
+            if (GameManager.Main.turnPointsLeft >= GameManager.GameSettingsInUse.FigureSpawnTurnCost)
+            {
+                ErrorMessage = "";
+                return true;
+            }
+            else
+            {
+                ErrorMessage = "Not enough turn Points";
+                return false;
+            }
         }
         else
         {
@@ -144,7 +161,7 @@ public static class EconomySystem
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(0); y++)
             {
-                if (GameManager.Main.Board[x, y].figure == Figure)
+                if (GameManager.Main.Board[x, y].figure == Figure && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     figurecount++;
                 }
@@ -172,7 +189,7 @@ public static class EconomySystem
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(0); y++)
             {
-                if (GameManager.Main.Board[x,y].building == Buiding)
+                if (GameManager.Main.Board[x,y].building == Buiding && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     buildingcount++;
                 }

@@ -485,7 +485,7 @@ public static class FigureMovement
                                         }
                                     }
                                     //placeholder gamemode statement
-                                    if (GameManager.GameSettingsInUse.ClassicCheckmate)
+                                    if (GameManager.GameSettingsInUse.ClassicMovement)
                                     {
                                         int invert;
                                         if (ID == 0)
@@ -773,7 +773,7 @@ public static class FigureMovement
                 if (checkType != CheckType.DoubbleCheck)
                 {
                     //gamemode placeholder statement
-                    if (GameManager.GameSettingsInUse.ClassicCheckmate)
+                    if (GameManager.GameSettingsInUse.ClassicMovement)
                     {
                         //wheter or not to invert the direction, will always be multiplied by this number but when its 1 no change will occur
                         int invert;

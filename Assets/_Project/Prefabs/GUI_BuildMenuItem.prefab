@@ -366,7 +366,7 @@ MonoBehaviour:
   errorText: {fileID: 1057646944844440922}
   backgroundImage: {fileID: 5644650007774542481}
   figure: 6
-  buiding: 0
+  building: 0
 --- !u!114 &7662689814312122587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,9 +494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Error Message
-
-'
+  m_text: Error Message
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4bf9265d6153a584d9464c67613390f2, type: 2}
   m_sharedMaterial: {fileID: 8148215304725343137, guid: 4bf9265d6153a584d9464c67613390f2, type: 2}
@@ -539,7 +537,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

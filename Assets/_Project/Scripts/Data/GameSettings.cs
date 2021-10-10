@@ -37,11 +37,13 @@ public class GameSettings : ScriptableObject
     [ConditionalHide("CanSpawnFigures", false)] public int RookSpawnCost = 25;
     [ConditionalHide("CanSpawnFigures", false)] public int PawnSpawnCost = 5;
     [ConditionalHide("CanSpawnFigures", false)] public float FigureCostMultiplayer = 1.1f;
+    [ConditionalHide("CanSpawnFigures", false)] public int FigureSpawnTurnCost = 2;
 
     [Header("Building costs")]
     [ConditionalHide("CanBuildBuildings", false)] public int FarmCreationCost = 10;
     [ConditionalHide("CanBuildBuildings", false)] public int BarracksCreationCost = 25;
     [ConditionalHide("CanBuildBuildings", false)] public float BuildingCostMultiplayer = 1.5f;
+    [ConditionalHide("CanBuildBuildings", false)] public int BuildingBuildTurnCost = 3;
 
     [Header("Money system")]
     [ConditionalHide("hidegoldvalue", false)] public int GoldPerTurn = 1;

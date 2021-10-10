@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
-  m_Name: _ClassicChess
+  m_Name: ClassicChess
   m_EditorClassIdentifier: 
   GamemodeName: ClassicChess
   MinPlayerCount: 2
@@ -21,6 +21,7 @@ MonoBehaviour:
   ClassicMovement: 1
   FiguresCanMoveOnSpawn: 0
   OneFigureMovePerTurn: 1
+  AlternativeMultiplayerFormula: 0
   CameraRotationOffsets:
   - 0
   - 180
@@ -39,8 +40,12 @@ MonoBehaviour:
   KnightSpawnCost: 40
   RookSpawnCost: 25
   PawnSpawnCost: 5
+  FigureCostMultiplayer: 1.1
+  FigureSpawnTurnCost: 2
   FarmCreationCost: 10
   BarracksCreationCost: 25
+  BuildingCostMultiplayer: 1.5
+  BuildingBuildTurnCost: 3
   GoldPerTurn: 1
   StartingGold: 10
   GoldPerFarm: 3

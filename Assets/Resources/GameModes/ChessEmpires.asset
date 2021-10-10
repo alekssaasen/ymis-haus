@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
-  m_Name: _ChessEmpires
+  m_Name: ChessEmpires
   m_EditorClassIdentifier: 
   GamemodeName: ChessEmpires
   MinPlayerCount: 2
@@ -51,7 +51,7 @@ MonoBehaviour:
   GoldPerTurn: 1
   StartingGold: 10
   GoldPerFarm: 3
-  GoldPerGoldMine: 5
+  GoldPerGoldMine: 7
   BoardSetup: {fileID: 11400000, guid: 5d15d285209440949a139c3f1a6b7edd, type: 2}
   hidegoldswitch: 1
   hidegoldvalue: 1

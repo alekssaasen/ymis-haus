@@ -45,13 +45,15 @@ MonoBehaviour:
   RookSpawnCost: 25
   PawnSpawnCost: 5
   FigureCostMultiplayer: 1.25
+  FigureSpawnTurnCost: 2
   FarmCreationCost: 10
   BarracksCreationCost: 25
   BuildingCostMultiplayer: 1.5
-  GoldPerTurn: 25
-  StartingGold: 100
-  GoldPerFarm: 3
-  GoldPerGoldMine: 5
+  BuildingBuildTurnCost: 3
+  GoldPerTurn: 10
+  StartingGold: 1000
+  GoldPerFarm: 30
+  GoldPerGoldMine: 70
   BoardSetup: {fileID: 11400000, guid: 5d15d285209440949a139c3f1a6b7edd, type: 2}
   hidegoldswitch: 1
   hidegoldvalue: 1
