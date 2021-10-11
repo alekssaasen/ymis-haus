@@ -354,7 +354,7 @@ public static class FigureMovement
                                                             GameManager.Main.Board[tileToCheck.x, tileToCheck.y].figure == ChessFigure.Queen)
                                                         {
                                                             if (firstCheck == WallBlock.Pass &&
-                                                                secondCheck == WallBlock.Pass)
+                                                                secondCheck != WallBlock.Block)
                                                             {
                                                                 check = true;
                                                                 //directionsToSkip.Add(allDirectionsInverted[i]);
@@ -382,6 +382,10 @@ public static class FigureMovement
                                                     else if (blocktype == WallBlock.Stop)
                                                     {
                                                         secondCheck = WallBlock.Stop;
+                                                    }
+                                                    else if (secondCheck == WallBlock.Stop)
+                                                    {
+                                                        break;
                                                     }
                                                 }
                                                 else
