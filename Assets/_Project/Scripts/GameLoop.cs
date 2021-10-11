@@ -141,6 +141,8 @@ public class GameLoop : MonoBehaviour
             GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.BuildingBuildTurnCost;
             PhotonView.Get(this).RpcSecure("PlaceBuilding", RpcTarget.AllBufferedViaServer, false, (Vector2)newSelectedPosition, buildingSelected, GameManager.Main.localPlayerID);
 
+            validNewFigurePositions = new List<Vector2Int>();
+
             buildingSelected = ChessBuiding.Empty;
             ChangeState(ChessFigure.Empty, ChessBuiding.Empty);
         }
@@ -158,6 +160,9 @@ public class GameLoop : MonoBehaviour
             EconomySystem.Money -= price;
             GameManager.Main.turnPointsLeft -= GameManager.GameSettingsInUse.FigureSpawnTurnCost;
             PhotonView.Get(this).RpcSecure("SpawnFigure", RpcTarget.AllBufferedViaServer, false, (Vector2)newSelectedPosition, figureSelected, GameManager.Main.localPlayerID);
+
+            validNewFigurePositions = new List<Vector2Int>();
+
             if (!GameManager.GameSettingsInUse.FiguresCanMoveOnSpawn)
             {
                 ignoredFigures.Add(newSelectedPosition);

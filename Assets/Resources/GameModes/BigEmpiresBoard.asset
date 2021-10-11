@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651549e3240582c43a3641e043df45e0, type: 3}
+  m_Name: BigEmpiresBoard
+  m_EditorClassIdentifier: 
+  MapSize: {x: 15, y: 15}
+  Prefab: {fileID: 1432372444618791818, guid: dff6b7137780d5747a427caf7983ccaf, type: 3}
+  Figures:
+  - ID: 0
+    Position: {x: 1, y: 1}
+    Figure: 1
+    RotationOffset: 0
+  - ID: 0
+    Position: {x: 1, y: 2}
+    Figure: 6
+    RotationOffset: 0
+  - ID: 1
+    Position: {x: 1, y: 1}
+    Figure: 1
+    RotationOffset: 2
+  - ID: 1
+    Position: {x: 1, y: 2}
+    Figure: 6
+    RotationOffset: 2
+  - ID: 2
+    Position: {x: 1, y: 1}
+    Figure: 1
+    RotationOffset: 1
+  - ID: 2
+    Position: {x: 1, y: 2}
+    Figure: 6
+    RotationOffset: 1
+  - ID: 3
+    Position: {x: 1, y: 1}
+    Figure: 1
+    RotationOffset: 3
+  - ID: 3
+    Position: {x: 1, y: 2}
+    Figure: 6
+    RotationOffset: 3
+  Buildings:
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 0
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 1
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 2
+  - ID: -1
+    Position: {x: 6, y: 3}
+    Building: 2
+    RotationOffset: 3
+  - ID: -1
+    Position: {x: 7, y: 7}
+    Building: 2
+    RotationOffset: 0
+  Walls:
+  - ID: 0
+    InteriorWalls:
+    - {x: 0, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 0}
+    InteriorGates:
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    ExteriorWalls:
+    - {x: 0, y: 3}
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 0}
+    ExteriorGates:
+    - {x: 1, y: 3}
+    - {x: 3, y: 1}
+    InsideTiles:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    RotationOffset: 0
+  - ID: 1
+    InteriorWalls:
+    - {x: 0, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 0}
+    InteriorGates:
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    ExteriorWalls:
+    - {x: 0, y: 3}
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 0}
+    ExteriorGates:
+    - {x: 1, y: 3}
+    - {x: 3, y: 1}
+    InsideTiles:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    RotationOffset: 2
+  - ID: 2
+    InteriorWalls:
+    - {x: 0, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 0}
+    InteriorGates:
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    ExteriorWalls:
+    - {x: 0, y: 3}
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 0}
+    ExteriorGates:
+    - {x: 1, y: 3}
+    - {x: 3, y: 1}
+    InsideTiles:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    RotationOffset: 1
+  - ID: 3
+    InteriorWalls:
+    - {x: 0, y: 2}
+    - {x: 2, y: 2}
+    - {x: 2, y: 0}
+    InteriorGates:
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    ExteriorWalls:
+    - {x: 0, y: 3}
+    - {x: 2, y: 3}
+    - {x: 3, y: 3}
+    - {x: 3, y: 2}
+    - {x: 3, y: 0}
+    ExteriorGates:
+    - {x: 1, y: 3}
+    - {x: 3, y: 1}
+    InsideTiles:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 0}
+    RotationOffset: 3

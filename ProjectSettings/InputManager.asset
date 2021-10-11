@@ -57,8 +57,8 @@ InputManager:
     m_Name: ZoomY
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: f
-    positiveButton: r
+    negativeButton: r
+    positiveButton: f
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3

@@ -12,7 +12,10 @@ public static class GameOver
         {
             return true;
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     public static bool DidThePlayerWin(int ID)

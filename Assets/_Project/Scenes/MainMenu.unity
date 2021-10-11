@@ -7904,7 +7904,7 @@ MonoBehaviour:
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1257328778}
   m_ItemImage: {fileID: 0}
-  m_Value: 1
+  m_Value: 0
   m_Options:
     m_Options: []
   m_OnValueChanged:
@@ -10696,7 +10696,6 @@ MonoBehaviour:
   gamemodeText: {fileID: 1562212487}
   gameModeDropdown: {fileID: 1605020526}
   gameModeText: {fileID: 1569255539}
-  gameModeSettings: {fileID: 11400000, guid: bf32201a386b4774288b02a9ee275b9a, type: 2}
 --- !u!4 &2132336392
 Transform:
   m_ObjectHideFlags: 0

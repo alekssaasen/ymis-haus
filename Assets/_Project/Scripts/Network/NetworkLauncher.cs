@@ -24,11 +24,10 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
 
     public TMP_Dropdown gameModeDropdown;
     public TMP_Text gameModeText;
-    public GameSettings gameModeSettings;
 
     private GameSettings[] AllGameModes;
 
-    void Awake()
+    private void Awake()
     {
         ConnectToServer();
         GameManager.ChessFigureSetInUse = Resources.LoadAll<ChessFigureSet>("FigureSets")[0];
@@ -42,8 +41,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
 
         gameModeDropdown.AddOptions(dropdowndata);
     }
-
-
 
     public void ConnectToServer()
     {
@@ -77,6 +74,8 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
         menuBackground.SetActive(false);
         lobbyJoin.SetActive(true);
         UpdatePlayerList();
+
+        ChangeGameMode(0);
     }
     public override void OnLeftRoom()
     {
@@ -169,7 +168,6 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Change gamemode to: " + NewGameModeID);
             PhotonView.Get(this).RpcSecure("UpdateGameMode", RpcTarget.AllBufferedViaServer, false, NewGameModeID);
         }
     }
@@ -178,6 +176,7 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public void UpdateGameMode(int NewGameModeID)
     {
         GameManager.GameSettingsInUse = AllGameModes[NewGameModeID];
+        Debug.Log("Gamemode selected: " +  GameManager.GameSettingsInUse.name);
         gameModeText.text = AllGameModes[NewGameModeID].GamemodeName;
         UpdatePlayerList();
     }

@@ -85,7 +85,7 @@ public static class EconomySystem
 
     public static bool CanBuyBuilding(ChessBuiding Building, out string ErrorMessage, out int Price)
     {
-        if (GameManager.Main.turnPointsLeft >= GameManager.GameSettingsInUse.FigureSpawnTurnCost)
+        if (GameManager.Main.turnPointsLeft - GameManager.GameSettingsInUse.BuildingBuildTurnCost >= 0)
         {
             switch (Building)
             {
@@ -134,7 +134,7 @@ public static class EconomySystem
         Price = CheckFigurePrice(Figure);
         if (Price <= Money)
         {
-            if (GameManager.Main.turnPointsLeft >= GameManager.GameSettingsInUse.FigureSpawnTurnCost)
+            if (GameManager.Main.turnPointsLeft - GameManager.GameSettingsInUse.FigureSpawnTurnCost >= 0)
             {
                 ErrorMessage = "";
                 return true;
