@@ -18,9 +18,9 @@ public static class GameOver
                 }
             }
         }
-        if (hasaking)
+        if (!hasaking)
         {
-            return false;
+            return true;    
         }
         else
         {
@@ -43,7 +43,7 @@ public static class GameOver
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (GameManager.Main.Board[x, y].ownerID != ID && (GameManager.Main.Board[x, y].figure != ChessFigure.Empty || GameManager.Main.Board[x, y].building != ChessBuiding.Empty))
+                if (GameManager.Main.Board[x,y].ownerID >= 0 && GameManager.Main.Board[x, y].ownerID != ID && (GameManager.Main.Board[x, y].figure != ChessFigure.Empty || GameManager.Main.Board[x, y].building != ChessBuiding.Empty))
                 {
                     return false;
                 }
