@@ -6,15 +6,34 @@ public static class GameOver
 {
     public static bool DidThePlayerLose(int ID)
     {
-        List<Vector2Int> totalMoves = FigureMovement.GetMoveableFigures(ID, false);
-
-        if (totalMoves.Count == 0)
+        bool hasaking = false;
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
-            return true;
+            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
+            {
+                if (GameManager.Main.Board[x, y].ownerID == ID && GameManager.Main.Board[x, y].figure == ChessFigure.King)
+                {
+                    Debug.LogWarning(ID + " still has a king!");
+                    hasaking = true;
+                }
+            }
+        }
+        if (hasaking)
+        {
+            return false;
         }
         else
         {
-            return false;
+            List<Vector2Int> totalMoves = FigureMovement.GetMoveableFigures(ID, false);
+
+            if (totalMoves.Count <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
