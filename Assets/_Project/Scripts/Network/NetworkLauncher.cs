@@ -16,6 +16,9 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public GameObject enterName;
     public GameObject lobbyCreate;
     public GameObject lobbyJoin;
+    public GameObject tutorialButton;
+
+    public string tutorialURL;
 
     public TMP_Text playerList;
     public Button launchButton;
@@ -231,6 +234,11 @@ public class NetworkLauncher : MonoBehaviourPunCallbacks
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void OpenTutorial()
+    {
+        Application.OpenURL(tutorialURL);
     }
 
 #endregion
