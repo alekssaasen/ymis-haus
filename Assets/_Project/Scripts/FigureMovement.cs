@@ -79,7 +79,7 @@ public static class FigureMovement
         return WallBlock.Pass;
     }
 
-    private static MoveState CanMove(Vector2Int currentPosition, Vector2Int targetPosition, int id)
+    private static MoveState CanMove(Vector2Int currentPosition, Vector2Int targetPosition, int id, ChessFigure figureType)
     {
         TileInfo[,] board = GameManager.Main.Board;
 
@@ -87,6 +87,18 @@ public static class FigureMovement
         {
             return MoveState.ForbidMove;
         }
+
+        if (figureType == ChessFigure.King)
+        {
+            foreach (Vector2Int tile in GetCheckedTiles(id))
+            {
+                if (targetPosition == tile)
+                {
+                    return MoveState.ForbidMove;
+                }
+            }
+        }
+
 
         if (board[targetPosition.x, targetPosition.y].figure != ChessFigure.Empty ||
             board[targetPosition.x, targetPosition.y].building != ChessBuiding.Empty)
