@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5733457972015043406}
   - component: {fileID: 5998361018861240694}
   - component: {fileID: 2817650393889133193}
+  - component: {fileID: 8123748261999737304}
   m_Layer: 0
   m_Name: ChessFigure
   m_TagString: Untagged
@@ -81,3 +82,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8123748261999737304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237114818983637662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d60ea6a29e8b8ca48ae3473d0bf6b599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

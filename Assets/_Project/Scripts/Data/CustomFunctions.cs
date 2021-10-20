@@ -4,13 +4,8 @@ using UnityEngine;
 
 public static class CustomFunctions
 {
-    public static void MakeBool1(ref bool Test)
+    public static float Remap(this float value, float FromMin, float FromMax, float ToMin, float ToMax)
     {
-        Test = true;
-    }
-
-    public static void MakeBool2(bool Test)
-    {
-        Test = true;
+        return (value - FromMin) / (FromMax - FromMin) * (ToMax - ToMin) + ToMin;
     }
 }

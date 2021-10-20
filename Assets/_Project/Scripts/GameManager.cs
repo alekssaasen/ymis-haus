@@ -82,7 +82,14 @@ public class GameManager : MonoBehaviour
                 {
                     // Update figure
                     Debug.Log("Update figure: (" + x + "," + y + ")");
-                    Board[x, y].figureTransform.position = new Vector3(x, 0, y);
+                    if (Board[x, y].figureTransform.TryGetComponent<FigureAnimation>(out FigureAnimation fa))
+                    {
+                        fa.MoveFigure(new Vector2Int(x, y));
+                    }
+                    else
+                    {
+                        Board[x, y].figureTransform.position = new Vector3(x, 0, y);
+                    }
                 }
 
                 else if (Board[x, y].buildingTransform == null && Board[x, y].building != ChessBuiding.Empty && Board[x, y].figure == ChessFigure.Empty)
