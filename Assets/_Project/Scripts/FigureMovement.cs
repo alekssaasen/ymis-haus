@@ -82,8 +82,9 @@ public static class FigureMovement
     private static MoveState CanMove(Vector2Int currentPosition, Vector2Int targetPosition, int id, ChessFigure figureType)
     {
         TileInfo[,] board = GameManager.Main.Board;
+        bool forbidnext = false;
 
-        if (!(InsideBoard(currentPosition) && InsideBoard(targetPosition)))
+        if (!InsideBoard(currentPosition) || !InsideBoard(targetPosition))
         {
             return MoveState.ForbidMove;
         }
@@ -107,59 +108,62 @@ public static class FigureMovement
             {
                 return MoveState.ForbidMove;
             }
+            else
+            {
+                forbidnext = true;
+            }
         }
         WallBlock wallBlock = CrossedWall(currentPosition,targetPosition);
 
-        if (wallBlock == WallBlock.Pass)
+        if (wallBlock == WallBlock.Block)
         {
-            return MoveState.AllowMove;
+            return MoveState.ForbidMove;
         }
-        else if (wallBlock == WallBlock.Stop)
+        else if(wallBlock == WallBlock.Stop)
+        {
+            forbidnext = true;
+        }
+        if (forbidnext)
         {
             return MoveState.ForbidNextMove;
         }
         else
         {
-            return MoveState.ForbidMove;
+            return MoveState.AllowMove;
         }
     }
 
-    private static List<FigureCheckPair> checkedTilesPairs;
-
-    public static List<Vector2Int> GetCheckedTiles(int id)
+    public static Vector2Int GetKing(int id)
     {
-        List<Vector2Int> checkedTiles = new List<Vector2Int>();
-        foreach (FigureCheckPair pair in checkedTilesPairs)
+        for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
-            if (pair.ID == id)
+            for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                foreach (Vector2Int tile in pair.checkedTiles)
+                if (GameManager.Main.Board[x, y].figure == ChessFigure.King &&
+                    GameManager.Main.Board[x, y].ownerID == id)
                 {
-                    checkedTiles.Add(tile);
+                    return new Vector2Int(x, y);
                 }
             }
         }
-        return checkedTiles;
+        return -Vector2Int.one;
     }
 
-    public static void UpdateCheckedTiles(int id, Vector2Int oldPosition ,Vector2Int newPosition, List<Vector2Int> validPositions)
+
+
+    public static Vector2Int[] GetCheckedTiles (int id)
     {
-        foreach (FigureCheckPair pair in checkedTilesPairs)
-        {
-            if (pair.figurePosition == oldPosition)
-            {
-                checkedTilesPairs.Remove(pair);
-            }
-        }
-        FigureCheckPair pairToAdd;
-        pairToAdd.ID = id;
-        pairToAdd.figurePosition = newPosition;
-        pairToAdd.checkedTiles = validPositions;
+        Vector2Int king = GetKing(id);
 
-        checkedTilesPairs.Add(pairToAdd);
+
+
+
+        Vector2Int[] temp = new Vector2Int[] { Vector2Int.down};
+        return temp;
     }
 
-    /*public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position, out CheckType TypeOfCheck)
+    /*
+    public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position, out CheckType TypeOfCheck)
     {
 
         
@@ -167,15 +171,9 @@ public static class FigureMovement
 
         TypeOfCheck = 0;
         return new List<Vector2Int>();
-    }*/
-
+    }
+    */
     
-
-
-
-
-
-
 
 
 
@@ -1022,7 +1020,6 @@ public static class FigureMovement
 
         return validpositions;
     }
-
     public static List<Vector2Int> GetMoveableFigures(int ID, bool CheckMovementCost)
     {
         List<Vector2Int> figuresThatCanMove = new List<Vector2Int>();
@@ -1063,11 +1060,4 @@ public enum WallBlock
 public enum MoveState
 {
     AllowMove, ForbidMove, ForbidNextMove
-}
-
-public struct FigureCheckPair
-{
-    public int ID;
-    public Vector2Int figurePosition;
-    public List<Vector2Int> checkedTiles;
 }
