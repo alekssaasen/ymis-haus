@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapDisplay : MonoBehaviour
+public class Old_MapDisplay : MonoBehaviour
 {
     public Renderer textureRender;
     public MeshFilter meshFilter;

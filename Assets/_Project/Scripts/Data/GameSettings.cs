@@ -20,6 +20,7 @@ public class GameSettings : ScriptableObject
     public bool AlternativeMultiplayerFormula = false;
     public float[] CameraRotationOffsets = { 45, 225, 135, 315 };
     public Vector3[] CameraPositionOffsets = { new Vector3(1, 0, 1), new Vector3(12, 0, 12), new Vector3(1, 0, 12), new Vector3(12, 0, 1) };
+    public bool DebugLevel = false;
 
     [Header("Movement costs")]
     [ConditionalHide("ClassicMovement", true)] public int MovePointsPerTurn = 5;

@@ -4,98 +4,58 @@ using UnityEngine;
 
 public static class Noise
 {
+    public static float size;
+    public static Vector2Int map;
 
-    public static float [,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale, int octaves, float persistance, float lacunarity, int seed, Vector2 offset, int tilesToFlatten,float flattenAmmount, float flattenOffset)
+    public static float GetHeightNoise(float x, float y)
     {
-        float[,] noiseMap = new float[mapWidth, mapHeight];
-
-        System.Random prng = new System.Random(seed);
-        Vector2[] octaveOffsets = new Vector2[octaves];
-        for (int i = 0; i < octaves; i++)
+        if (x >= 0 && x < map.x && y >= 0 && y < map.y)
         {
-            float offsetX = prng.Next(-100000, 100000) + offset.x;
-            float offsetY = prng.Next(-100000, 100000) + offset.y;
-            octaveOffsets[i] = new Vector2(offsetX, offsetY);
+            return 0;
         }
-
-        int yCenter = mapHeight / 2;
-        int xCenter = mapWidth / 2;
-
-        int flattenYStart = yCenter - tilesToFlatten;
-        int flattenYEnd = yCenter + tilesToFlatten;
-        int flattenXStart = xCenter - tilesToFlatten;
-        int flattenXEnd = xCenter + tilesToFlatten;
-
-        if (scale <= 0)
+        else
         {
-            scale = 0.0001f;
-        }
-
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
-
-        float halfWidth = mapWidth / 2f;
-        float halfHeight = mapHeight / 2f;
-
-
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
+            if (x >= -1 && x < map.x + 1 && y >= -1 && y < map.y + 1)
             {
-                float amplitude = 1;
-                float frequency = 1;
-                float noiseHeight = 0;
-                float flatten = 1;
-                float flattenOffsetValue = 0;
-                if(tilesToFlatten != 0)
+                float val1 = 0;
+                float val2 = 0;
+
+                if (x > 0)
                 {
-                    if (y > flattenYStart && y < flattenYEnd &&
-                        x > flattenXStart && x < flattenXEnd)
-                    {
-                        flatten = flattenAmmount;
-                        flattenOffsetValue = flattenOffset;
-                    }
+                    val1 = Mathf.Clamp01(1 - (map.x + 1 - x));
+                }
+                else
+                {
+                    val1 = Mathf.Clamp01(Mathf.Abs(x));
                 }
 
-                for (int i = 0; i < octaves; i++)
+                if (y > 0)
                 {
-                    float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y;
-
-                    float perlinValue = Mathf.Abs((float)NoiseS3D.Noise(sampleX, sampleY)) * 2 -1;
-                    noiseHeight += perlinValue * amplitude;
-
-                    amplitude *= persistance;
-                    frequency *= lacunarity;
-
+                    val2 = Mathf.Clamp01(1 - (map.y + 1 - y));
+                }
+                else
+                {
+                    val2 = Mathf.Clamp01(Mathf.Abs(y));
                 }
 
-                noiseHeight *= flatten;
-                noiseHeight -= flattenOffsetValue;
-
-                if (noiseHeight > maxNoiseHeight)
-                {
-                    maxNoiseHeight = noiseHeight;
-                }
-                else if (noiseHeight < minNoiseHeight)
-                {
-                    minNoiseHeight = noiseHeight;
-                }
-
-                noiseMap[x, y] = noiseHeight;
+                return Mathf.Clamp01(Mathf.Max(val1, val2) * Mathf.Abs((float)NoiseS3D.NoiseCombinedOctaves(x / size, y / size)));
+            }
+            else
+            {
+                return Mathf.Clamp01(Mathf.Abs((float)NoiseS3D.NoiseCombinedOctaves(x / size, y / size)));
             }
         }
-
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
-                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
-            }
-        }
-
-        return noiseMap;
     }
 
-
+    public static float GetColorNoise(float x, float y)
+    {
+        if (x >= 0 && x < map.x && y >= 0 && y < map.y)
+        {
+            return -1;
+        }
+        else
+        {
+            return Mathf.Clamp01(Mathf.Abs((float)NoiseS3D.NoiseCombinedOctaves(x / size, y / size)));
+        }
+    }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChessEmpiresBig
   m_EditorClassIdentifier: 
   GamemodeName: ChessEmpires4P
-  MinPlayerCount: 2
+  MinPlayerCount: 3
   MaxPlayerCount: 4
   CanSpawnFigures: 1
   CanBuildBuildings: 1

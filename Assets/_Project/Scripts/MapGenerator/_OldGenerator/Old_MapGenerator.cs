@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator : MonoBehaviour
+public class Old_MapGenerator : MonoBehaviour
 {
     public enum DrawMode
     {
@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale, octaves, persistance, lacunarity, seed, offset,tilesToFlatten,flattenAmmount,flattenOffset);
+        float[,] noiseMap = Old_Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale, octaves, persistance, lacunarity, seed, offset,tilesToFlatten,flattenAmmount,flattenOffset);
 
         Color[] colorMap = new Color[mapWidth * mapHeight];
         for (int y = 0; y < mapHeight; y += TextureScale)
@@ -74,18 +74,18 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        Old_MapDisplay display = FindObjectOfType<Old_MapDisplay>();
         if (drawMode == DrawMode.HeightMap)
         {
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
+            display.DrawTexture(Old_TextureGenerator.TextureFromHeightMap(noiseMap));
         }
         else if (drawMode == DrawMode.ColorMap)
         {
-            display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap,mapWidth,mapHeight));
+            display.DrawTexture(Old_TextureGenerator.TextureFromColorMap(colorMap,mapWidth,mapHeight));
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap,meshHeightMultiplier,meshHeightCurve), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+            display.DrawMesh(Old_MeshGenerator.GenerateTerrainMesh(noiseMap,meshHeightMultiplier,meshHeightCurve), Old_TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
 
     }

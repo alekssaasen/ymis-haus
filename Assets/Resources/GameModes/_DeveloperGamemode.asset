@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _DeveloperGamemode
   m_EditorClassIdentifier: 
   GamemodeName: UseThisOnlyForTesting
-  MinPlayerCount: 2
+  MinPlayerCount: 1
   MaxPlayerCount: 4
   CanSpawnFigures: 1
   CanBuildBuildings: 1
@@ -32,6 +32,7 @@ MonoBehaviour:
   - {x: 12, y: 0, z: 12}
   - {x: 1, y: 0, z: 12}
   - {x: 12, y: 0, z: 1}
+  DebugLevel: 1
   MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 3
