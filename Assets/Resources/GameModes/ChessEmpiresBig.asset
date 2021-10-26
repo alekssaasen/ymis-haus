@@ -32,6 +32,7 @@ MonoBehaviour:
   - {x: 12, y: 0, z: 12}
   - {x: 1, y: 0, z: 12}
   - {x: 12, y: 0, z: 1}
+  DebugLevel: 0
   MovePointsPerTurn: 5
   KingMoveCost: 5
   QueenMoveCost: 3
@@ -51,7 +52,7 @@ MonoBehaviour:
   BuildingCostMultiplayer: 1.5
   BuildingBuildTurnCost: 3
   GoldPerTurn: 1
-  StartingGold: 10
+  StartingGold: 40
   GoldPerFarm: 3
   GoldPerGoldMine: 7
   BoardSetup: {fileID: 11400000, guid: 5d15d285209440949a139c3f1a6b7edd, type: 2}
