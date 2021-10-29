@@ -17,7 +17,7 @@ public class GameSettings : ScriptableObject
     [Header("Gamemode Other Settings")]
     [ConditionalHide("CanSpawnFigures", false)] public bool FiguresCanMoveOnSpawn = false;
     [ConditionalHide("ClassicMovement", true)] public bool OneFigureMovePerTurn = true;
-    public bool AlternativeMultiplayerFormula = false;
+    public bool UseExponentialMultiplayer = true;
     public float[] CameraRotationOffsets = { 45, 225, 135, 315 };
     public Vector3[] CameraPositionOffsets = { new Vector3(1, 0, 1), new Vector3(12, 0, 12), new Vector3(1, 0, 12), new Vector3(12, 0, 1) };
     public bool DebugLevel = false;
@@ -87,4 +87,13 @@ public class GameSettings : ScriptableObject
     [ConditionalHide("hidegoldswitch", true)] public bool hidegoldswitch = true;
     [ConditionalHide("hidegoldswitch", true)] public bool hidegoldvalue = true;
 
+    public string Serialize()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    public void Deserialize(string Settings)
+    {
+        JsonUtility.FromJsonOverwrite(Settings, this);
+    }
 }

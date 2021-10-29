@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d794222e67d764b939683d651ef36b, type: 3}
+  m_Name: GameSettingsFile
+  m_EditorClassIdentifier: 
+  GamemodeName: UseThisOnlyForTesting
+  MinPlayerCount: 1
+  MaxPlayerCount: 4
+  CanSpawnFigures: 1
+  CanBuildBuildings: 1
+  ClassicCheckmate: 0
+  ClassicMovement: 0
+  FiguresCanMoveOnSpawn: 0
+  OneFigureMovePerTurn: 1
+  UseExponentialMultiplayer: 1
+  CameraRotationOffsets:
+  - 45
+  - 225
+  - 135
+  - 315
+  CameraPositionOffsets:
+  - {x: 1, y: 0, z: 1}
+  - {x: 12, y: 0, z: 12}
+  - {x: 1, y: 0, z: 12}
+  - {x: 12, y: 0, z: 1}
+  DebugLevel: 1
+  MovePointsPerTurn: 5
+  KingMoveCost: 5
+  QueenMoveCost: 3
+  BishopMoveCost: 2
+  KnightMoveCost: 3
+  RookMoveCost: 2
+  PawnMoveCost: 1
+  QueenSpawnCost: 50
+  BishopSpawnCost: 25
+  KnightSpawnCost: 40
+  RookSpawnCost: 25
+  PawnSpawnCost: 5
+  FigureCostMultiplayer: 1.25
+  FigureSpawnTurnCost: 1
+  FarmCreationCost: 10
+  BarracksCreationCost: 25
+  BuildingCostMultiplayer: 1.5
+  BuildingBuildTurnCost: 3
+  GoldPerTurn: 10
+  StartingGold: 1000
+  GoldPerFarm: 30
+  GoldPerGoldMine: 70
+  BoardSetup: {fileID: 11400000, guid: 5d15d285209440949a139c3f1a6b7edd, type: 2}
+  hidegoldswitch: 1
+  hidegoldvalue: 1

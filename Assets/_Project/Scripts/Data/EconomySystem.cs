@@ -168,13 +168,13 @@ public static class EconomySystem
             }
         }
 
-        if (GameManager.GameSettingsInUse.AlternativeMultiplayerFormula)
+        if (GameManager.GameSettingsInUse.UseExponentialMultiplayer)
         {
             multiplayer = Mathf.Pow(GameManager.GameSettingsInUse.FigureCostMultiplayer, figurecount);
         }
         else
         {
-
+            multiplayer = figurecount + 1;
         }
 
         return multiplayer;
@@ -196,7 +196,7 @@ public static class EconomySystem
             }
         }
 
-        if (GameManager.GameSettingsInUse.AlternativeMultiplayerFormula)
+        if (GameManager.GameSettingsInUse.UseExponentialMultiplayer)
         {
             multiplayer = Mathf.Pow(GameManager.GameSettingsInUse.BuildingCostMultiplayer, buildingcount);
         }

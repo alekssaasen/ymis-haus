@@ -8,11 +8,11 @@ using Photon.Realtime;
 
 public class NetworkPlayer : MonoBehaviourPunCallbacks
 {
-    public TMP_Text textID;
     public string[] playerNamesByIndex;
 
     private void Awake()
     {
+        Debug.LogWarning(GameManager.GameSettingsInUse.GamemodeName);
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Choosing sides");
@@ -46,7 +46,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
             if (PhotonNetwork.LocalPlayer.ActorNumber == PhotonNetwork.PlayerList[i].ActorNumber)
             {
                 GameManager.Main.localPlayerID = PlayerID[i];
-                textID.text = "ID: " + GameManager.Main.localPlayerID;
             }
         }
         GameLoop.Main.cameraController.Initialize();

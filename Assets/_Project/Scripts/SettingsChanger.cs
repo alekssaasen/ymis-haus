@@ -1,29 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class SettingsChanger : MonoBehaviour
 {
-    public TMP_Dropdown dropdown;
     public GameObject postProcessing;
+    public Slider graphicsQualitySlider;
 
     private void Start()
     {
-        LoadSettings();
+        UpdateSettings();
     }
 
-    public void LoadSettings()
+    private void UpdateSettings()
     {
-        PlayerSaveData playersavedata = SaveSystem.LoadPlayerData();
-        QualitySettings.SetQualityLevel((int)playersavedata.graphicsQuality);
-
-        if (dropdown != null)
+        if (!PlayerPrefs.HasKey("GraphicsQuality"))
         {
-            dropdown.SetValueWithoutNotify((int)playersavedata.graphicsQuality);
+            PlayerPrefs.SetInt("GraphicsQuality", 3);
+            PlayerPrefs.Save();
         }
 
-        if ((int)playersavedata.graphicsQuality <= 1)
+        QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("GraphicsQuality"));
+        graphicsQualitySlider.value = PlayerPrefs.GetInt("GraphicsQuality");
+
+        if (postProcessing != null && PlayerPrefs.GetInt("GraphicsQuality") > 1)
         {
             postProcessing.SetActive(true);
         }
@@ -33,20 +34,17 @@ public class SettingsChanger : MonoBehaviour
         }
     }
 
-    public void UpdateSettings(int NewRenderQuality)
+    public void UpdateGraphics(float GraphicsQuality)
     {
-        PlayerSaveData playersavedata = SaveSystem.LoadPlayerData();
-        playersavedata.graphicsQuality = (RenderQuality)NewRenderQuality;
-        QualitySettings.SetQualityLevel((int)playersavedata.graphicsQuality);
-        SaveSystem.SavePlayerData(playersavedata);
-
-        if ((int)playersavedata.graphicsQuality <= 1)
-        {
-            postProcessing.SetActive(true);
-        }
-        else
-        {
-            postProcessing.SetActive(false);
-        }
+        PlayerPrefs.SetInt("GraphicsQuality", Mathf.RoundToInt(GraphicsQuality));
+        PlayerPrefs.Save();
+        UpdateSettings();
     }
+
+    /*public void UpdateVolume(float GameVolume)
+    {
+        PlayerPrefs.SetFloat("GameVolume", GameVolume);
+        PlayerPrefs.Save();
+        UpdateSettings();
+    }*/
 }
