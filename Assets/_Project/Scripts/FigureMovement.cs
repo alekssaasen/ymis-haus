@@ -83,6 +83,7 @@ public static class FigureMovement
     {
         TileInfo[,] board = GameManager.Main.Board;
         bool forbidnext = false;
+        bool pawnCapture = false;
 
         if (!InsideBoard(currentPosition) || !InsideBoard(targetPosition))
         {
@@ -111,7 +112,19 @@ public static class FigureMovement
             else
             {
                 forbidnext = true;
+                if (figureType == ChessFigure.Knight)
+                {
+                    return MoveState.AllowMove;
+                }
+                if (figureType == ChessFigure.Pawn)
+                {
+                    pawnCapture = true;
+                }
             }
+        }
+        if (figureType == ChessFigure.Knight)
+        {
+            return MoveState.AllowMove;
         }
         WallBlock wallBlock = CrossedWall(currentPosition,targetPosition);
 
@@ -125,10 +138,20 @@ public static class FigureMovement
         }
         if (forbidnext)
         {
+            if (figureType == ChessFigure.Pawn &&
+                pawnCapture)
+            {
+                return MoveState.PawnCapture;
+            }
             return MoveState.ForbidNextMove;
         }
         else
         {
+            if (figureType == ChessFigure.Pawn &&
+                pawnCapture)
+            {
+                return MoveState.PawnCapture;
+            }
             return MoveState.AllowMove;
         }
     }
@@ -155,30 +178,336 @@ public static class FigureMovement
     {
         Vector2Int king = GetKing(id);
 
+        List<Vector2Int> checkedTiles = new List<Vector2Int>();
 
+        foreach (Vector2Int tilepos in allDirections)
+        {
+            Vector2Int tile = king + tilepos;
 
+            for (int dir = 0; dir < straightDirections.Length; dir++)
+            {
+                Vector2Int firstTile = tile;
+                List<Vector2Int> potentialyCheckedTiles = new List<Vector2Int>();
+                for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                {
+                    Vector2Int secondTile = tile + straightDirections[dir] * dist;
+                    if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.AllowMove)
+                    {
+                        potentialyCheckedTiles.Add(secondTile);
+                        firstTile = secondTile;
+                    }
+                    else if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.ForbidMove)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if ((GameManager.Main.Board[secondTile.x,secondTile.y].figure == ChessFigure.Queen ||
+                            GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Rook) &&
+                            GameManager.Main.Board[secondTile.x, secondTile.y].ownerID != id)
+                        {
+                            checkedTiles.AddRange(potentialyCheckedTiles);
+                            break;
+                        }
+                    }
+                }
+            }
 
-        Vector2Int[] temp = new Vector2Int[] { Vector2Int.down};
-        return temp;
+            for (int dir = 0; dir < diagonalDirections.Length; dir++)
+            {
+                Vector2Int firstTile = tile;
+                List<Vector2Int> potentialyCheckedTiles = new List<Vector2Int>();
+                for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                {
+                    Vector2Int secondTile = tile + diagonalDirections[dir] * dist;
+                    if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.AllowMove)
+                    {
+                        potentialyCheckedTiles.Add(secondTile);
+                        firstTile = secondTile;
+                    }
+                    else if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.ForbidMove)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if ((GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Queen ||
+                            GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Bishop) &&
+                            GameManager.Main.Board[secondTile.x, secondTile.y].ownerID != id)
+                        {
+                            checkedTiles.AddRange(potentialyCheckedTiles);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (int dir = 0; dir < knightDirections.Length; dir++)
+            {
+                Vector2Int targetTile = tile + knightDirections[dir];
+                if (!InsideBoard(targetTile))
+                {
+                    continue;
+                }
+                if (GameManager.Main.Board[targetTile.x, targetTile.y].figure == ChessFigure.Knight &&
+                     GameManager.Main.Board[targetTile.x, targetTile.y].ownerID != id)
+                {
+                    if (CanMove(tile,targetTile,id,ChessFigure.Empty) != MoveState.ForbidMove)
+                    {
+                        checkedTiles.Add(targetTile);
+                    }
+                }
+            }
+
+            for (int dir = 0; dir < diagonalDirections.Length; dir++)
+            {
+
+                Vector2Int targetTile = tile + diagonalDirections[dir];
+                if (!InsideBoard(targetTile))
+                {
+                    continue;
+                }
+                if (GameManager.Main.Board[targetTile.x, targetTile.y].figure == ChessFigure.Pawn &&
+                     GameManager.Main.Board[targetTile.x, targetTile.y].ownerID != id)
+                {
+                    if (CanMove(tile,targetTile,id,ChessFigure.Empty)!=MoveState.ForbidMove)
+                    {
+                        checkedTiles.Add(targetTile);
+                    }
+                }
+            }
+
+            for (int dir = 0; dir < allDirections.Length; dir++)
+            {
+                Vector2Int targetTile = tile + allDirections[dir];
+                if (!InsideBoard(targetTile))
+                {
+                    continue;
+                }
+                if (GameManager.Main.Board[targetTile.x, targetTile.y].figure == ChessFigure.King &&
+                     GameManager.Main.Board[targetTile.x, targetTile.y].ownerID != id)
+                {
+                    if (CanMove(tile, targetTile, id, ChessFigure.Empty) != MoveState.ForbidMove)
+                    {
+                        checkedTiles.Add(targetTile);
+                    }
+                }
+            }
+        }
+        return checkedTiles.ToArray();
     }
 
-    /*
-    public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position, out CheckType TypeOfCheck)
+    public static bool GetChecksAndPins(int id, out List<PinnedPair>pinnedPairs)
     {
+        Vector2Int king = GetKing(id);
+        pinnedPairs = new List<PinnedPair>();
+        bool inCheck = false;
 
-        
+        foreach (Vector2Int dir in straightDirections)
+        {
+            Vector2Int firstTile = king;
+            Vector2Int possiblePin = -Vector2Int.one;
+            for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+            {
+                Vector2Int secondTile = king + dir * dist;
 
+                if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.AllowMove)
+                {
+                    firstTile = secondTile;
+                }
+                else if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) != MoveState.AllowMove)
+                {
+                    if (InsideBoard(secondTile))
+                    {
+                        if (CrossedWall(firstTile,secondTile)==WallBlock.Block)
+                        {
+                            break;
+                        }
+                        if (GameManager.Main.Board[secondTile.x,secondTile.y].building != ChessBuiding.Empty)
+                        {
+                            break;
+                        }
+                        else if (GameManager.Main.Board[secondTile.x, secondTile.y].figure != ChessFigure.Empty)
+                        {
+                            if (GameManager.Main.Board[secondTile.x, secondTile.y].ownerID == id)
+                            {
+                                if (possiblePin == -Vector2Int.one)
+                                {
+                                    possiblePin = secondTile;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if (possiblePin != -Vector2Int.one)
+                                {
+                                    PinnedPair pinnedPair = new PinnedPair();
+                                    pinnedPair.pinnedPeice = possiblePin;
+                                    pinnedPair.directions[0] = dir;
+                                    pinnedPair.directions[1] = -dir;
+                                    pinnedPairs.Add(pinnedPair);
+                                }
+                                else
+                                {
+                                    inCheck = true;
+                                }
+                            }
+                        }
+                        if (CrossedWall(firstTile,secondTile)==WallBlock.Stop)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
 
-        TypeOfCheck = 0;
-        return new List<Vector2Int>();
+        if (pinnedPairs.Count >0)
+        {
+            inCheck = true;
+        }
+
+        return inCheck;
     }
-    */
+    
+    public static List<Vector2Int> GetValidPositions(int id, TileInfo FigureTile, Vector2Int Position, out CheckType TypeOfCheck)
+    {
+        List<Vector2Int> validPositions = new List<Vector2Int>();
+
+
+        switch (FigureTile.figure)
+        {
+            case ChessFigure.Empty:
+                break;
+            case ChessFigure.King:
+                foreach (Vector2Int dir in allDirections)
+                {
+                    if (CanMove(Position,Position+dir,id,ChessFigure.King) != MoveState.ForbidMove)
+                    {
+                        validPositions.Add(Position + dir);
+                    }
+                }
+
+                break;
+            case ChessFigure.Queen:
+                foreach (Vector2Int dir in allDirections)
+                {
+                    Vector2Int firstPos = Position;
+                    for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                    {
+                        Vector2Int secondPos = Position + dir * dist;
+                        if (CanMove(firstPos,secondPos,id,ChessFigure.Queen) == MoveState.AllowMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            firstPos = secondPos;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Queen) == MoveState.ForbidNextMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            break;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Queen) == MoveState.ForbidMove)
+                        {
+                            break;
+                        }
+                    }
+                }
+                break;
+            case ChessFigure.Bishop:
+                foreach (Vector2Int dir in diagonalDirections)
+                {
+                    Vector2Int firstPos = Position;
+                    for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                    {
+                        Vector2Int secondPos = Position + dir * dist;
+                        if (CanMove(firstPos, secondPos, id, ChessFigure.Bishop) == MoveState.AllowMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            firstPos = secondPos;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Bishop) == MoveState.ForbidNextMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            break;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Bishop) == MoveState.ForbidMove)
+                        {
+                            break;
+                        }
+                    }
+                }
+                break;
+            case ChessFigure.Knight:
+                foreach (Vector2Int dir in knightDirections)
+                {
+                    if (CanMove(Position, Position + dir, id, ChessFigure.Knight) != MoveState.ForbidMove)
+                    {
+                        validPositions.Add(Position + dir);
+                    }
+                }
+                break;
+            case ChessFigure.Rook:
+                foreach (Vector2Int dir in straightDirections)
+                {
+                    Vector2Int firstPos = Position;
+                    for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                    {
+                        Vector2Int secondPos = Position + dir * dist;
+                        if (CanMove(firstPos, secondPos, id, ChessFigure.Rook) == MoveState.AllowMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            firstPos = secondPos;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Rook) == MoveState.ForbidNextMove)
+                        {
+                            validPositions.Add(Position + (dir * dist));
+                            break;
+                        }
+                        else if (CanMove(firstPos, secondPos, id, ChessFigure.Rook) == MoveState.ForbidMove)
+                        {
+                            break;
+                        }
+                    }
+                }
+                break;
+            case ChessFigure.Pawn:
+                foreach (Vector2Int dir in diagonalDirections)
+                {
+                    if (CanMove(Position, Position + dir, id, ChessFigure.Pawn) == MoveState.PawnCapture)
+                    {
+                        validPositions.Add(Position + dir);
+                    }
+                }
+                foreach (Vector2Int dir in straightDirections)
+                {
+                    if (CanMove(Position, Position + dir, id, ChessFigure.Pawn) != MoveState.ForbidMove)
+                    {
+                        validPositions.Add(Position + dir);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        TypeOfCheck = CheckType.NoCheck;
+
+        return validPositions;
+    }
+    
+    
     
 
 
 
-
-
+    /*
     public static List<Vector2Int> GetValidPositions(int ID, TileInfo FigureTile, Vector2Int Position,out CheckType TypeOfCheck)
     {
         List<Vector2Int> validpositions = new List<Vector2Int>();
@@ -1020,6 +1349,7 @@ public static class FigureMovement
 
         return validpositions;
     }
+    */
     public static List<Vector2Int> GetMoveableFigures(int ID, bool CheckMovementCost)
     {
         List<Vector2Int> figuresThatCanMove = new List<Vector2Int>();
@@ -1059,5 +1389,11 @@ public enum WallBlock
 
 public enum MoveState
 {
-    AllowMove, ForbidMove, ForbidNextMove
+    AllowMove, ForbidMove, ForbidNextMove,PawnCapture
+}
+
+public struct PinnedPair
+{
+    public Vector2Int pinnedPeice;
+    public Vector2Int[] directions;
 }
