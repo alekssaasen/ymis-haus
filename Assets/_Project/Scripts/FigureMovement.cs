@@ -188,6 +188,7 @@ public static class FigureMovement
             {
                 Vector2Int firstTile = tile;
                 List<Vector2Int> potentialyCheckedTiles = new List<Vector2Int>();
+                potentialyCheckedTiles.Add(firstTile);
                 for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
                 {
                     Vector2Int secondTile = tile + straightDirections[dir] * dist;
@@ -217,6 +218,7 @@ public static class FigureMovement
             {
                 Vector2Int firstTile = tile;
                 List<Vector2Int> potentialyCheckedTiles = new List<Vector2Int>();
+                potentialyCheckedTiles.Add(firstTile);
                 for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
                 {
                     Vector2Int secondTile = tile + diagonalDirections[dir] * dist;
@@ -309,7 +311,7 @@ public static class FigureMovement
             Vector2Int possiblePin = -Vector2Int.one;
             for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
             {
-                Vector2Int secondTile = king + dir * dist;
+                Vector2Int secondTile = king + (dir * dist);
 
                 if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.AllowMove)
                 {
@@ -340,11 +342,12 @@ public static class FigureMovement
                                     break;
                                 }
                             }
-                            else
+                            else if (GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Queen ||
+                                        GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Rook)
                             {
                                 if (possiblePin != -Vector2Int.one)
                                 {
-                                    PinnedPair pinnedPair = new PinnedPair();
+                                    PinnedPair pinnedPair = new PinnedPair("wish i was in C# 10");
                                     pinnedPair.pinnedPeice = possiblePin;
                                     pinnedPair.directions[0] = dir;
                                     pinnedPair.directions[1] = -dir;
@@ -354,6 +357,10 @@ public static class FigureMovement
                                 {
                                     inCheck = true;
                                 }
+                            }
+                            else
+                            {
+                                break;
                             }
                         }
                         if (CrossedWall(firstTile,secondTile)==WallBlock.Stop)
@@ -369,11 +376,80 @@ public static class FigureMovement
             }
         }
 
-        if (pinnedPairs.Count >0)
+        foreach (Vector2Int dir in diagonalDirections)
         {
-            inCheck = true;
+            Vector2Int firstTile = king;
+            Vector2Int possiblePin = -Vector2Int.one;
+            for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+            {
+                Vector2Int secondTile = king + (dir * dist);
+
+                if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) == MoveState.AllowMove)
+                {
+                    firstTile = secondTile;
+                }
+                else if (CanMove(firstTile, secondTile, id, ChessFigure.Empty) != MoveState.AllowMove)
+                {
+                    if (InsideBoard(secondTile))
+                    {
+                        if (CrossedWall(firstTile, secondTile) == WallBlock.Block)
+                        {
+                            break;
+                        }
+                        if (GameManager.Main.Board[secondTile.x, secondTile.y].building != ChessBuiding.Empty)
+                        {
+                            break;
+                        }
+                        else if (GameManager.Main.Board[secondTile.x, secondTile.y].figure != ChessFigure.Empty)
+                        {
+                            if (GameManager.Main.Board[secondTile.x, secondTile.y].ownerID == id)
+                            {
+                                if (possiblePin == -Vector2Int.one)
+                                {
+                                    possiblePin = secondTile;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else if (GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Queen ||
+                                        GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Bishop)
+                            {
+                                if (possiblePin != -Vector2Int.one)
+                                {
+                                    PinnedPair pinnedPair = new PinnedPair("wish i was in C# 10");
+                                    pinnedPair.pinnedPeice = possiblePin;
+                                    pinnedPair.directions[0] = dir;
+                                    pinnedPair.directions[1] = -dir;
+                                    pinnedPairs.Add(pinnedPair);
+                                }
+                                else
+                                {
+                                    inCheck = true;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        if (CrossedWall(firstTile, secondTile) == WallBlock.Stop)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
         }
 
+
+        Debug.LogWarning(pinnedPairs.Count);
         return inCheck;
     }
     
@@ -496,6 +572,18 @@ public static class FigureMovement
             default:
                 break;
         }
+
+        List<PinnedPair> pairs;
+
+        GetChecksAndPins(id, out pairs);
+
+        for (int i = 0; i < pairs.Count; i++)
+        {
+            Debug.LogWarning(pairs[i].pinnedPeice);
+        }
+
+
+
 
         TypeOfCheck = CheckType.NoCheck;
 
@@ -1396,4 +1484,10 @@ public struct PinnedPair
 {
     public Vector2Int pinnedPeice;
     public Vector2Int[] directions;
+
+    public PinnedPair(string anything)
+    {
+        directions = new Vector2Int[2];
+        pinnedPeice = -Vector2Int.one;
+    }
 }
