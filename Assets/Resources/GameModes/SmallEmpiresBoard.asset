@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SmallEmpiresBoard
   m_EditorClassIdentifier: 
   MapSize: {x: 13, y: 13}
-  Prefab: {fileID: 3706826235790380081, guid: bff6da16ff028e14daff12bdb93994c9, type: 3}
+  Prefab: {fileID: 1432372444618791818, guid: dff6b7137780d5747a427caf7983ccaf, type: 3}
   Figures:
   - ID: 0
     Position: {x: 1, y: 1}

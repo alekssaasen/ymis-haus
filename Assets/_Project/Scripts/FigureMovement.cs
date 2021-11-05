@@ -207,7 +207,10 @@ public static class FigureMovement
                             GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Rook) &&
                             GameManager.Main.Board[secondTile.x, secondTile.y].ownerID != id)
                         {
-                            checkedTiles.AddRange(potentialyCheckedTiles);
+                            if (CrossedWall(firstTile,secondTile) == WallBlock.Pass)
+                            {
+                                checkedTiles.AddRange(potentialyCheckedTiles);
+                            }
                             break;
                         }
                     }
@@ -237,7 +240,10 @@ public static class FigureMovement
                             GameManager.Main.Board[secondTile.x, secondTile.y].figure == ChessFigure.Bishop) &&
                             GameManager.Main.Board[secondTile.x, secondTile.y].ownerID != id)
                         {
-                            checkedTiles.AddRange(potentialyCheckedTiles);
+                            if (CrossedWall(firstTile,secondTile) == WallBlock.Pass)
+                            {
+                                checkedTiles.AddRange(potentialyCheckedTiles);
+                            }
                             break;
                         }
                     }
@@ -365,7 +371,10 @@ public static class FigureMovement
                         }
                         if (CrossedWall(firstTile,secondTile)==WallBlock.Stop)
                         {
-                            break;
+                            if (firstTile != king)
+                            {
+                                break;
+                            }
                         }
                     }
                     else
@@ -436,7 +445,10 @@ public static class FigureMovement
                         }
                         if (CrossedWall(firstTile, secondTile) == WallBlock.Stop)
                         {
-                            break;
+                            if (firstTile != king)
+                            {
+                                break;
+                            }
                         }
                     }
                     else
@@ -448,8 +460,6 @@ public static class FigureMovement
 
         }
 
-
-        Debug.LogWarning(pinnedPairs.Count);
         return inCheck;
     }
     
@@ -576,13 +586,43 @@ public static class FigureMovement
         List<PinnedPair> pairs;
 
         GetChecksAndPins(id, out pairs);
+        List<Vector2Int> pinnedValidTiles = new List<Vector2Int>();
 
-        for (int i = 0; i < pairs.Count; i++)
+        foreach (PinnedPair pair in pairs)
         {
-            Debug.LogWarning(pairs[i].pinnedPeice);
+            if (pair.pinnedPeice == Position)
+            {
+                for (int dist = 1; dist <= Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
+                {
+                    if (InsideBoard(Position + (pair.directions[0] * dist)))
+                    {
+                        pinnedValidTiles.Add(Position + (pair.directions[0] * dist));
+                    }
+                    if (InsideBoard(Position + (pair.directions[1] * dist)))
+                    {
+                        pinnedValidTiles.Add(Position + (pair.directions[1] * dist));
+                    }
+                }
+                break;
+            }
         }
 
+        List<Vector2Int> newValidTiles = new List<Vector2Int>();
 
+        if (pinnedValidTiles.Count > 0)
+        {
+            foreach (Vector2Int tile in validPositions)
+            {
+                foreach (Vector2Int pTile in pinnedValidTiles)
+                {
+                    if (tile == pTile)
+                    {
+                        newValidTiles.Add(pTile);
+                    }
+                }
+            }
+            validPositions = newValidTiles;
+        }
 
 
         TypeOfCheck = CheckType.NoCheck;
