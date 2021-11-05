@@ -305,16 +305,18 @@ public static class FigureMovement
         return checkedTiles.ToArray();
     }
 
-    public static bool GetChecksAndPins(int id, out List<PinnedPair>pinnedPairs)
+    public static bool GetChecksAndPins(int id, out List<PinnedPair>pinnedPairs, out List<Vector2Int>pinnables)
     {
         Vector2Int king = GetKing(id);
         pinnedPairs = new List<PinnedPair>();
+        pinnables = new List<Vector2Int>();
         bool inCheck = false;
 
         foreach (Vector2Int dir in straightDirections)
         {
             Vector2Int firstTile = king;
             Vector2Int possiblePin = -Vector2Int.one;
+            List<Vector2Int> possiblePinnables = new List<Vector2Int>();
             for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
             {
                 Vector2Int secondTile = king + (dir * dist);
@@ -330,6 +332,13 @@ public static class FigureMovement
                         if (CrossedWall(firstTile,secondTile)==WallBlock.Block)
                         {
                             break;
+                        }
+                        if (CrossedWall(firstTile, secondTile) == WallBlock.Stop)
+                        {
+                            if (firstTile != king)
+                            {
+                                break;
+                            }
                         }
                         if (GameManager.Main.Board[secondTile.x,secondTile.y].building != ChessBuiding.Empty)
                         {
@@ -361,7 +370,9 @@ public static class FigureMovement
                                 }
                                 else
                                 {
+                                    possiblePinnables.Add(king + (dir * dist));
                                     inCheck = true;
+                                    pinnables.AddRange(possiblePinnables);
                                 }
                             }
                             else
@@ -369,13 +380,7 @@ public static class FigureMovement
                                 break;
                             }
                         }
-                        if (CrossedWall(firstTile,secondTile)==WallBlock.Stop)
-                        {
-                            if (firstTile != king)
-                            {
-                                break;
-                            }
-                        }
+                        possiblePinnables.Add(king + (dir * dist));
                     }
                     else
                     {
@@ -389,6 +394,7 @@ public static class FigureMovement
         {
             Vector2Int firstTile = king;
             Vector2Int possiblePin = -Vector2Int.one;
+            List<Vector2Int> possiblePinnables = new List<Vector2Int>();
             for (int dist = 1; dist < Mathf.Max(GameManager.Main.Board.GetLength(0), GameManager.Main.Board.GetLength(1)); dist++)
             {
                 Vector2Int secondTile = king + (dir * dist);
@@ -404,6 +410,13 @@ public static class FigureMovement
                         if (CrossedWall(firstTile, secondTile) == WallBlock.Block)
                         {
                             break;
+                        }
+                        if (CrossedWall(firstTile, secondTile) == WallBlock.Stop)
+                        {
+                            if (firstTile != king)
+                            {
+                                break;
+                            }
                         }
                         if (GameManager.Main.Board[secondTile.x, secondTile.y].building != ChessBuiding.Empty)
                         {
@@ -436,6 +449,8 @@ public static class FigureMovement
                                 else
                                 {
                                     inCheck = true;
+                                    possiblePinnables.Add(king + (dir * dist));
+                                    pinnables.AddRange(possiblePinnables);
                                 }
                             }
                             else
@@ -443,13 +458,7 @@ public static class FigureMovement
                                 break;
                             }
                         }
-                        if (CrossedWall(firstTile, secondTile) == WallBlock.Stop)
-                        {
-                            if (firstTile != king)
-                            {
-                                break;
-                            }
-                        }
+                        possiblePinnables.Add(king + (dir * dist));
                     }
                     else
                     {
@@ -573,7 +582,8 @@ public static class FigureMovement
                 }
                 foreach (Vector2Int dir in straightDirections)
                 {
-                    if (CanMove(Position, Position + dir, id, ChessFigure.Pawn) != MoveState.ForbidMove)
+                    if (CanMove(Position, Position + dir, id, ChessFigure.Pawn) != MoveState.ForbidMove &&
+                        CanMove(Position, Position + dir, id, ChessFigure.Pawn) != MoveState.PawnCapture)
                     {
                         validPositions.Add(Position + dir);
                     }
@@ -584,8 +594,8 @@ public static class FigureMovement
         }
 
         List<PinnedPair> pairs;
-
-        GetChecksAndPins(id, out pairs);
+        List<Vector2Int> pinnables;
+        bool check = GetChecksAndPins(id, out pairs, out pinnables);
         List<Vector2Int> pinnedValidTiles = new List<Vector2Int>();
 
         foreach (PinnedPair pair in pairs)
@@ -609,6 +619,7 @@ public static class FigureMovement
 
         List<Vector2Int> newValidTiles = new List<Vector2Int>();
 
+
         if (pinnedValidTiles.Count > 0)
         {
             foreach (Vector2Int tile in validPositions)
@@ -623,6 +634,26 @@ public static class FigureMovement
             }
             validPositions = newValidTiles;
         }
+
+        newValidTiles = new List<Vector2Int>();
+        if (check)
+        {
+            if (FigureTile.figure != ChessFigure.King)
+            {
+                foreach (Vector2Int tile in validPositions)
+                {
+                    foreach (Vector2Int pTile in pinnables)
+                    {
+                        if (tile == pTile)
+                        {
+                            newValidTiles.Add(pTile);
+                        }
+                    }
+                }
+                validPositions = newValidTiles;
+            }
+        }
+
 
 
         TypeOfCheck = CheckType.NoCheck;
