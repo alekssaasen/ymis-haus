@@ -36,18 +36,19 @@ public class GameManager : MonoBehaviour
                 Main = this;
                 Debug.LogWarning("There can only be one GameManager!");
             }
-
-            Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
-            Instantiate(GameSettingsInUse.BoardSetup.Prefab);
-
-            UpdateFigures();
-            turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
-            EconomySystem.Initialize();
         }
     }
 
-    private void Start()
+    public void StartGame()
     {
+        Board = BoardMaster.InitializeBoard(GameSettingsInUse.BoardSetup);
+        Instantiate(GameSettingsInUse.BoardSetup.Prefab);
+
+        turnPointsLeft = GameSettingsInUse.MovePointsPerTurn;
+        EconomySystem.Initialize();
+        GameLoop.Main.cameraController.Initialize();
+        UpdateFigures();
+
         GameLoop.Main.StartLocalTurn();
     }
 

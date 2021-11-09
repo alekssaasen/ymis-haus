@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
 
     public void Initialize()
     {
-        cameraPosition = cameraRig.transform.localPosition.normalized;
         cameraPosition = new Vector3(0, 6, -4).normalized;
 
         minMove = new Vector2(1, 1);

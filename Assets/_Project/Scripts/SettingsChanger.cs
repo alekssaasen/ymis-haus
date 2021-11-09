@@ -22,7 +22,7 @@ public class SettingsChanger : MonoBehaviour
         }
 
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("GraphicsQuality"));
-        graphicsQualitySlider.value = PlayerPrefs.GetInt("GraphicsQuality");
+        if (graphicsQualitySlider != null) { graphicsQualitySlider.value = PlayerPrefs.GetInt("GraphicsQuality"); }
 
         if (postProcessing != null && PlayerPrefs.GetInt("GraphicsQuality") > 1)
         {

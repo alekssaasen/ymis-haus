@@ -1074,8 +1074,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 187751982}
         m_TargetAssemblyTypeName: NET_GameCreator, Assembly-CSharp
-        m_MethodName: SendGameModeID
-        m_Mode: 0
+        m_MethodName: SendGameMode
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1180,7 +1180,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 187751982}
         m_TargetAssemblyTypeName: NET_GameCreator, Assembly-CSharp
-        m_MethodName: SetHost
+        m_MethodName: LoadGameModes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1196,6 +1196,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1487418772}
         m_TargetAssemblyTypeName: NET_PlayerList, Assembly-CSharp
         m_MethodName: UpdatePlayerNames
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 187751982}
+        m_TargetAssemblyTypeName: NET_GameCreator, Assembly-CSharp
+        m_MethodName: SendGameMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1226,6 +1238,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1487418772}
         m_TargetAssemblyTypeName: NET_PlayerList, Assembly-CSharp
         m_MethodName: UpdatePlayerNames
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 187751982}
+        m_TargetAssemblyTypeName: NET_GameCreator, Assembly-CSharp
+        m_MethodName: LoadGameModes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1313,6 +1337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380249a475cf25d4791e9c4444af702f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  figureSetFile: {fileID: 11400000, guid: da2b012475da9a64a82000f35a46ff2b, type: 2}
   gameSettingsFile: {fileID: 11400000, guid: cb211c683e2808c4480b0869ab2b8197, type: 2}
   gameModeText: {fileID: 113749500}
   gameModeSelection: {fileID: 176811228}
@@ -5349,18 +5374,6 @@ MonoBehaviour:
       - m_Target: {fileID: 187751979}
         m_TargetAssemblyTypeName: NET_ConnectionManager, Assembly-CSharp
         m_MethodName: _ConnectToRoom
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 187751982}
-        m_TargetAssemblyTypeName: NET_GameCreator, Assembly-CSharp
-        m_MethodName: LoadGameModes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

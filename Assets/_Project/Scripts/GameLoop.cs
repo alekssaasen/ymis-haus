@@ -11,6 +11,7 @@ public class GameLoop : MonoBehaviour
     public static GameLoop Main;
     public GameObject BackgroungButton;
     public GUI_GameOver gameOverUI;
+    public GUI_SkipTurnBar endTurnBar;
 
     public CameraController cameraController;
     public Tilemap tilemap;
@@ -265,11 +266,11 @@ public class GameLoop : MonoBehaviour
             }
             else
             {
+                endTurnBar.StartCount();
+
                 EconomySystem.CalculateMoneyForTurn();
                 GameManager.Main.turnPointsLeft = GameManager.GameSettingsInUse.MovePointsPerTurn;
                 ignoredFigures = new List<Vector2Int>();
-
-                tilemap.gameObject.SetActive(true);
             }
 
             NewPositionSelected(-Vector2Int.one);
@@ -280,8 +281,8 @@ public class GameLoop : MonoBehaviour
     {
         if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
         {
+            tilemap.ClearAllTiles();
             PhotonView.Get(this).RpcSecure("FinishTurn", RpcTarget.AllBufferedViaServer, false);
-            tilemap.gameObject.SetActive(false);
         }
     }
 }

@@ -7,50 +7,69 @@ using TMPro;
 
 public class NET_GameCreator : MonoBehaviour
 {
+    public ChessFigureSet figureSetFile;
     public GameSettings gameSettingsFile;
     public TMP_Text gameModeText;
     public TMP_Dropdown gameModeSelection;
     public GameObject[] hostUI;
+
+    private ChessFigureSet[] allFigureSets;
     private GameSettings[] allGameModes;
-    private int selectedID;
 
     public void LoadGameModes()
     {
-        GameManager.ChessFigureSetInUse = Resources.LoadAll<ChessFigureSet>("FigureSets")[0];
-        allGameModes = Resources.LoadAll<GameSettings>("GameModes");
-        gameModeSelection.ClearOptions();
-
-        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-        for (int i = 0; i < allGameModes.Length; i++)
+        if (PhotonNetwork.IsMasterClient)
         {
-            options.Add(new TMP_Dropdown.OptionData(allGameModes[i].GamemodeName));
-        }
-        gameModeSelection.AddOptions(options);
+            allFigureSets = Resources.LoadAll<ChessFigureSet>("FigureSets");
+            allGameModes = Resources.LoadAll<GameSettings>("GameModes");
 
-        gameModeText.text = allGameModes[selectedID].GamemodeName;
+            GameManager.ChessFigureSetInUse = figureSetFile;
+            GameManager.GameSettingsInUse = gameSettingsFile;
+
+            gameModeSelection.ClearOptions();
+
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+            for (int i = 0; i < allGameModes.Length; i++)
+            {
+                options.Add(new TMP_Dropdown.OptionData(allGameModes[i].GamemodeName));
+            }
+
+            gameModeSelection.AddOptions(options);
+            gameModeSelection.value = 0;
+
+            SendGameMode();
+
+            for (int i = 0; i < hostUI.Length; i++)
+            {
+                hostUI[i].SetActive(true);
+            }
+        }
+        else
+        {
+            allFigureSets = Resources.LoadAll<ChessFigureSet>("FigureSets");
+            allGameModes = Resources.LoadAll<GameSettings>("GameModes");
+
+            GameManager.ChessFigureSetInUse = figureSetFile;
+            GameManager.GameSettingsInUse = gameSettingsFile;
+
+            gameModeText.text = "";
+            for (int i = 0; i < hostUI.Length; i++)
+            {
+                hostUI[i].SetActive(false);
+            }
+        }
     }
 
-    public void SetHost()
+    public void SendGameMode()
     {
-        for (int i = 0; i < hostUI.Length; i++)
-        {
-            hostUI[i].SetActive(PhotonNetwork.IsMasterClient);
-        }
-    }
-
-    public void SendGameModeID(int ID)
-    {
-        PhotonView.Get(this).RpcSecure("ReceiveGameModeID", RpcTarget.AllBufferedViaServer, false, ID);
+        PhotonView.Get(this).RpcSecure("ReceiveGameMode", RpcTarget.AllBufferedViaServer, false, allGameModes[gameModeSelection.value].Serialize());
     }
 
     [PunRPC]
-    public void ReceiveGameModeID(int ID)
+    public void ReceiveGameMode(string Settings)
     {
-        selectedID = ID;
-        gameModeText.text = allGameModes[selectedID].GamemodeName;
-
-        gameSettingsFile.Deserialize(allGameModes[selectedID].Serialize());
-        GameManager.GameSettingsInUse = gameSettingsFile;
+        gameSettingsFile.Deserialize(Settings);
+        gameModeText.text = gameSettingsFile.GamemodeName;
     }
 
     public void CreateGame()
