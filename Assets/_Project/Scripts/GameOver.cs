@@ -6,8 +6,11 @@ public static class GameOver
 {
     public static bool DidThePlayerLose(int ID)
     {
-        return false; // debuging
-
+        if (GameManager.GameSettingsInUse.DebugLevel)
+        {
+            return false; // debuging
+        }
+   
         bool hasaking = false;
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
@@ -41,8 +44,11 @@ public static class GameOver
 
     public static bool DidThePlayerWin(int ID)
     {
-        return false; // debuging
-
+        if (GameManager.GameSettingsInUse.DebugLevel)
+        {
+            return false; // debuging
+        }
+       
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)

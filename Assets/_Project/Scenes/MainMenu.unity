@@ -1337,7 +1337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380249a475cf25d4791e9c4444af702f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  figureSetFile: {fileID: 11400000, guid: da2b012475da9a64a82000f35a46ff2b, type: 2}
+  figureSetFile: {fileID: 11400000, guid: 41b61a6a68be9d142b3424deb9dc6270, type: 2}
   gameSettingsFile: {fileID: 11400000, guid: cb211c683e2808c4480b0869ab2b8197, type: 2}
   gameModeText: {fileID: 113749500}
   gameModeSelection: {fileID: 176811228}
