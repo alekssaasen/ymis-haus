@@ -35,6 +35,7 @@ public class NET_GameCreator : MonoBehaviour
             }
 
             gameModeSelection.AddOptions(options);
+
             gameModeSelection.value = 0;
 
             SendGameMode();
@@ -46,8 +47,8 @@ public class NET_GameCreator : MonoBehaviour
         }
         else
         {
-            allFigureSets = Resources.LoadAll<ChessFigureSet>("FigureSets");
             allGameModes = Resources.LoadAll<GameSettings>("GameModes");
+            allFigureSets = Resources.LoadAll<ChessFigureSet>("FigureSets");
 
             GameManager.ChessFigureSetInUse = figureSetFile;
             GameManager.GameSettingsInUse = gameSettingsFile;
@@ -62,14 +63,16 @@ public class NET_GameCreator : MonoBehaviour
 
     public void SendGameMode()
     {
-        PhotonView.Get(this).RpcSecure("ReceiveGameMode", RpcTarget.AllBufferedViaServer, false, allGameModes[gameModeSelection.value].Serialize());
+        PhotonView.Get(this).RpcSecure("ReceiveGameMode", RpcTarget.AllBufferedViaServer, false, gameModeSelection.value);
     }
 
     [PunRPC]
-    public void ReceiveGameMode(string Settings)
+    public void ReceiveGameMode(int value)
     {
-        gameSettingsFile.Deserialize(Settings);
+        gameSettingsFile = Resources.LoadAll<GameSettings>("GameModes")[value];
         gameModeText.text = gameSettingsFile.GamemodeName;
+        GameManager.ChessFigureSetInUse = figureSetFile;
+        GameManager.GameSettingsInUse = gameSettingsFile;
     }
 
     public void CreateGame()

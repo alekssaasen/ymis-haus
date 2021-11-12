@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Game Settings", menuName = "ScriptableObjects/GameSettings")]
 public class GameSettings : ScriptableObject
 {
@@ -94,6 +95,6 @@ public class GameSettings : ScriptableObject
 
     public void Deserialize(string Settings)
     {
-        JsonUtility.FromJsonOverwrite(Settings, this);
+        JsonUtility.FromJson<GameSettings>(Settings);
     }
 }

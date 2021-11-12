@@ -157,6 +157,12 @@ public static class EconomySystem
         float multiplayer = 1;
         int figurecount = 0;
 
+        if (GameManager.Main.Board == null)
+        {
+            Debug.LogWarning("board isnt created yet, this is fucked");
+            return -1f;
+        }
+
         for (int x = 0; x < GameManager.Main.Board.GetLength(0); x++)
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(0); y++)

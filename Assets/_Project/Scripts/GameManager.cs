@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject figurePrefab;
     public static ChessFigureSet ChessFigureSetInUse;
-    public static GameSettings GameSettingsInUse;
+    [SerializeField]public static GameSettings GameSettingsInUse;
     public static Texture2D MapTexture2D;
 
     private void Awake()
