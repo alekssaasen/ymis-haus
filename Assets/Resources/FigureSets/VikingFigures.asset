@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KingMesh: {fileID: -464318858134865513, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   QueenMesh: {fileID: 409370836802854717, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
-  BishopMesh: {fileID: -770617816881427307, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
+  BishopMesh: {fileID: -8603128741524364037, guid: d93b5f33da719e243a1a946a2c31e0d5, type: 3}
   KnightMesh: {fileID: -6286129878052703309, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   RookMesh: {fileID: -2806363557253865630, guid: b1b0b25d91cd34c4794692a78fdd2c89, type: 3}
   PawnMesh: {fileID: -8835048660849800239, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
