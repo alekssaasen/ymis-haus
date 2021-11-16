@@ -17,7 +17,7 @@ MonoBehaviour:
   BishopMesh: {fileID: -8603128741524364037, guid: d93b5f33da719e243a1a946a2c31e0d5, type: 3}
   KnightMesh: {fileID: -6286129878052703309, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   RookMesh: {fileID: -2806363557253865630, guid: b1b0b25d91cd34c4794692a78fdd2c89, type: 3}
-  PawnMesh: {fileID: -8835048660849800239, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
+  PawnMesh: {fileID: 1705324974331375986, guid: d82285f8620beb54fa9b3f53dfe7762e, type: 3}
   FarmMesh: {fileID: -3424123794405857241, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   MineMesh: {fileID: -6775258045016099801, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   BarracksMesh: {fileID: 1770038987878240848, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
