@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VikingFigures
   m_EditorClassIdentifier: 
   KingMesh: {fileID: -4175726406976504967, guid: f70b81a95e5bb744f90e1056ab6df3cd, type: 3}
-  QueenMesh: {fileID: 409370836802854717, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
+  QueenMesh: {fileID: 4385538395738152230, guid: 0df961da931c89f4a84f42e9b7b94a03, type: 3}
   BishopMesh: {fileID: -8603128741524364037, guid: d93b5f33da719e243a1a946a2c31e0d5, type: 3}
   KnightMesh: {fileID: -6286129878052703309, guid: c2af16e609d20de4b9d839dcbae63c72, type: 3}
   RookMesh: {fileID: -2806363557253865630, guid: b1b0b25d91cd34c4794692a78fdd2c89, type: 3}
