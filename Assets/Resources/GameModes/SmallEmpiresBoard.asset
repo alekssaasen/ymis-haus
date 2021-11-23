@@ -31,6 +31,14 @@ MonoBehaviour:
     Position: {x: 1, y: 2}
     Figure: 6
     RotationOffset: 2
+  - ID: 1
+    Position: {x: 2, y: 1}
+    Figure: 3
+    RotationOffset: 0
+  - ID: 1
+    Position: {x: 2, y: 1}
+    Figure: 3
+    RotationOffset: 2
   Buildings:
   - ID: -1
     Position: {x: 2, y: 9}
