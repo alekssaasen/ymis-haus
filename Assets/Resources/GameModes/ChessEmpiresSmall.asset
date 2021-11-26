@@ -21,7 +21,7 @@ MonoBehaviour:
   ClassicMovement: 0
   FiguresCanMoveOnSpawn: 0
   OneFigureMovePerTurn: 1
-  AlternativeMultiplayerFormula: 1
+  UseExponentialMultiplayer: 1
   CameraRotationOffsets:
   - 45
   - 225
@@ -50,7 +50,7 @@ MonoBehaviour:
   GoldPerTurn: 1
   StartingGold: 40
   GoldPerFarm: 3
-  GoldPerGoldMine: 7
+  GoldPerGoldMine: 5
   BoardSetup: {fileID: 11400000, guid: c0661ee31d8ab0049bc1d1e5c0c53ee5, type: 2}
   hidegoldswitch: 1
   hidegoldvalue: 1

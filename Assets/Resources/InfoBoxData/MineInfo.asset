@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MineInfo
   m_EditorClassIdentifier: 
   title: Mine
-  description: Its a mine
+  description: This Piece can be captured to generate 5 gold per turn for you.
   imageSprite: {fileID: 21300000, guid: ea6dfca18ab9ea646916c4f875ffe42d, type: 3}

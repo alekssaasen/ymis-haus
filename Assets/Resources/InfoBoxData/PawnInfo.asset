@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5ba296f97a18fd498b4056e61183bb5, type: 3}
-  m_Name: FarmInfo
+  m_Name: PawnInfo
   m_EditorClassIdentifier: 
-  title: Farm
-  description: This Piece can be built to generate 3 gold for you each turn.
-  imageSprite: {fileID: 21300000, guid: 3450354cdb1976f4ea99f212002413b0, type: 3}
+  title: Pawn
+  description: This piece moves one tile every turn in every direction except diagonal.
+    It costs 1 turn point to move it. It can also build farms and barracks.
+  imageSprite: {fileID: 21300000, guid: 388250170532485488d49c836ee10c19, type: 3}
