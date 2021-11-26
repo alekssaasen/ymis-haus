@@ -58,7 +58,8 @@ public static class FigureBuilding
         {
             for (int y = 0; y < GameManager.Main.Board.GetLength(1); y++)
             {
-                if (GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID)
+                if (GameManager.Main.Board[x, y].building == ChessBuiding.Barracks && GameManager.Main.Board[x, y].ownerID == ID ||
+                    GameManager.Main.Board[x, y].figure == ChessFigure.King && GameManager.Main.Board[x, y].ownerID == ID)
                 {
                     for (int i = 0; i < 8; i++)
                     {

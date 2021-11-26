@@ -33,8 +33,6 @@ public class GameLoop : MonoBehaviour
 
     public List<Vector2Int> ignoredFigures = new List<Vector2Int>();
 
-    public GUI_InfoBox infoBox;
-
     private void Awake()
     {
         if (PhotonNetwork.InRoom)
@@ -79,10 +77,6 @@ public class GameLoop : MonoBehaviour
 
     public void NewPositionSelected(Vector2Int NewSelectedPosition)
     {
-        if (FigureMovement.InsideBoard(newSelectedPosition))
-        {
-            infoBox.ChangeInfo(GameManager.Main.Board[newSelectedPosition.x, newSelectedPosition.y]);
-        }
         if (GameManager.Main.turnID == GameManager.Main.localPlayerID)
         {
             oldSelectedPosition = newSelectedPosition;

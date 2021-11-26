@@ -1854,6 +1854,14 @@ MonoBehaviour:
     infoType: 2
   - infoBoxData: {fileID: 11400000, guid: 38b2cd084f123fe4a835fbd613a39212, type: 2}
     infoType: 1
+  - infoBoxData: {fileID: 11400000, guid: 93c4ebbde8bd08040b5dd157edcedda1, type: 2}
+    infoType: 6
+  - infoBoxData: {fileID: 11400000, guid: f6be7d0e506455a459b72ae031ae4bf7, type: 2}
+    infoType: 9
+  - infoBoxData: {fileID: 11400000, guid: 05331779097043443b2ae26b802c1bc5, type: 2}
+    infoType: 5
+  - infoBoxData: {fileID: 11400000, guid: a1ab514fa063a874c945b1684813838a, type: 2}
+    infoType: 8
 --- !u!1001 &840621228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2524,6 +2532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseMarker: {fileID: 190889326}
+  infoBox: {fileID: 825591091}
 --- !u!114 &911313460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,7 +2580,7 @@ MonoBehaviour:
       - m_Target: {fileID: 911313459}
         m_TargetAssemblyTypeName: GUI_TileSelector, Assembly-CSharp
         m_MethodName: ClickOnTile
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3838,7 +3847,6 @@ MonoBehaviour:
   buildingFoundations: []
   figureSpawnpoints: []
   ignoredFigures: []
-  infoBox: {fileID: 825591091}
 --- !u!114 &1335291223
 MonoBehaviour:
   m_ObjectHideFlags: 0
