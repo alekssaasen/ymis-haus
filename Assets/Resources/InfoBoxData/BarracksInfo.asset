@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5ba296f97a18fd498b4056e61183bb5, type: 3}
-  m_Name: QueenkInfo
+  m_Name: BarracksInfo
   m_EditorClassIdentifier: 
-  title: Queen
-  description: This piece moves in every direction. It costs 3 turn points to move
-    this piece.
-  imageSprite: {fileID: 21300000, guid: 8afc3e590530ebd4db51ad76e45a4e51, type: 3}
+  title: Barracks
+  description: This Piece can be built to create more troops. It can also be used
+    to create new pieces wherever the Barracks are placed.
+  imageSprite: {fileID: 21300000, guid: c398b68ea9bb0bf418e552941d99d32b, type: 3}
