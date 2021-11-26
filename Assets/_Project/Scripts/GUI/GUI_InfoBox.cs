@@ -16,7 +16,7 @@ public class GUI_InfoBox : MonoBehaviour
     private void Start()
     {
         rT = GetComponent<RectTransform>();
-        SetData(InfoType.MineInfo);
+        SetData(InfoType.EmptyInfo);
     }
 
     public void SwitchState()

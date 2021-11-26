@@ -29,12 +29,12 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 1}
   - {x: 12, y: 0, z: 12}
   DebugLevel: 0
-  MovePointsPerTurn: 5
-  KingMoveCost: 5
-  QueenMoveCost: 3
-  BishopMoveCost: 2
-  KnightMoveCost: 3
-  RookMoveCost: 2
+  MovePointsPerTurn: 3
+  KingMoveCost: 1
+  QueenMoveCost: 1
+  BishopMoveCost: 1
+  KnightMoveCost: 1
+  RookMoveCost: 1
   PawnMoveCost: 1
   QueenSpawnCost: 50
   BishopSpawnCost: 25
@@ -46,7 +46,7 @@ MonoBehaviour:
   FarmCreationCost: 10
   BarracksCreationCost: 25
   BuildingCostMultiplayer: 1.5
-  BuildingBuildTurnCost: 3
+  BuildingBuildTurnCost: 1
   GoldPerTurn: 1
   StartingGold: 40
   GoldPerFarm: 3
