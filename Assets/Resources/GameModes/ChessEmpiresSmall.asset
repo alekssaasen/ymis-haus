@@ -29,7 +29,7 @@ MonoBehaviour:
   - {x: 1, y: 0, z: 1}
   - {x: 12, y: 0, z: 12}
   DebugLevel: 0
-  MovePointsPerTurn: 3
+  MovePointsPerTurn: 4
   KingMoveCost: 1
   QueenMoveCost: 1
   BishopMoveCost: 1
