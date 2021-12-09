@@ -1862,6 +1862,14 @@ MonoBehaviour:
     infoType: 5
   - infoBoxData: {fileID: 11400000, guid: a1ab514fa063a874c945b1684813838a, type: 2}
     infoType: 8
+  - infoBoxData: {fileID: 11400000, guid: de9ec77e2f2504741b08f5ca9cca48e0, type: 2}
+    infoType: 4
+  - infoBoxData: {fileID: 11400000, guid: b39444535a7032e4dab37b8967000b0e, type: 2}
+    infoType: 0
+  - infoBoxData: {fileID: 11400000, guid: 6391d2c2dbcff08448b054c419f0df6d, type: 2}
+    infoType: 3
+  - infoBoxData: {fileID: 11400000, guid: 7a8f76f3c76de7246bb7edab25c1acf6, type: 2}
+    infoType: 7
 --- !u!1001 &840621228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3318,9 +3326,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 70ef58c4bbcb09f489e03dfa1530d0be, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 57ff83ae83760ed4580d8505a07fd78c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
