@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RookInfo
   m_EditorClassIdentifier: 
   title: Rook
-  description: This piece moves in every direction except diagonally. It cost 2 turn
+  description: This piece moves in every direction except diagonally. It cost 1 turn
     points to move it.
   imageSprite: {fileID: 21300000, guid: 4af40c462f337b14daa0c130f1534273, type: 3}

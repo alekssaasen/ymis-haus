@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ba296f97a18fd498b4056e61183bb5, type: 3}
   m_Name: EmptyTileInfo
   m_EditorClassIdentifier: 
-  title: Rook
-  description: This piece moves in every direction except diagonally. It cost 2 turn
-    points to move it.
-  imageSprite: {fileID: 21300000, guid: 4af40c462f337b14daa0c130f1534273, type: 3}
+  title: Empty Tile
+  description: The ground outlives every empire that sits on it.
+  imageSprite: {fileID: 21300000, guid: c222cd02c447941edb09ecb6433229ce, type: 3}

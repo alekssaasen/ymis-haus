@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: KingInfo
   m_EditorClassIdentifier: 
   title: King
-  description: This piece moves one tile in every direction. It cost 5 turn points
+  description: This piece moves one tile in every direction. It cost 1 turn points
     to move this piece. This piece can also spawn troops
   imageSprite: {fileID: 21300000, guid: 8c4025debbfd5d743acd258a989e39c2, type: 3}

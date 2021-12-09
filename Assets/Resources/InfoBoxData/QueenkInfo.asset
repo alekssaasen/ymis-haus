@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: QueenkInfo
   m_EditorClassIdentifier: 
   title: Queen
-  description: This piece moves in every direction. It costs 3 turn points to move
+  description: This piece moves in every direction. It costs 1 turn points to move
     this piece.
   imageSprite: {fileID: 21300000, guid: 8afc3e590530ebd4db51ad76e45a4e51, type: 3}
